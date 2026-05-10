@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(curl -s http://localhost:3000/index.html)",
+      "Bash(start \"\" \"c:\\\\Users\\\\程柏智\\\\Desktop\\\\frontend-slides-2.0.0\\\\customer-notes\\\\dist\\\\index.html\")",
+      "Bash(start \"\" \"http://10.123.92.33:3000/qr.html\")",
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(npx --version)",
+      "Bash(npx ngrok *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/resume.html)",
+      "Bash(npx localtunnel *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" https://chengbaizhi-resume.loca.lt/resume.html)",
+      "Bash(start \"\" \"https://chengbaizhi-resume.loca.lt/qr.html\")",
+      "Bash(node .claude/hooks/stop-verification.cjs)",
+      "Bash(echo \"EXIT CODE: $?\")",
+      "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('c:/Users/程柏智/Desktop/frontend-slides-2.0.0/.claude/settings.json','utf8'\\)\\); console.log\\('Valid JSON'\\)\")",
+      "Bash(cd /tmp)",
+      "Bash(curl -sL \"https://api.github.com/repos/anthropics/claude-code-skills/contents/skills/pptx\")"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\程柏智\\.claude\\plans"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/stop-verification.cjs"
+          }
+        ]
+      }
+    ]
+  }
+}

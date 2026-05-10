@@ -1,0 +1,22 @@
+.tree {
+  display: flex;
+  flex-direction: column;
+}
+
+.addBtn {
+  background: none;
+  border: none;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--spacing-2) var(--spacing-3);
+  text-align: left;
+  border-radius: var(--radius-sm);
+  margin-top: var(--spacing-1);
+  transition: all var(--transition-fast);
+}
+
+.addBtn:hover {
+  color: var(--color-accent);
+  background: var(--color-accent-light);
+}

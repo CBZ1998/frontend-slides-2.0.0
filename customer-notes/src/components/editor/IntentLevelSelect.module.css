@@ -1,0 +1,47 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.buttons {
+  display: flex;
+  gap: var(--spacing-1);
+}
+
+.btn {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-2);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.btn:hover {
+  border-color: var(--btn-color, var(--color-accent));
+  color: var(--btn-color, var(--color-accent));
+}
+
+.active {
+  composes: btn;
+}
+
+/* Larger touch targets on mobile */
+@media (max-width: 600px) {
+  .btn {
+    padding: var(--spacing-3) var(--spacing-1);
+    font-size: var(--text-sm);
+  }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扫码访问简历</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #faf9f7;
+            font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            padding: 2rem;
+            text-align: center;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border: 1px solid #e5e3e0;
+        }
+        h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+        p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        img {
+            display: block;
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .url {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>📱 扫码查看简历</h2>
+        <p>用手机相机或微信扫描二维码</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://chengbaizhi-resume.loca.lt/resume.html"
+             alt="简历二维码"
+             width="300"
+             height="300">
+        <div class="url">https://chengbaizhi-resume.loca.lt/resume.html</div>
+    </div>
+</body>
+</html>

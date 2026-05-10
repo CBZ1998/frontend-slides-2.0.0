@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Slides — 演示</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (THEME)
+           Style: Creative Voltage — electric blue + neon
+           =========================================== */
+        :root {
+            --bg-primary: #0a0f1c;
+            --bg-dark: #111827;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --accent-blue: #0066ff;
+            --accent-neon: #d4ff00;
+            --accent-cyan: #00e5ff;
+            --text-light: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+
+            --font-display: 'Syne', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+
+            --title-size: clamp(2rem, 6vw, 5rem);
+            --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+            --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+            --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+            --small-size: clamp(0.65rem, 1vw, 0.875rem);
+            --slide-padding: clamp(1.5rem, 4vw, 4rem);
+            --content-gap: clamp(0.5rem, 2vw, 2rem);
+            --element-gap: clamp(0.25rem, 1vw, 1rem);
+
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --duration-normal: 0.7s;
+            --duration-slow: 1.2s;
+        }
+
+        /* ===========================================
+           RESET & BASE
+           =========================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* ===========================================
+           VIEWPORT FITTING: MANDATORY BASE STYLES
+           =========================================== */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden;
+            padding: var(--slide-padding);
+        }
+
+        .card, .container, .content-box {
+            max-width: min(90vw, 1000px);
+            max-height: min(80vh, 700px);
+        }
+
+        .feature-list, .bullet-list {
+            gap: clamp(0.4rem, 1vh, 1rem);
+        }
+
+        .feature-list li, .bullet-list li {
+            font-size: var(--body-size);
+            line-height: 1.4;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+            gap: clamp(0.5rem, 1.5vw, 1rem);
+        }
+
+        img, .image-container {
+            max-width: 100%;
+            max-height: min(50vh, 400px);
+            object-fit: contain;
+        }
+
+        /* Short viewports */
+        @media (max-height: 700px) {
+            :root {
+                --slide-padding: clamp(0.75rem, 3vw, 2rem);
+                --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+                --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+                --h2-size: clamp(1rem, 3vw, 1.75rem);
+            }
+        }
+
+        @media (max-height: 600px) {
+            :root {
+                --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+                --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+                --title-size: clamp(1.1rem, 4vw, 2rem);
+                --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+            }
+            .nav-dots, .keyboard-hint, .decorative { display: none; }
+        }
+
+        @media (max-height: 500px) {
+            :root {
+                --slide-padding: clamp(0.4rem, 2vw, 1rem);
+                --title-size: clamp(1rem, 3.5vw, 1.5rem);
+                --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+                --body-size: clamp(0.65rem, 1vw, 0.85rem);
+            }
+        }
+
+        @media (max-width: 600px) {
+            :root { --title-size: clamp(1.25rem, 7vw, 2.5rem); }
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ===========================================
+           PRESET STYLES: Creative Voltage
+           Electric blue + neon yellow, retro-modern
+           =========================================== */
+
+        /* --- Canvas background (particle system) --- */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .slide {
+            background: var(--bg-primary);
+            z-index: 1;
+        }
+
+        .slide > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* --- Progress bar --- */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-neon), var(--accent-cyan));
+            z-index: 100;
+            transition: width 0.3s var(--ease-out-expo);
+            width: 0%;
+        }
+
+        /* --- Navigation dots --- */
+        .nav-dots {
+            position: fixed;
+            right: clamp(1rem, 2vw, 2rem);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid var(--text-muted);
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out-expo);
+        }
+
+        .nav-dot.active {
+            background: var(--accent-neon);
+            border-color: var(--accent-neon);
+            box-shadow: 0 0 12px rgba(212, 255, 0, 0.4);
+        }
+
+        .nav-dot:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- Keyboard hint --- */
+        .keyboard-hint {
+            position: fixed;
+            bottom: clamp(0.5rem, 2vh, 1.5rem);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            z-index: 100;
+            opacity: 0.6;
+            letter-spacing: 0.05em;
+        }
+
+        /* ===========================================
+           SLIDE NUMBER (decorative)
+           =========================================== */
+        .slide-number {
+            position: absolute;
+            bottom: var(--slide-padding);
+            right: var(--slide-padding);
+            font-family: var(--font-mono);
+            font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+            color: var(--text-muted);
+            opacity: 0.5;
+            z-index: 3;
+        }
+
+        /* ===========================================
+           ANIMATIONS: Reveal system
+           =========================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity var(--duration-normal) var(--ease-out-expo),
+                        transform var(--duration-normal) var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal:nth-child(1) { transition-delay: 0.1s; }
+        .reveal:nth-child(2) { transition-delay: 0.2s; }
+        .reveal:nth-child(3) { transition-delay: 0.3s; }
+        .reveal:nth-child(4) { transition-delay: 0.4s; }
+        .reveal:nth-child(5) { transition-delay: 0.5s; }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: opacity 0.8s var(--ease-out-expo),
+                        transform 0.8s var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal-scale {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.7s var(--ease-out-expo),
+                        transform 0.7s var(--ease-out-expo);
+        }
+
+        .slide.visible .reveal-left {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Neon glow animation for accent elements */
+        @keyframes neon-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(212, 255, 0, 0.3), 0 0 40px rgba(212, 255, 0, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(212, 255, 0, 0.5), 0 0 60px rgba(212, 255, 0, 0.2); }
+        }
+
+        /* Float animation for decorative elements */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* ===========================================
+           SLIDE 1: TITLE
+           =========================================== */
+        .title-slide {
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0, 102, 255, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(212, 255, 0, 0.08) 0%, transparent 50%),
+                var(--bg-primary);
+        }
+
+        .title-slide .slide-content {
+            align-items: center;
+            text-align: center;
+        }
+
+        .title-badge {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--accent-neon);
+            background: rgba(212, 255, 0, 0.1);
+            border: 1px solid rgba(212, 255, 0, 0.3);
+            padding: 0.4em 1.2em;
+            border-radius: 100px;
+            margin-bottom: var(--content-gap);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .title-slide h1 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            font-weight: 800;
+            color: var(--text-light);
+            line-height: 1.1;
+            margin-bottom: var(--content-gap);
+        }
+
+        .title-slide h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-neon), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title-slide .subtitle {
+            font-family: var(--font-mono);
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            max-width: min(70vw, 700px);
+            line-height: 1.6;
+        }
+
+        .title-slide .decorative-line {
+            width: clamp(60px, 10vw, 120px);
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-neon), var(--accent-cyan));
+            margin-top: var(--content-gap);
+            border-radius: 2px;
+        }
+
+        /* Geometric decorative shapes */
+        .geo-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .geo-shape {
+            position: absolute;
+            border: 2px solid;
+            opacity: 0.1;
+        }
+
+        .geo-shape-1 {
+            top: 10%;
+            right: 8%;
+            width: clamp(80px, 15vw, 180px);
+            height: clamp(80px, 15vw, 180px);
+            border-color: var(--accent-neon);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .geo-shape-2 {
+            bottom: 15%;
+            left: 5%;
+            width: clamp(60px, 10vw, 120px);
+            height: clamp(60px, 10vw, 120px);
+            border-color: var(--accent-cyan);
+            transform: rotate(45deg);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        .geo-shape-3 {
+            top: 30%;
+            left: 20%;
+            width: 4px;
+            height: clamp(40px, 8vh, 100px);
+            background: var(--accent-blue);
+            border: none;
+            opacity: 0.2;
+        }
+
+        /* ===========================================
+           SLIDE 2: WHAT IS FRONTEND SLIDES
+           =========================================== */
+        .what-slide {
+            background:
+                radial-gradient(ellipse at 80% 80%, rgba(0, 229, 255, 0.08) 0%, transparent 50%),
+                var(--bg-primary);
+        }
+
+        .what-slide .slide-content {
+            justify-content: center;
+        }
+
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--accent-neon);
+            margin-bottom: var(--element-gap);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .what-slide h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .what-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: clamp(1rem, 2vw, 2rem);
+            max-width: min(85vw, 900px);
+        }
+
+        @media (max-width: 600px) {
+            .what-grid { grid-template-columns: 1fr; }
+        }
+
+        .what-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: clamp(1rem, 2vw, 1.5rem);
+            transition: border-color 0.3s;
+        }
+
+        .what-card:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+        }
+
+        .what-card .icon {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            margin-bottom: var(--element-gap);
+            font-family: var(--font-mono);
+            color: var(--accent-cyan);
+        }
+
+        .what-card h3 {
+            font-family: var(--font-display);
+            font-size: var(--h3-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.3em;
+        }
+
+        .what-card p {
+            font-family: var(--font-mono);
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ===========================================
+           SLIDE 3: FEATURES
+           =========================================== */
+        .features-slide {
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(0, 102, 255, 0.1) 0%, transparent 50%),
+                var(--bg-primary);
+        }
+
+        .features-slide h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(0.8rem, 1.5vw, 1.5rem);
+            max-width: min(90vw, 1000px);
+        }
+
+        @media (max-width: 700px) {
+            .features-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 450px) {
+            .features-grid { grid-template-columns: 1fr; }
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 12px;
+            padding: clamp(0.8rem, 1.5vw, 1.5rem);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--accent-neon), var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card .num {
+            font-family: var(--font-mono);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 700;
+            color: var(--accent-neon);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 0.3em;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-display);
+            font-size: calc(var(--body-size) * 1.2);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.3em;
+        }
+
+        .feature-card p {
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ===========================================
+           SLIDE 4: DARK THEMES
+           =========================================== */
+        .themes-slide h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .themes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(0.6rem, 1.2vw, 1.2rem);
+            max-width: min(90vw, 1000px);
+        }
+
+        @media (max-width: 800px) {
+            .themes-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 450px) {
+            .themes-grid { grid-template-columns: 1fr; }
+        }
+
+        .theme-card {
+            border-radius: 10px;
+            padding: clamp(0.8rem, 1.5vw, 1.5rem);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            min-height: clamp(100px, 22vh, 180px);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-card .theme-name {
+            font-family: var(--font-display);
+            font-size: calc(var(--body-size) * 1.1);
+            font-weight: 700;
+            color: var(--text-light);
+            z-index: 1;
+        }
+
+        .theme-card .theme-tag {
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--text-secondary);
+            z-index: 1;
+            margin-top: 0.2em;
+        }
+
+        /* Theme card color swatches */
+        .theme-bold-signal {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        }
+        .theme-bold-signal::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 40%;
+            height: 40%;
+            background: #FF5722;
+            border-radius: 12px 0 0 0;
+        }
+
+        .theme-electric-studio {
+            background: linear-gradient(180deg, #ffffff 0%, #0a0a0a 100%);
+        }
+        .theme-electric-studio .theme-name { color: var(--bg-primary); }
+        .theme-electric-studio::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 100%;
+            background: #4361ee;
+        }
+
+        .theme-creative-voltage {
+            background: linear-gradient(90deg, #0066ff 0%, #1a1a2e 100%);
+        }
+        .theme-creative-voltage::after {
+            content: '';
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            width: 20px;
+            height: 20px;
+            background: #d4ff00;
+            border-radius: 4px;
+        }
+
+        .theme-dark-botanical {
+            background: #0f0f0f;
+        }
+        .theme-dark-botanical::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(212, 165, 116, 0.4) 0%, transparent 70%);
+        }
+
+        /* ===========================================
+           SLIDE 5: LIGHT / SPECIALTY THEMES
+           =========================================== */
+        .themes-slide-2 h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .themes-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(0.6rem, 1.2vw, 1.2rem);
+            max-width: min(90vw, 1000px);
+        }
+
+        @media (max-width: 800px) {
+            .themes-grid-2 { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 450px) {
+            .themes-grid-2 { grid-template-columns: 1fr; }
+        }
+
+        .theme-notebook {
+            background: #2d2d2d;
+        }
+        .theme-notebook::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 18px;
+            height: 100%;
+            background: repeating-linear-gradient(
+                180deg,
+                #98d4bb 0px, #98d4bb 20%,
+                #c7b8ea 20%, #c7b8ea 40%,
+                #f4b8c5 40%, #f4b8c5 60%,
+                #a8d8ea 60%, #a8d8ea 80%,
+                #ffe6a7 80%, #ffe6a7 100%
+            );
+        }
+
+        .theme-pastel {
+            background: #c8d9e6;
+        }
+        .theme-pastel .theme-name { color: var(--bg-primary); }
+        .theme-pastel::after {
+            content: '';
+            position: absolute;
+            right: 8px;
+            top: 15%;
+            width: 8px;
+            height: 70%;
+            background: repeating-linear-gradient(
+                180deg,
+                #f0b4d4 0px, #f0b4d4 20%,
+                #a8d4c4 20%, #a8d4c4 40%,
+                #5a7c6a 40%, #5a7c6a 60%,
+                #9b8dc4 60%, #9b8dc4 80%,
+                #7c6aad 80%, #7c6aad 100%
+            );
+            border-radius: 4px;
+        }
+
+        .theme-split-pastel {
+            background: linear-gradient(90deg, #f5e6dc 0%, #e4dff0 100%);
+        }
+        .theme-split-pastel .theme-name { color: var(--bg-primary); }
+
+        .theme-vintage {
+            background: #f5f3ee;
+        }
+        .theme-vintage .theme-name { color: var(--bg-primary); }
+        .theme-vintage::after {
+            content: '';
+            position: absolute;
+            top: 20%;
+            right: 15%;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #1a1a1a;
+            border-radius: 50%;
+        }
+
+        .theme-neon {
+            background: #0a0f1c;
+        }
+        .theme-neon::after {
+            content: '';
+            position: absolute;
+            top: 30%;
+            right: 20%;
+            width: 40px;
+            height: 40px;
+            background: #00ffcc;
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(0, 255, 204, 0.5);
+        }
+
+        .theme-terminal {
+            background: #0d1117;
+        }
+        .theme-terminal .theme-tag { color: #39d353; }
+        .theme-terminal::after {
+            content: '>';
+            position: absolute;
+            bottom: 15%;
+            right: 15%;
+            font-family: var(--font-mono);
+            font-size: 2rem;
+            color: #39d353;
+            animation: neon-pulse 2s infinite;
+        }
+
+        .theme-swiss {
+            background: #ffffff;
+        }
+        .theme-swiss .theme-name { color: var(--bg-primary); }
+        .theme-swiss .theme-tag { color: #333; }
+        .theme-swiss::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 40%;
+            background: #ff3300;
+        }
+
+        .theme-paper-ink {
+            background: #faf9f7;
+        }
+        .theme-paper-ink .theme-name { color: var(--bg-primary); }
+        .theme-paper-ink .theme-tag { color: #333; }
+        .theme-paper-ink::after {
+            content: '"';
+            position: absolute;
+            top: 10%;
+            right: 15%;
+            font-family: serif;
+            font-size: 4rem;
+            color: #c41e3a;
+            line-height: 1;
+        }
+
+        /* ===========================================
+           SLIDE 6: PHILOSOPHY
+           =========================================== */
+        .philosophy-slide {
+            background:
+                radial-gradient(ellipse at 50% 80%, rgba(212, 255, 0, 0.05) 0%, transparent 50%),
+                var(--bg-primary);
+        }
+
+        .philosophy-slide h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .philosophy-list {
+            max-width: min(85vw, 800px);
+            list-style: none;
+        }
+
+        .philosophy-list li {
+            font-family: var(--font-mono);
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding: clamp(0.6rem, 1.2vh, 1rem) 0;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+            display: flex;
+            gap: 1em;
+        }
+
+        .philosophy-list li::before {
+            content: '◆';
+            color: var(--accent-neon);
+            font-size: 0.6em;
+            align-self: center;
+            flex-shrink: 0;
+        }
+
+        /* ===========================================
+           SLIDE 7: WORKFLOW
+           =========================================== */
+        .workflow-slide {
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(0, 229, 255, 0.06) 0%, transparent 50%),
+                var(--bg-primary);
+        }
+
+        .workflow-slide h2 {
+            font-family: var(--font-display);
+            font-size: var(--h2-size);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .workflow-steps {
+            display: flex;
+            gap: clamp(0.5rem, 1.5vw, 2rem);
+            max-width: min(90vw, 1000px);
+        }
+
+        @media (max-width: 700px) {
+            .workflow-steps { flex-direction: column; }
+        }
+
+        .workflow-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .workflow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -1.2em;
+            top: 1.5em;
+            font-family: var(--font-mono);
+            font-size: clamp(1rem, 2vw, 1.8rem);
+            color: var(--accent-neon);
+            opacity: 0.4;
+        }
+
+        @media (max-width: 700px) {
+            .workflow-step:not(:last-child)::after {
+                content: '↓';
+                right: auto;
+                left: 50%;
+                top: auto;
+                bottom: -1.2em;
+                transform: translateX(-50%);
+            }
+        }
+
+        .workflow-step .step-num {
+            font-family: var(--font-mono);
+            font-size: clamp(1.5rem, 3vw, 3rem);
+            font-weight: 700;
+            color: var(--accent-neon);
+            opacity: 0.2;
+            line-height: 1;
+            margin-bottom: 0.3em;
+        }
+
+        .workflow-step h3 {
+            font-family: var(--font-display);
+            font-size: calc(var(--body-size) * 1.15);
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.4em;
+        }
+
+        .workflow-step p {
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            color: var(--text-muted);
+            line-height: 1.5;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        /* ===========================================
+           SLIDE 8: CTA / CLOSING
+           =========================================== */
+        .cta-slide {
+            background:
+                radial-gradient(ellipse at 50% 50%, rgba(0, 102, 255, 0.12) 0%, transparent 50%),
+                var(--bg-primary);
+            text-align: center;
+        }
+
+        .cta-slide .slide-content {
+            align-items: center;
+        }
+
+        .cta-slide h2 {
+            font-family: var(--font-display);
+            font-size: var(--title-size);
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: var(--content-gap);
+        }
+
+        .cta-slide h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-neon), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-slide p {
+            font-family: var(--font-mono);
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            max-width: min(75vw, 600px);
+            line-height: 1.7;
+            margin-bottom: var(--content-gap);
+        }
+
+        .cta-button {
+            display: inline-block;
+            font-family: var(--font-display);
+            font-size: calc(var(--body-size) * 1.1);
+            font-weight: 700;
+            color: var(--bg-primary);
+            background: var(--accent-neon);
+            padding: 0.8em 2.5em;
+            border-radius: 100px;
+            text-decoration: none;
+            transition: transform 0.3s var(--ease-bounce), box-shadow 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(212, 255, 0, 0.3);
+        }
+
+        .cta-slide .decorative-line {
+            width: clamp(60px, 10vw, 120px);
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-neon), var(--accent-cyan));
+            margin-bottom: var(--content-gap);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Particle canvas background -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation dots -->
+    <nav class="nav-dots" id="navDots" aria-label="幻灯片导航"></nav>
+
+    <!-- Keyboard hint -->
+    <div class="keyboard-hint">← ↑ → ↓ &nbsp;·&nbsp; Space &nbsp;·&nbsp; 滚轮</div>
+
+    <!-- ===========================================
+       SLIDE 1: TITLE
+       =========================================== -->
+    <section class="slide title-slide" data-index="0" aria-label="封面">
+        <div class="geo-shapes" aria-hidden="true">
+            <div class="geo-shape geo-shape-1"></div>
+            <div class="geo-shape geo-shape-2"></div>
+            <div class="geo-shape geo-shape-3"></div>
+        </div>
+        <div class="slide-content">
+            <span class="title-badge reveal">✦ Claude Code Skill</span>
+            <h1 class="reveal">
+                <span class="highlight">Frontend</span> Slides
+            </h1>
+            <p class="subtitle reveal">
+                零依赖、动画丰富的 HTML 演示文稿工具<br>
+                无需设计师，无需构建工具，一个 HTML 文件就够了
+            </p>
+            <div class="decorative-line reveal"></div>
+        </div>
+        <span class="slide-number">01 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 2: WHAT IS FRONTEND SLIDES
+       =========================================== -->
+    <section class="slide what-slide" data-index="1" aria-label="什么是 Frontend Slides">
+        <div class="slide-content">
+            <span class="section-label reveal-left">✦ 什么是它</span>
+            <h2 class="reveal-left">为开发者打造的<br>演示文稿工具</h2>
+            <div class="what-grid">
+                <div class="what-card reveal" style="transition-delay:0.2s">
+                    <div class="icon">◈</div>
+                    <h3>零依赖</h3>
+                    <p>单个 HTML 文件，所有 CSS 和 JS 内联。无需 npm、无需构建工具、无需框架。十年后照样能打开。</p>
+                </div>
+                <div class="what-card reveal" style="transition-delay:0.3s">
+                    <div class="icon">◈</div>
+                    <h3>视觉探索</h3>
+                    <p>无法用语言描述审美偏好？没关系。生成 3 种视觉风格预览，直接选择你喜欢的。</p>
+                </div>
+                <div class="what-card reveal" style="transition-delay:0.4s">
+                    <div class="icon">◈</div>
+                    <h3>PPT 转换</h3>
+                    <p>将现有 PowerPoint 文件转换为网页演示，保留所有图片、内容和演讲者备注。</p>
+                </div>
+                <div class="what-card reveal" style="transition-delay:0.5s">
+                    <div class="icon">◈</div>
+                    <h3>生产级品质</h3>
+                    <p>响应式设计、无障碍支持、精心注释的代码，你可以随意定制。</p>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">02 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 3: CORE FEATURES
+       =========================================== -->
+    <section class="slide features-slide" data-index="2" aria-label="核心特性">
+        <div class="slide-content">
+            <span class="section-label reveal-left">✦ 核心特性</span>
+            <h2 class="reveal-left">为什么选择 Frontend Slides</h2>
+            <div class="features-grid">
+                <div class="feature-card reveal" style="transition-delay:0.15s">
+                    <div class="num">01</div>
+                    <h3>单文件架构</h3>
+                    <p>所有样式、脚本和内容都在一个 HTML 文件中，部署和分享极其简单</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.25s">
+                    <div class="num">02</div>
+                    <h3>12 套视觉预设</h3>
+                    <p>从暗色系到亮色系，从复古到赛博，每套都经过精心设计，拒绝 AI 同质化</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.35s">
+                    <div class="num">03</div>
+                    <h3>视口完美适配</h3>
+                    <p>每页严格 100vh，使用 clamp() 响应式缩放，在任何屏幕上都完美展示</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.45s">
+                    <div class="num">04</div>
+                    <h3>丰富动画效果</h3>
+                    <p>Intersection Observer 驱动的入场动画、视差效果、粒子系统，CSS 优先</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.55s">
+                    <div class="num">05</div>
+                    <h3>全键盘导航</h3>
+                    <p>方向键、空格、滚轮、触摸滑动、导航点，全方位交互支持</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay:0.65s">
+                    <div class="num">06</div>
+                    <h3>无障碍优先</h3>
+                    <p>语义化 HTML、ARIA 标签、prefers-reduced-motion 支持，人人可用</p>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">03 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 4: DARK THEMES
+       =========================================== -->
+    <section class="slide themes-slide" data-index="3" aria-label="暗色主题">
+        <div class="slide-content">
+            <span class="section-label reveal-left">✦ 暗色主题</span>
+            <h2 class="reveal-left">深沉 · 大胆 · 科技感</h2>
+            <div class="themes-grid">
+                <div class="theme-card theme-bold-signal reveal" style="transition-delay:0.1s">
+                    <span class="theme-name">Bold Signal</span>
+                    <span class="theme-tag">自信 · 高冲击力</span>
+                </div>
+                <div class="theme-card theme-electric-studio reveal" style="transition-delay:0.2s">
+                    <span class="theme-name">Electric Studio</span>
+                    <span class="theme-tag">专业 · 双面板</span>
+                </div>
+                <div class="theme-card theme-creative-voltage reveal" style="transition-delay:0.3s">
+                    <span class="theme-name">Creative Voltage</span>
+                    <span class="theme-tag">创意 · 复古未来</span>
+                </div>
+                <div class="theme-card theme-dark-botanical reveal" style="transition-delay:0.4s">
+                    <span class="theme-name">Dark Botanical</span>
+                    <span class="theme-tag">优雅 · 植物美学</span>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">04 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 5: LIGHT & SPECIALTY THEMES
+       =========================================== -->
+    <section class="slide themes-slide-2" data-index="4" aria-label="亮色和特殊主题">
+        <div class="slide-content">
+            <span class="section-label reveal-left">✦ 亮色 &amp; 特殊主题</span>
+            <h2 class="reveal-left">清新 · 个性 · 与众不同</h2>
+            <div class="themes-grid-2">
+                <div class="theme-card theme-notebook reveal" style="transition-delay:0.1s">
+                    <span class="theme-name">Notebook Tabs</span>
+                    <span class="theme-tag">编辑风格 · 彩色标签</span>
+                </div>
+                <div class="theme-card theme-pastel reveal" style="transition-delay:0.15s">
+                    <span class="theme-name">Pastel Geometry</span>
+                    <span class="theme-tag">友好 · 柔和几何</span>
+                </div>
+                <div class="theme-card theme-split-pastel reveal" style="transition-delay:0.2s">
+                    <span class="theme-name">Split Pastel</span>
+                    <span class="theme-tag">活泼 · 双色分割</span>
+                </div>
+                <div class="theme-card theme-vintage reveal" style="transition-delay:0.25s">
+                    <span class="theme-name">Vintage Editorial</span>
+                    <span class="theme-tag">个性 · 杂志风格</span>
+                </div>
+                <div class="theme-card theme-neon reveal" style="transition-delay:0.3s">
+                    <span class="theme-name">Neon Cyber</span>
+                    <span class="theme-tag">赛博 · 霓虹发光</span>
+                </div>
+                <div class="theme-card theme-terminal reveal" style="transition-delay:0.35s">
+                    <span class="theme-name">Terminal Green</span>
+                    <span class="theme-tag">黑客 · 终端美学</span>
+                </div>
+                <div class="theme-card theme-swiss reveal" style="transition-delay:0.4s">
+                    <span class="theme-name">Swiss Modern</span>
+                    <span class="theme-tag">极简 · 包豪斯</span>
+                </div>
+                <div class="theme-card theme-paper-ink reveal" style="transition-delay:0.45s">
+                    <span class="theme-name">Paper & Ink</span>
+                    <span class="theme-tag">文艺 · 纸上墨迹</span>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">05 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 6: PHILOSOPHY
+       =========================================== -->
+    <section class="slide philosophy-slide" data-index="5" aria-label="设计哲学">
+        <div class="slide-content">
+            <span class="section-label reveal-left">✦ 设计哲学</span>
+            <h2 class="reveal-left">信念决定产品</h2>
+            <ul class="philosophy-list">
+                <li class="reveal" style="transition-delay:0.15s"><span>你不需要成为设计师才能做出美丽的东西。你只需要对你看到的做出反应。</span></li>
+                <li class="reveal" style="transition-delay:0.25s"><span>依赖是债务。一个 HTML 文件十年后仍能打开，但 2019 年的 React 项目？祝你好运。</span></li>
+                <li class="reveal" style="transition-delay:0.35s"><span>平庸是过眼云烟。每场演示都应该感觉是为你量身定制，而不是套用模板。</span></li>
+                <li class="reveal" style="transition-delay:0.45s"><span>注释是善意。代码应该向未来的你（或任何打开它的人）解释自己。</span></li>
+                <li class="reveal" style="transition-delay:0.55s"><span>"展示，而非描述"——人们通过看到才能发现，而非通过抽象的选择。</span></li>
+            </ul>
+        </div>
+        <span class="slide-number">06 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 7: WORKFLOW
+       =========================================== -->
+    <section class="slide workflow-slide" data-index="6" aria-label="工作流程">
+        <div class="slide-content">
+            <span class="section-label reveal-left">✦ 工作流程</span>
+            <h2 class="reveal-left">从想法到演示，只需几步</h2>
+            <div class="workflow-steps">
+                <div class="workflow-step reveal" style="transition-delay:0.1s">
+                    <div class="step-num">01</div>
+                    <h3>内容发现</h3>
+                    <p>告诉 Claude 你的内容、用途和大致页数</p>
+                </div>
+                <div class="workflow-step reveal" style="transition-delay:0.25s">
+                    <div class="step-num">02</div>
+                    <h3>风格探索</h3>
+                    <p>生成 3 种视觉预览，选择你最喜欢的风格</p>
+                </div>
+                <div class="workflow-step reveal" style="transition-delay:0.4s">
+                    <div class="step-num">03</div>
+                    <h3>自动生成</h3>
+                    <p>Claude 生成完整的 HTML 演示文稿</p>
+                </div>
+                <div class="workflow-step reveal" style="transition-delay:0.55s">
+                    <div class="step-num">04</div>
+                    <h3>交付使用</h3>
+                    <p>直接在浏览器打开，或分享给任何人</p>
+                </div>
+            </div>
+        </div>
+        <span class="slide-number">07 / 08</span>
+    </section>
+
+    <!-- ===========================================
+       SLIDE 8: CTA / CLOSING
+       =========================================== -->
+    <section class="slide cta-slide" data-index="7" aria-label="开始使用">
+        <div class="geo-shapes" aria-hidden="true">
+            <div class="geo-shape geo-shape-1" style="top:80%;right:60%;width:150px;height:150px;"></div>
+            <div class="geo-shape geo-shape-2" style="top:10%;left:80%;width:100px;height:100px;"></div>
+        </div>
+        <div class="slide-content">
+            <div class="decorative-line reveal-scale"></div>
+            <h2 class="reveal-scale">
+                开始创建你的<br><span class="highlight">下一场演示</span>
+            </h2>
+            <p class="reveal-scale" style="transition-delay:0.3s">
+                在 Claude Code 中输入 <code style="background:rgba(255,255,255,0.1);padding:0.2em 0.6em;border-radius:4px;">/frontend-slides</code><br>
+                或直接告诉我你想要的主题，我来为你生成
+            </p>
+            <p class="reveal-scale" style="transition-delay:0.45s;font-size:var(--small-size);color:var(--text-muted);">
+                Zero Dependencies · Zero Build Tools · Infinite Possibilities
+            </p>
+        </div>
+        <span class="slide-number">08 / 08</span>
+    </section>
+
+    <script>
+        /* ===========================================
+           PARTICLE SYSTEM
+           Canvas-based particle background
+           =========================================== */
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animFrameId;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createParticles(count) {
+            particles = [];
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 0.5,
+                    opacity: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 229, 255, ${p.opacity})`;
+                ctx.fill();
+            });
+
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.08 * (1 - dist / 120)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            animFrameId = requestAnimationFrame(drawParticles);
+        }
+
+        function initParticles() {
+            resizeCanvas();
+            const count = Math.min(Math.floor((canvas.width * canvas.height) / 15000), 80);
+            createParticles(count);
+            drawParticles();
+        }
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resizeCanvas();
+                createParticles(Math.min(Math.floor((canvas.width * canvas.height) / 15000), 80));
+            }, 200);
+        });
+
+        initParticles();
+
+        /* ===========================================
+           SLIDE PRESENTATION CONTROLLER
+           =========================================== */
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.totalSlides = this.slides.length;
+                this.currentIndex = 0;
+                this.isScrolling = false;
+
+                this.progressBar = document.getElementById('progressBar');
+                this.navDotsContainer = document.getElementById('navDots');
+
+                this.setupNavDots();
+                this.setupKeyboardNav();
+                this.setupTouchNav();
+                this.setupWheelNav();
+                this.setupIntersectionObserver();
+                this.updateProgress(0);
+            }
+
+            /* --- Generate navigation dots --- */
+            setupNavDots() {
+                this.slides.forEach((_, i) => {
+                    const dot = document.createElement('button');
+                    dot.className = 'nav-dot' + (i === 0 ? ' active' : '');
+                    dot.setAttribute('aria-label', `跳转到第 ${i + 1} 页`);
+                    dot.addEventListener('click', () => this.goToSlide(i));
+                    this.navDotsContainer.appendChild(dot);
+                });
+            }
+
+            /* --- Keyboard navigation --- */
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    const key = e.key;
+                    if (key === 'ArrowDown' || key === 'ArrowRight' || key === ' ') {
+                        e.preventDefault();
+                        this.nextSlide();
+                    } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+                        e.preventDefault();
+                        this.prevSlide();
+                    } else if (key === 'Home') {
+                        e.preventDefault();
+                        this.goToSlide(0);
+                    } else if (key === 'End') {
+                        e.preventDefault();
+                        this.goToSlide(this.totalSlides - 1);
+                    }
+                });
+            }
+
+            /* --- Touch/swipe navigation --- */
+            setupTouchNav() {
+                let touchStartY = 0;
+                let touchStartX = 0;
+
+                document.addEventListener('touchstart', (e) => {
+                    touchStartY = e.changedTouches[0].screenY;
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                document.addEventListener('touchend', (e) => {
+                    const deltaY = touchStartY - e.changedTouches[0].screenY;
+                    const deltaX = touchStartX - e.changedTouches[0].screenX;
+
+                    if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 40) {
+                        if (deltaY > 0) this.nextSlide();
+                        else this.prevSlide();
+                    } else if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+                        if (deltaX > 0) this.nextSlide();
+                        else this.prevSlide();
+                    }
+                }, { passive: true });
+            }
+
+            /* --- Mouse wheel navigation (debounced) --- */
+            setupWheelNav() {
+                let lastWheelTime = 0;
+
+                document.addEventListener('wheel', (e) => {
+                    const now = Date.now();
+                    if (now - lastWheelTime < 800) return;
+                    lastWheelTime = now;
+
+                    if (e.deltaY > 0) {
+                        this.nextSlide();
+                    } else if (e.deltaY < 0) {
+                        this.prevSlide();
+                    }
+                }, { passive: true });
+            }
+
+            /* --- Intersection Observer for animations + progress --- */
+            setupIntersectionObserver() {
+                const options = {
+                    threshold: 0.5
+                };
+
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const slide = entry.target;
+                            const index = parseInt(slide.dataset.index);
+
+                            slide.classList.add('visible');
+                            this.currentIndex = index;
+                            this.updateProgress(index);
+
+                            // Update nav dots
+                            document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+                                dot.classList.toggle('active', i === index);
+                            });
+
+                            // Update slide numbers
+                            document.querySelectorAll('.slide-number').forEach(el => {
+                                const idx = parseInt(el.closest('.slide').dataset.index);
+                                el.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(this.totalSlides).padStart(2, '0')}`;
+                            });
+                        }
+                    });
+                }, options);
+
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            /* --- Progress bar update --- */
+            updateProgress(index) {
+                const progress = ((index + 1) / this.totalSlides) * 100;
+                this.progressBar.style.width = progress + '%';
+            }
+
+            /* --- Navigation methods --- */
+            nextSlide() {
+                if (this.currentIndex < this.totalSlides - 1) {
+                    this.goToSlide(this.currentIndex + 1);
+                }
+            }
+
+            prevSlide() {
+                if (this.currentIndex > 0) {
+                    this.goToSlide(this.currentIndex - 1);
+                }
+            }
+
+            goToSlide(index) {
+                const slide = this.slides[index];
+                if (slide) {
+                    slide.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+
+        /* ===========================================
+           Initialize presentation
+           =========================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            new SlidePresentation();
+        });
+    </script>
+
+</body>
+</html>

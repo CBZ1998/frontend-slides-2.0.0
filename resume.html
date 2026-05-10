@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>程柏智 · 个人简历</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================================
+           CSS CUSTOM PROPERTIES (THEME)
+           Bold Professional — 自信、数据驱动、销售力
+           =========================================== */
+        :root {
+            --bg-primary: #f8f6f3;
+            --bg-alt: #efede9;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #5c5a56;
+            --text-muted: #9c9a96;
+            --accent: #1a3c34;
+            --accent-light: rgba(26, 60, 52, 0.07);
+            --accent-gold: #c4956a;
+            --accent-gold-light: rgba(196, 149, 106, 0.12);
+            --border: #e2dfda;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 24px rgba(0,0,0,0.06);
+            --shadow-lg: 0 12px 48px rgba(0,0,0,0.08);
+
+            --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+
+            --title-size: clamp(2.8rem, 6vw, 5rem);
+            --heading-size: clamp(1.6rem, 3vw, 2.5rem);
+            --subheading-size: clamp(1.1rem, 1.5vw, 1.35rem);
+            --body-size: clamp(0.875rem, 1.2vw, 1.025rem);
+            --small-size: clamp(0.75rem, 0.9vw, 0.875rem);
+            --stat-size: clamp(2.2rem, 4vw, 3.5rem);
+
+            --section-padding: clamp(4rem, 10vh, 7rem) clamp(1.5rem, 4vw, 4rem);
+            --content-max: 1000px;
+            --nav-height: 64px;
+
+            --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+            --duration: 0.7s;
+        }
+
+        /* ===========================================
+           RESET & BASE
+           =========================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--nav-height);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            font-size: var(--body-size);
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===========================================
+           NAVIGATION
+           =========================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(248, 246, 243, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid transparent;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        nav.scrolled {
+            border-bottom-color: var(--border);
+            box-shadow: 0 2px 24px rgba(0,0,0,0.05);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: var(--content-max);
+            padding: 0 clamp(1.5rem, 4vw, 4rem);
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: var(--small-size);
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.25rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: var(--small-size);
+            font-weight: 500;
+            padding: 0.4em 0.9em;
+            border-radius: 6px;
+            transition: all 0.25s;
+        }
+
+        .nav-links a:hover { color: var(--accent); background: var(--accent-light); }
+        .nav-links a.active { color: var(--accent); background: var(--accent-light); }
+
+        .nav-toggle {
+            display: none;
+            background: none; border: none; cursor: pointer;
+            padding: 4px; color: var(--text-primary);
+        }
+        .nav-toggle svg { display: block; width: 24px; height: 24px; }
+
+        @media (max-width: 640px) {
+            .nav-links {
+                position: fixed; top: var(--nav-height); left: 0; width: 100%;
+                flex-direction: column;
+                background: rgba(248, 246, 243, 0.98);
+                backdrop-filter: blur(16px);
+                border-bottom: 1px solid var(--border);
+                padding: 0.5rem;
+                gap: 0;
+                transform: translateY(-110%); opacity: 0;
+                transition: transform 0.3s var(--ease-out), opacity 0.3s;
+                pointer-events: none;
+            }
+            .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+            .nav-links a { display: block; padding: 0.7em 1em; font-size: var(--body-size); }
+            .nav-toggle { display: block; }
+        }
+
+        /* ===========================================
+           REVEAL ANIMATION
+           =========================================== */
+        .reveal {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity var(--duration) var(--ease-out), transform var(--duration) var(--ease-out);
+        }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-d1 { transition-delay: 0.1s; }
+        .reveal-d2 { transition-delay: 0.2s; }
+        .reveal-d3 { transition-delay: 0.3s; }
+        .reveal-d4 { transition-delay: 0.45s; }
+        .reveal-d5 { transition-delay: 0.6s; }
+
+        /* ===========================================
+           HERO
+           =========================================== */
+        .hero {
+            min-height: 100vh; min-height: 100dvh;
+            display: flex; align-items: center; justify-content: center;
+            padding: calc(var(--nav-height) + 2rem) clamp(1.5rem, 4vw, 4rem) 3rem;
+            background:
+                radial-gradient(ellipse at 70% 30%, rgba(26, 60, 52, 0.05) 0%, transparent 55%),
+                radial-gradient(ellipse at 10% 80%, rgba(196, 149, 106, 0.04) 0%, transparent 40%),
+                var(--bg-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%; right: -10%;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26,60,52,0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content { max-width: 800px; position: relative; z-index: 1; }
+
+        .hero-top {
+            display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.4em;
+            font-size: var(--small-size); font-weight: 600;
+            color: var(--accent); background: var(--accent-light);
+            padding: 0.35em 1em; border-radius: 100px;
+            letter-spacing: 0.04em;
+        }
+
+        .hero-badge-gold {
+            background: var(--accent-gold-light);
+            color: var(--accent-gold);
+        }
+
+        .hero h1 {
+            font-size: var(--title-size); font-weight: 900;
+            line-height: 1.1; margin-bottom: 0.4rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero h1 .accent-text {
+            color: var(--accent);
+        }
+
+        .hero .title-line {
+            font-size: var(--subheading-size); font-weight: 500;
+            color: var(--text-secondary); margin-bottom: 1.2rem;
+            letter-spacing: 0.02em;
+        }
+
+        .hero .tagline {
+            font-size: var(--body-size); color: var(--text-secondary);
+            line-height: 1.8; max-width: 580px;
+            margin-bottom: 2rem;
+        }
+
+        /* Hero Stats Strip */
+        .hero-stats {
+            display: flex; gap: 2rem; flex-wrap: wrap;
+            padding: 1.5rem 2rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .hero-stat {
+            display: flex; flex-direction: column; align-items: center;
+            min-width: 90px;
+        }
+
+        .hero-stat .num {
+            font-family: var(--font-mono);
+            font-size: var(--stat-size); font-weight: 700;
+            color: var(--accent); line-height: 1;
+        }
+
+        .hero-stat .num .gold {
+            color: var(--accent-gold);
+        }
+
+        .hero-stat .label {
+            font-size: var(--small-size); color: var(--text-muted);
+            margin-top: 0.25rem; white-space: nowrap;
+        }
+
+        .hero-stat + .hero-stat {
+            position: relative;
+        }
+        .hero-stat + .hero-stat::before {
+            content: '';
+            position: absolute;
+            left: -1rem; top: 10%; height: 80%;
+            width: 1px; background: var(--border);
+        }
+
+        .hero-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.4em;
+            padding: 0.75em 2em; border-radius: 10px;
+            font-size: var(--small-size); font-weight: 600;
+            text-decoration: none; transition: all 0.3s var(--ease-out);
+            cursor: pointer; border: none; font-family: inherit;
+        }
+        .btn-primary {
+            background: var(--accent); color: #fff;
+        }
+        .btn-primary:hover {
+            background: #0f2d27; transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(26, 60, 52, 0.25);
+        }
+        .btn-outline {
+            background: transparent; color: var(--text-primary);
+            border: 1.5px solid var(--border);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent); color: var(--accent); transform: translateY(-2px);
+        }
+
+        /* Decorative */
+        .hero-deco {
+            position: absolute; pointer-events: none;
+            font-family: var(--font-mono);
+            font-size: 0.7rem; color: var(--text-muted); opacity: 0.3;
+            letter-spacing: 0.15em;
+        }
+        .hero-deco-1 { top: 12%; right: 6%; transform: rotate(90deg); }
+        .hero-deco-2 { bottom: 15%; left: 3%; }
+
+        @media (max-width: 640px) {
+            .hero-deco { display: none; }
+            .hero-stats { padding: 1rem 1.25rem; gap: 0.5rem; justify-content: center; }
+            .hero-stat { min-width: 70px; }
+            .hero-stat + .hero-stat::before { left: -0.25rem; }
+        }
+
+        /* ===========================================
+           SECTION COMMON
+           =========================================== */
+        section { padding: var(--section-padding); }
+        section:nth-child(even) { background: var(--bg-alt); }
+        .section-inner { max-width: var(--content-max); margin: 0 auto; }
+
+        .section-label {
+            display: inline-flex; align-items: center; gap: 0.5em;
+            font-size: var(--small-size); font-weight: 600;
+            color: var(--accent); text-transform: uppercase;
+            letter-spacing: 0.1em; margin-bottom: 0.4rem;
+        }
+        .section-label::before {
+            content: ''; display: block;
+            width: 20px; height: 2px; background: var(--accent-gold);
+        }
+
+        .section-title {
+            font-size: var(--heading-size); font-weight: 800;
+            margin-bottom: 3rem; letter-spacing: -0.01em;
+            line-height: 1.2;
+        }
+
+        /* ===========================================
+           KPI DASHBOARD (数据说话)
+           =========================================== */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+            gap: 1.25rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-gold));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .kpi-card:hover::before { opacity: 1; }
+        .kpi-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+        .kpi-number {
+            font-family: var(--font-mono);
+            font-size: var(--stat-size); font-weight: 700;
+            color: var(--accent); line-height: 1;
+        }
+
+        .kpi-number .gold { color: var(--accent-gold); }
+
+        .kpi-suffix {
+            font-size: 1rem; font-weight: 500; color: var(--accent);
+            margin-left: 0.1em;
+        }
+
+        .kpi-label {
+            font-size: var(--small-size); color: var(--text-secondary);
+            margin-top: 0.4rem; font-weight: 500;
+        }
+
+        .kpi-sub {
+            font-size: calc(var(--small-size) - 0.05rem);
+            color: var(--text-muted); margin-top: 0.15rem;
+        }
+
+        /* ===========================================
+           EXPERIENCE — CARD STYLE
+           =========================================== */
+        .exp-list {
+            display: flex; flex-direction: column; gap: 1.5rem;
+        }
+
+        .exp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem 2rem;
+            transition: transform 0.3s var(--ease-out), box-shadow 0.3s;
+            position: relative;
+        }
+
+        .exp-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .exp-card.current {
+            border-left: 4px solid var(--accent);
+        }
+
+        .exp-header {
+            display: flex; flex-wrap: wrap; align-items: center;
+            gap: 0.5rem 1rem; margin-bottom: 0.6rem;
+        }
+
+        .exp-company {
+            font-size: var(--subheading-size); font-weight: 800;
+        }
+
+        .exp-role {
+            font-size: var(--small-size); font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 0.15em 0.8em;
+            border-radius: 100px;
+        }
+
+        .exp-date {
+            font-size: var(--small-size); color: var(--text-muted);
+            font-weight: 500;
+            margin-left: auto;
+            font-family: var(--font-mono);
+        }
+
+        .exp-body {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .exp-body p { margin-bottom: 0.3em; }
+
+        .exp-body p:last-child { margin-bottom: 0; }
+
+        .exp-tags {
+            display: flex; flex-wrap: wrap; gap: 0.4rem;
+            margin-top: 0.75rem;
+        }
+
+        .exp-tag {
+            font-size: calc(var(--small-size) - 0.05rem);
+            background: var(--accent-light); color: var(--accent);
+            padding: 0.2em 0.8em; border-radius: 100px;
+            font-weight: 500;
+        }
+
+        .exp-tag-gold {
+            background: var(--accent-gold-light);
+            color: var(--accent-gold);
+        }
+
+        @media (max-width: 640px) {
+            .exp-card { padding: 1.25rem 1.25rem; }
+            .exp-date { margin-left: 0; width: 100%; }
+            .exp-header { gap: 0.3rem 0.8rem; }
+        }
+
+        /* ===========================================
+           SKILLS
+           =========================================== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        @media (max-width: 640px) {
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+
+        .skill-group h3 {
+            font-size: var(--body-size); font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex; align-items: center; gap: 0.5em;
+        }
+
+        .skill-group h3::after {
+            content: ''; flex: 1; height: 1px;
+            background: var(--border);
+        }
+
+        .skill-item { margin-bottom: 1rem; }
+        .skill-item:last-child { margin-bottom: 0; }
+
+        .skill-label {
+            display: flex; justify-content: space-between;
+            font-size: var(--small-size); font-weight: 500;
+            margin-bottom: 0.35rem;
+        }
+
+        .skill-bar {
+            height: 6px; background: var(--border);
+            border-radius: 3px; overflow: hidden;
+        }
+
+        .skill-fill {
+            height: 100%; border-radius: 3px;
+            background: linear-gradient(90deg, var(--accent), #2a6b5a);
+            width: 0;
+            transition: width 1.2s var(--ease-out);
+        }
+
+        .skill-tags {
+            display: flex; flex-wrap: wrap; gap: 0.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .skill-tag {
+            font-size: var(--small-size);
+            background: var(--bg-card); border: 1px solid var(--border);
+            padding: 0.35em 1.1em; border-radius: 100px;
+            color: var(--text-secondary); font-weight: 500;
+            transition: all 0.25s;
+        }
+        .skill-tag:hover {
+            border-color: var(--accent); color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        /* ===========================================
+           HONORS
+           =========================================== */
+        .honors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+            gap: 1.25rem;
+        }
+
+        .honor-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1.75rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .honor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .honor-icon {
+            font-size: 2rem; margin-bottom: 0.6rem;
+            display: block;
+        }
+        .honor-card h3 {
+            font-size: var(--body-size); font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+        .honor-card p {
+            font-size: var(--small-size); color: var(--text-secondary);
+        }
+
+        /* ===========================================
+           CONTACT
+           =========================================== */
+        .contact-flex {
+            display: flex; flex-wrap: wrap; gap: 1rem;
+            justify-content: center;
+        }
+
+        .contact-card {
+            display: flex; align-items: center; gap: 0.8rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem 1.75rem;
+            text-decoration: none; color: var(--text-primary);
+            transition: all 0.3s var(--ease-out);
+            min-width: 200px;
+        }
+        .contact-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        .contact-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: var(--accent-light);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+        }
+        .contact-info { display: flex; flex-direction: column; }
+        .contact-label { font-size: var(--small-size); color: var(--text-muted); }
+        .contact-value { font-size: var(--body-size); font-weight: 600; }
+
+        /* ===========================================
+           FOOTER
+           =========================================== */
+        footer {
+            text-align: center;
+            padding: 2.5rem clamp(1.5rem, 4vw, 4rem);
+            color: var(--text-muted);
+            font-size: var(--small-size);
+            border-top: 1px solid var(--border);
+        }
+
+        footer .social-links {
+            display: flex; justify-content: center; gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        footer .social-links a {
+            color: var(--text-muted); text-decoration: none;
+            font-size: var(--small-size); font-weight: 500;
+            transition: color 0.25s;
+        }
+        footer .social-links a:hover { color: var(--accent); }
+
+        /* ===========================================
+           REDUCED MOTION
+           =========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+            .reveal { opacity: 1; transform: none; }
+            .skill-fill { transition: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===========================================
+       NAVIGATION
+       =========================================== -->
+    <nav id="navbar" role="navigation" aria-label="主导航">
+        <div class="nav-inner">
+            <span class="nav-logo">程柏智</span>
+            <button class="nav-toggle" id="navToggle" aria-label="切换导航" aria-expanded="false">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <line x1="4" y1="7" x2="20" y2="7"></line>
+                    <line x1="4" y1="12" x2="20" y2="12"></line>
+                    <line x1="4" y1="17" x2="20" y2="17"></line>
+                </svg>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#data" class="nav-link">数据</a></li>
+                <li><a href="#experience" class="nav-link">经历</a></li>
+                <li><a href="#skills" class="nav-link">能力</a></li>
+                <li><a href="#honors" class="nav-link">荣誉</a></li>
+                <li><a href="#contact" class="nav-link">联系</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ===========================================
+       HERO
+       =========================================== -->
+    <header class="hero" id="hero">
+        <div class="hero-deco hero-deco-1" aria-hidden="true">SALES · LEADER · DRIVEN</div>
+        <div class="hero-deco hero-deco-2" aria-hidden="true">RESULTS · SPEAK · LOUDER</div>
+
+        <div class="hero-content">
+            <div class="hero-top reveal visible">
+                <span class="hero-badge">小米汽车 · 销售主管</span>
+                <span class="hero-badge hero-badge-gold">前特斯拉销冠</span>
+            </div>
+
+            <h1 class="reveal visible reveal-d1">
+                程柏智
+            </h1>
+            <p class="title-line reveal visible reveal-d2">
+                南区 TOP5 · 热情似火的销售专家
+            </p>
+            <p class="tagline reveal visible reveal-d3">
+                从管培生到销售主管，5 年一线实战，用数字说话，以结果证明。<br>
+                擅长高端客户谈判、团队管理与销售体系搭建。
+            </p>
+
+            <!-- Stats Strip -->
+            <div class="hero-stats reveal visible reveal-d3">
+                <div class="hero-stat">
+                    <span class="num">TOP<span class="gold">5</span></span>
+                    <span class="label">南区排名</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="num">300<span class="gold">+</span></span>
+                    <span class="label">累计交付</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="num">6.5</span>
+                    <span class="label">雅思</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="num">3<span class="gold">×</span></span>
+                    <span class="label">多次销冠</span>
+                </div>
+            </div>
+
+            <div class="hero-actions reveal visible reveal-d4">
+                <a href="#data" class="btn btn-primary">数据说话</a>
+                <a href="#contact" class="btn btn-outline">联系我</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===========================================
+       KPI DASHBOARD — 数据说话
+       =========================================== -->
+    <section id="data">
+        <div class="section-inner">
+            <span class="section-label reveal">数据说话</span>
+            <h2 class="section-title reveal">关键业绩指标</h2>
+
+            <div class="kpi-grid">
+                <div class="kpi-card reveal">
+                    <div class="kpi-number"><span class="counter" data-target="300">0</span><span class="kpi-suffix gold">+</span></div>
+                    <div class="kpi-label">个人累计交付</div>
+                    <div class="kpi-sub">特斯拉 · 整车销售</div>
+                </div>
+                <div class="kpi-card reveal reveal-d1">
+                    <div class="kpi-number"><span class="counter" data-target="20">0</span><span class="kpi-suffix gold">%</span></div>
+                    <div class="kpi-label">团队转化率提升</div>
+                    <div class="kpi-sub">话术优化 + 培训</div>
+                </div>
+                <div class="kpi-card reveal reveal-d2">
+                    <div class="kpi-number">TOP <span class="gold">5</span></div>
+                    <div class="kpi-label">南区销售排名</div>
+                    <div class="kpi-sub">特斯拉 · 2023 年度</div>
+                </div>
+                <div class="kpi-card reveal reveal-d3">
+                    <div class="kpi-number"><span class="counter" data-target="100">0</span><span class="kpi-suffix gold">%</span></div>
+                    <div class="kpi-label">月度目标达成</div>
+                    <div class="kpi-sub">小米汽车 · 持续达成</div>
+                </div>
+                <div class="kpi-card reveal reveal-d4">
+                    <div class="kpi-number"><span data-target="2" class="counter">0</span><span class="kpi-suffix gold"> 年</span></div>
+                    <div class="kpi-label">管理经验</div>
+                    <div class="kpi-sub">团队搭建 + 业绩管理</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+       EXPERIENCE
+       =========================================== -->
+    <section id="experience">
+        <div class="section-inner">
+            <span class="section-label reveal">经历</span>
+            <h2 class="section-title reveal">工作经历</h2>
+
+            <div class="exp-list">
+
+                <!-- 小米汽车 -->
+                <div class="exp-card current reveal">
+                    <div class="exp-header">
+                        <span class="exp-company">小米汽车</span>
+                        <span class="exp-role">销售主管</span>
+                        <span class="exp-date">2024 – 至今</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>加入小米汽车初创团队，从 0 到 1 搭建门店销售体系，全面负责团队管理与业绩达成。</p>
+                        <p>带领团队连续达成月度交付目标，个人多次获得门店销冠。深度参与用户运营与品牌口碑建设，推动门店从开业到稳定盈利。</p>
+                    </div>
+                    <div class="exp-tags">
+                        <span class="exp-tag">团队管理</span>
+                        <span class="exp-tag">销售体系搭建</span>
+                        <span class="exp-tag">用户运营</span>
+                        <span class="exp-tag">业绩管理</span>
+                    </div>
+                </div>
+
+                <!-- 特斯拉 -->
+                <div class="exp-card reveal reveal-d1">
+                    <div class="exp-header">
+                        <span class="exp-company">特斯拉</span>
+                        <span class="exp-role">销售顾问 → 资深销售</span>
+                        <span class="exp-date">2021 – 2024</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>南区销售 TOP5，多次获得门店及区域销冠。擅长高端客户谈判与试驾转化，个人累计交付超 300 台。</p>
+                        <p>作为团队标杆，主导新员工培训与销售话术优化，协助团队整体转化率提升 20%。</p>
+                    </div>
+                    <div class="exp-tags">
+                        <span class="exp-tag exp-tag-gold">南区 TOP5</span>
+                        <span class="exp-tag">高端客户谈判</span>
+                        <span class="exp-tag">新人培训</span>
+                        <span class="exp-tag">转化率优化</span>
+                    </div>
+                </div>
+
+                <!-- 可爱多 -->
+                <div class="exp-card reveal reveal-d2">
+                    <div class="exp-header">
+                        <span class="exp-company">可爱多儿童摄影</span>
+                        <span class="exp-role">管理培训生</span>
+                        <span class="exp-date">2021</span>
+                    </div>
+                    <div class="exp-body">
+                        <p>管培轮岗期间深入一线销售与客户服务，积累了扎实的客户沟通与需求分析能力，为后续汽车销售生涯奠定坚实基础。</p>
+                    </div>
+                    <div class="exp-tags">
+                        <span class="exp-tag">客户服务</span>
+                        <span class="exp-tag">需求分析</span>
+                        <span class="exp-tag">一线销售</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+       SKILLS
+       =========================================== -->
+    <section id="skills">
+        <div class="section-inner">
+            <span class="section-label reveal">能力</span>
+            <h2 class="section-title reveal">核心能力</h2>
+
+            <div class="skills-grid">
+                <div class="skill-group reveal">
+                    <h3>销售与管理</h3>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>高端客户谈判</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>销售团队管理</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>客户关系管理</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>销售体系搭建</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div>
+                    </div>
+                </div>
+                <div class="skill-group reveal reveal-d1">
+                    <h3>综合素养</h3>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>英语沟通 <span style="font-weight:400;color:var(--text-muted)">雅思 6.5</span></span><span>80%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>数据分析 &amp; 报表</span><span>80%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>培训 &amp; 演讲</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-label"><span>用户运营</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-fill" data-width="85%"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-tags reveal">
+                <span class="skill-tag">销售策略</span>
+                <span class="skill-tag">大客户开发</span>
+                <span class="skill-tag">试驾转化</span>
+                <span class="skill-tag">团队激励</span>
+                <span class="skill-tag">流程优化</span>
+                <span class="skill-tag">商务英语</span>
+                <span class="skill-tag">谈判话术</span>
+                <span class="skill-tag">车主社群</span>
+                <span class="skill-tag">CRM 管理</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+       HONORS
+       =========================================== -->
+    <section id="honors">
+        <div class="section-inner">
+            <span class="section-label reveal">荣誉</span>
+            <h2 class="section-title reveal">高光时刻</h2>
+
+            <div class="honors-grid">
+                <div class="honor-card reveal">
+                    <span class="honor-icon">🏆</span>
+                    <h3>南区销售 TOP5</h3>
+                    <p>特斯拉南区年度排名前五</p>
+                </div>
+                <div class="honor-card reveal reveal-d1">
+                    <span class="honor-icon">🥇</span>
+                    <h3>多次销冠</h3>
+                    <p>门店及区域销售冠军</p>
+                </div>
+                <div class="honor-card reveal reveal-d2">
+                    <span class="honor-icon">🌍</span>
+                    <h3>雅思 6.5</h3>
+                    <p>流利英语商务沟通</p>
+                </div>
+                <div class="honor-card reveal reveal-d3">
+                    <span class="honor-icon">🚗</span>
+                    <h3>300+ 台交付</h3>
+                    <p>特斯拉个人累计销量</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+       CONTACT
+       =========================================== -->
+    <section id="contact">
+        <div class="section-inner">
+            <span class="section-label reveal">联系</span>
+            <h2 class="section-title reveal">保持联系</h2>
+
+            <div class="contact-flex">
+                <a href="tel:18072700758" class="contact-card reveal">
+                    <div class="contact-icon">📞</div>
+                    <div class="contact-info">
+                        <span class="contact-label">电话</span>
+                        <span class="contact-value">180 7270 0758</span>
+                    </div>
+                </a>
+                <a href="mailto:2248035906@qq.com" class="contact-card reveal reveal-d1">
+                    <div class="contact-icon">✉</div>
+                    <div class="contact-info">
+                        <span class="contact-label">邮箱</span>
+                        <span class="contact-value">2248035906@qq.com</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===========================================
+       FOOTER
+       =========================================== -->
+    <footer>
+        <div class="social-links">
+            <a href="tel:18072700758">📞 电话</a>
+            <a href="mailto:2248035906@qq.com">✉ 邮箱</a>
+        </div>
+        <p>&copy; 2026 程柏智 · All Rights Reserved</p>
+    </footer>
+
+    <!-- ===========================================
+       JAVASCRIPT
+       =========================================== -->
+    <script>
+        (function() {
+
+            /* ===========================================
+               NAVBAR SCROLL SHADOW
+               =========================================== */
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
+                navbar.classList.toggle('scrolled', window.scrollY > 20);
+            }, { passive: true });
+
+            /* ===========================================
+               MOBILE NAV TOGGLE
+               =========================================== */
+            const navToggle = document.getElementById('navToggle');
+            const navLinks = document.getElementById('navLinks');
+
+            navToggle.addEventListener('click', function() {
+                const isOpen = navLinks.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', isOpen);
+            });
+
+            document.querySelectorAll('.nav-link').forEach(function(link) {
+                link.addEventListener('click', function() {
+                    navLinks.classList.remove('open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            /* ===========================================
+               INTERSECTION OBSERVER — Reveal animations
+               =========================================== */
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+            document.querySelectorAll('.reveal:not(.visible)').forEach(function(el) {
+                revealObserver.observe(el);
+            });
+
+            /* ===========================================
+               INTERSECTION OBSERVER — Skill bars
+               =========================================== */
+            const skillObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.width = entry.target.dataset.width;
+                        skillObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            document.querySelectorAll('.skill-fill').forEach(function(bar) {
+                skillObserver.observe(bar);
+            });
+
+            /* ===========================================
+               INTERSECTION OBSERVER — Active nav link
+               =========================================== */
+            const sections = document.querySelectorAll('section[id], header[id]');
+            const navLinksAll = document.querySelectorAll('.nav-link');
+
+            const navObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        navLinksAll.forEach(function(link) {
+                            link.classList.toggle('active',
+                                link.getAttribute('href') === '#' + entry.target.id
+                            );
+                        });
+                    }
+                });
+            }, { threshold: 0.25, rootMargin: '-20% 0px -20% 0px' });
+
+            sections.forEach(function(s) { navObserver.observe(s); });
+
+            /* ===========================================
+               COUNTER ANIMATION — KPI numbers
+               =========================================== */
+            const counterObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseInt(el.dataset.target);
+                        if (isNaN(target)) return;
+
+                        let current = 0;
+                        const duration = 1200;
+                        const step = Math.max(1, Math.floor(target / 60));
+                        const startTime = performance.now();
+
+                        function tick(now) {
+                            const elapsed = now - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            // Ease out quad
+                            const eased = 1 - (1 - progress) * (1 - progress);
+                            current = Math.round(eased * target);
+                            el.textContent = current;
+
+                            if (progress < 1) {
+                                requestAnimationFrame(tick);
+                            } else {
+                                el.textContent = target;
+                            }
+                        }
+
+                        requestAnimationFrame(tick);
+                        counterObserver.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            document.querySelectorAll('.counter').forEach(function(el) {
+                counterObserver.observe(el);
+            });
+
+        })();
+    </script>
+
+</body>
+</html>

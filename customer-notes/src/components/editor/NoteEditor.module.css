@@ -1,0 +1,49 @@
+.editor {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+  flex-shrink: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.scrollArea {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-6);
+  padding-bottom: calc(var(--spacing-6) + var(--safe-area-bottom));
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.spacerY {
+  height: var(--spacing-4);
+}
+
+@media (max-width: 600px) {
+  .toolbar {
+    padding: var(--spacing-2);
+  }
+
+  .scrollArea {
+    padding: var(--spacing-3);
+    padding-bottom: calc(var(--spacing-3) + var(--spacing-8) + var(--safe-area-bottom));
+  }
+
+  .spacerY {
+    height: var(--spacing-3);
+  }
+}
