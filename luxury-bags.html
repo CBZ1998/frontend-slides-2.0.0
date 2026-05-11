@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurelia Atelier | 手工定制包包 DIY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --ink: #20181a;
+      --text: #34282b;
+      --muted: #76686b;
+      --soft: #fdf2f5;
+      --paper: #fffafb;
+      --rose: #f0c8d4;
+      --rose-deep: #9a3b54;
+      --wine: #653242;
+      --sage: #596e61;
+      --gold: #c29a63;
+      --line: #f0dde3;
+      --shadow: 0 24px 70px rgba(70, 35, 46, 0.12);
+      --serif: "Cormorant Garamond", "Noto Serif SC", serif;
+      --sans: "Inter", "Noto Serif SC", sans-serif;
+      --pink-glow: rgba(240, 200, 212, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--soft);
+      color: var(--text);
+    }
+
+    body {
+      min-width: 320px;
+      overflow-x: hidden;
+      font-family: var(--sans);
+    }
+
+    img,
+    video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      border: 0;
+      background: none;
+      color: inherit;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    .site-header {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 50;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      min-height: 74px;
+      padding: 0 48px;
+      color: #fffafb;
+      transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .site-header.scrolled {
+      background: rgba(255, 250, 251, 0.94);
+      color: var(--ink);
+      box-shadow: 0 10px 32px rgba(70, 35, 46, 0.08);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-left,
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .nav-right {
+      justify-content: flex-end;
+    }
+
+    .brand {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 0.95;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--sans);
+      font-size: 0.56rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+    }
+
+    .mobile-menu {
+      position: fixed;
+      inset: 74px 0 auto;
+      z-index: 45;
+      display: none;
+      gap: 16px;
+      padding: 22px 24px 28px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+      color: var(--ink);
+    }
+
+    .mobile-menu.open {
+      display: grid;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      min-height: 92vh;
+      align-items: end;
+      color: #fffafb;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, rgba(59, 27, 38, 0.74), rgba(59, 27, 38, 0.22) 56%, rgba(59, 27, 38, 0.44)),
+        url("https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=2200&q=88") center / cover;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      z-index: -1;
+      height: 30vh;
+      background: linear-gradient(0deg, rgba(20, 8, 13, 0.56), transparent);
+    }
+
+    .hero-content {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 136px 0 50px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--serif);
+      font-weight: 700;
+      line-height: 0.98;
+    }
+
+    h1 {
+      max-width: 800px;
+      font-size: 6.9rem;
+    }
+
+    .hero-lower {
+      display: grid;
+      grid-template-columns: minmax(0, 560px) auto;
+      align-items: end;
+      gap: 34px;
+      margin-top: 26px;
+    }
+
+    .hero-lower p {
+      color: rgba(255, 250, 251, 0.88);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .hero-actions,
+    .salon-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn.primary {
+      border-color: #fffafb;
+      background: #fffafb;
+      color: var(--ink);
+    }
+
+    .btn.dark {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: #fffafb;
+    }
+
+    .builder {
+      padding: 88px 48px 96px;
+      background:
+        radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.95), transparent 26%),
+        radial-gradient(circle at 85% 82%, rgba(240, 200, 212, 0.2), transparent 34%),
+        linear-gradient(135deg, #fffafc 0%, #fce8ee 50%, #fffafb 100%);
+    }
+
+    .builder-head,
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 430px);
+      gap: 36px;
+      align-items: end;
+      width: min(1240px, 100%);
+      margin: 0 auto 34px;
+    }
+
+    .builder-head h2,
+    .section-head h2 {
+      font-size: 4.9rem;
+    }
+
+    .builder-head p,
+    .section-head p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .builder-shell {
+      display: grid;
+      grid-template-columns: minmax(420px, 0.92fr) minmax(460px, 1.08fr);
+      gap: 22px;
+      width: min(1240px, 100%);
+      margin: 0 auto;
+    }
+
+    .preview-panel,
+    .control-panel,
+    .order-panel {
+      border: 1px solid rgba(154, 59, 84, 0.13);
+      background: rgba(255, 250, 251, 0.78);
+      box-shadow: var(--shadow);
+    }
+
+    .preview-panel {
+      position: sticky;
+      top: 94px;
+      align-self: start;
+      padding: 22px;
+    }
+
+    .preview-title {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 12px;
+    }
+
+    .preview-title h3 {
+      font-size: 2.2rem;
+    }
+
+    .preview-title span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .bag-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 500px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 40%, rgba(255, 255, 255, 0.88), transparent 70%),
+        linear-gradient(155deg, rgba(255, 255, 255, 0.78), rgba(248, 220, 230, 0.42)),
+        url("https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1300&q=84") center / cover;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .bag-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 245, 248, 0.58);
+      z-index: 1;
+    }
+
+    .bag-stage:active {
+      cursor: grabbing;
+    }
+
+    /* Three.js 3D 模型预览 */
+    .bag-stage canvas {
+      position: relative;
+      z-index: 2;
+      display: block;
+    }
+
+    .preview-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .control-panel {
+      display: grid;
+      gap: 18px;
+      padding: 22px;
+    }
+
+    .option-group {
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+    }
+
+    .option-group:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .group-title h3 {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .group-title span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice {
+      position: relative;
+      min-height: 138px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.55);
+      transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+      outline: 0;
+    }
+
+    .choice:hover,
+    .choice:focus-visible,
+    .choice.active {
+      border-color: var(--rose-deep);
+      box-shadow: 0 14px 35px rgba(154, 59, 84, 0.1), 0 0 0 1px rgba(240, 200, 212, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .choice.active::after {
+      content: "已选";
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: var(--rose-deep);
+      color: #fffafb;
+      font-size: 0.68rem;
+      font-weight: 900;
+    }
+
+    .choice h4 {
+      margin: 12px 0 7px;
+      font-family: var(--serif);
+      font-size: 1.45rem;
+      line-height: 1.05;
+    }
+
+    .choice p {
+      max-width: 96%;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    .choice-media {
+      height: 62px;
+      overflow: hidden;
+      background: var(--soft);
+    }
+
+    .choice-media img {
+      transition: transform 300ms ease;
+    }
+
+    .choice:hover .choice-media img {
+      transform: scale(1.04);
+    }
+
+    .swatch-strip {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      height: 40px;
+    }
+
+    .swatch-dot {
+      width: 34px;
+      height: 34px;
+      border: 2px solid #fffafb;
+      border-radius: 50%;
+      box-shadow: 0 0 0 1px rgba(32, 24, 26, 0.15);
+    }
+
+    .info-link {
+      display: inline-flex;
+      margin-top: 10px;
+      color: var(--rose-deep);
+      font-size: 0.76rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .order-panel {
+      display: grid;
+      grid-column: 1 / -1;
+      grid-template-columns: 1fr auto auto;
+      gap: 22px;
+      align-items: center;
+      padding: 22px;
+    }
+
+    .summary-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .summary-chip {
+      padding: 9px 12px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+
+    .price-box {
+      text-align: right;
+    }
+
+    .price-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .price-box strong {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--serif);
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .section {
+      padding: 88px 48px;
+    }
+
+    .samples {
+      background: var(--paper);
+    }
+
+    .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      width: min(1240px, 100%);
+      margin: 0 auto;
+    }
+
+    .sample-card {
+      display: grid;
+      min-height: 520px;
+      align-content: end;
+      overflow: hidden;
+      position: relative;
+      color: #fffafb;
+      background: var(--ink);
+    }
+
+    .sample-card img {
+      position: absolute;
+      inset: 0;
+      opacity: 0.86;
+      transition: transform 500ms ease;
+    }
+
+    .sample-card:hover img {
+      transform: scale(1.05);
+    }
+
+    .sample-card::after {
+      content: "";
+      position: absolute;
+      inset: 34% 0 0;
+      background: linear-gradient(0deg, rgba(28, 12, 18, 0.82), transparent);
+    }
+
+    .sample-copy {
+      position: relative;
+      z-index: 2;
+      padding: 22px;
+    }
+
+    .sample-copy span {
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .sample-copy h3 {
+      margin: 9px 0 10px;
+      font-size: 2.1rem;
+    }
+
+    .sample-copy p {
+      color: rgba(255, 250, 251, 0.78);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+
+    .craft {
+      background: #5b3040;
+      color: #fffafb;
+    }
+
+    .craft .section-head p {
+      color: rgba(255, 250, 251, 0.72);
+    }
+
+    .craft-layout {
+      display: grid;
+      grid-template-columns: minmax(360px, 0.95fr) minmax(420px, 1.05fr);
+      gap: 28px;
+      width: min(1240px, 100%);
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .video-frame {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255, 250, 251, 0.2);
+      background: #2b151d;
+      box-shadow: 0 28px 90px rgba(26, 10, 16, 0.28);
+    }
+
+    .video-frame video {
+      aspect-ratio: 16 / 10;
+      height: auto;
+    }
+
+    .video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: rgba(255, 250, 251, 0.92);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform 200ms ease, box-shadow 200ms ease;
+      z-index: 2;
+    }
+
+    .video-play-btn:hover {
+      transform: translate(-50%, -50%) scale(1.08);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    .video-play-btn::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      margin-left: 4px;
+      border-style: solid;
+      border-width: 12px 0 12px 22px;
+      border-color: transparent transparent transparent var(--rose-deep);
+    }
+
+    .video-frame video:not([data-playing]) ~ .video-play-btn,
+    .video-frame video[data-playing="true"] ~ .video-play-btn {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .video-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 16px 16px;
+      color: rgba(255, 250, 251, 0.72);
+      font-size: 0.78rem;
+      line-height: 1.55;
+    }
+
+    .process-list {
+      display: grid;
+      gap: 1px;
+      background: rgba(255, 250, 251, 0.18);
+    }
+
+    .process-link {
+      display: grid;
+      grid-template-columns: 76px 1fr auto;
+      gap: 18px;
+      align-items: center;
+      min-height: 116px;
+      padding: 22px;
+      background: rgba(255, 250, 251, 0.08);
+      transition: background 180ms ease;
+    }
+
+    .process-link:hover {
+      background: rgba(255, 250, 251, 0.14);
+    }
+
+    .process-link strong {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+
+    .process-link h3 {
+      margin-bottom: 7px;
+      font-family: var(--sans);
+      font-size: 0.96rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .process-link p {
+      color: rgba(255, 250, 251, 0.72);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+
+    .shipping {
+      background:
+        radial-gradient(circle at 20% 50%, rgba(240, 200, 212, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 30%, rgba(240, 200, 212, 0.1), transparent 40%),
+        linear-gradient(120deg, rgba(255, 248, 250, 0.94), rgba(255, 250, 251, 0.98)),
+        url("https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1800&q=84") center / cover;
+    }
+
+    .route {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      width: min(1240px, 100%);
+      margin: 0 auto;
+      background: var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .route-step {
+      min-height: 260px;
+      padding: 26px;
+      background: rgba(255, 250, 251, 0.88);
+    }
+
+    .route-step span {
+      display: inline-flex;
+      margin-bottom: 34px;
+      color: var(--rose-deep);
+      font-size: 0.74rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .route-step h3 {
+      margin-bottom: 12px;
+      font-size: 2rem;
+    }
+
+    .route-step p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .salon {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.94fr) minmax(0, 1.06fr);
+      min-height: 620px;
+      background: var(--sage);
+      color: #fffafb;
+    }
+
+    .salon-media {
+      min-height: 460px;
+    }
+
+    .salon-copy {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px;
+    }
+
+    .salon-copy h2 {
+      margin-bottom: 22px;
+      font-size: 4.6rem;
+    }
+
+    .salon-copy p {
+      max-width: 560px;
+      margin-bottom: 28px;
+      color: rgba(255, 250, 251, 0.78);
+      font-size: 1rem;
+      line-height: 1.85;
+    }
+
+    .site-footer {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      gap: 28px;
+      padding: 46px 48px;
+      background: var(--ink);
+      color: #fffafb;
+    }
+
+    .site-footer h2 {
+      margin-bottom: 12px;
+      font-size: 2.4rem;
+    }
+
+    .site-footer h3 {
+      margin-bottom: 12px;
+      font-family: var(--sans);
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .site-footer p,
+    .site-footer a {
+      color: rgba(255, 250, 251, 0.68);
+      font-size: 0.88rem;
+      line-height: 1.8;
+    }
+
+    .site-footer nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 80;
+      transform: translateY(90px);
+      opacity: 0;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: var(--rose-deep);
+      color: #fffafb;
+      box-shadow: var(--shadow);
+      font-size: 0.82rem;
+      font-weight: 900;
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 560ms ease, transform 560ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      h1 {
+        font-size: 4.8rem;
+      }
+
+      .site-header {
+        padding: 0 24px;
+      }
+
+      .builder,
+      .section {
+        padding-inline: 24px;
+      }
+
+      .builder-head,
+      .section-head,
+      .builder-shell,
+      .craft-layout,
+      .salon {
+        grid-template-columns: 1fr;
+      }
+
+      .preview-panel {
+        position: relative;
+        top: auto;
+      }
+
+      .sample-grid,
+      .route {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .site-footer {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .site-header {
+        grid-template-columns: 44px 1fr 44px;
+        min-height: 68px;
+        padding: 0 16px;
+      }
+
+      .menu-toggle {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .nav-left,
+      .nav-right {
+        display: none;
+      }
+
+      .brand {
+        font-size: 1.45rem;
+      }
+
+      .mobile-menu {
+        inset-block-start: 68px;
+      }
+
+      .hero {
+        min-height: 86vh;
+      }
+
+      .hero-content {
+        width: calc(100% - 32px);
+        padding-bottom: 34px;
+      }
+
+      h1 {
+        font-size: 3.35rem;
+      }
+
+      .hero-lower,
+      .builder-head,
+      .section-head,
+      .order-panel,
+      .process-link,
+      .site-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .builder,
+      .section {
+        padding: 62px 16px;
+      }
+
+      .builder-head h2,
+      .section-head h2,
+      .salon-copy h2 {
+        font-size: 3.05rem;
+      }
+
+      .builder-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .choice-grid,
+      .sample-grid,
+      .route {
+        grid-template-columns: 1fr;
+      }
+
+      .bag-stage {
+        min-height: 420px;
+      }
+
+      .preview-caption,
+      .video-caption {
+        display: grid;
+      }
+
+      .salon-copy {
+        padding: 44px 22px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" aria-label="主导航">
+    <button class="menu-toggle" type="button" aria-label="打开菜单" aria-expanded="false">☰</button>
+    <nav class="nav-left" aria-label="左侧导航">
+      <a href="#builder">DIY 定制</a>
+      <a href="#samples">样板</a>
+      <a href="#craft">手作</a>
+    </nav>
+    <a class="brand" href="#top" aria-label="Aurelia Atelier 首页">Aurelia<span>Atelier Firenze</span></a>
+    <nav class="nav-right" aria-label="右侧导航">
+      <a href="#shipping">发运</a>
+      <a href="#salon">预约</a>
+      <a href="bag-detail.html?topic=process-video">视频</a>
+    </nav>
+  </header>
+
+  <nav class="mobile-menu" aria-label="移动菜单">
+    <a href="#builder">DIY 定制</a>
+    <a href="#samples">样板</a>
+    <a href="#craft">意大利手作</a>
+    <a href="#shipping">全国发运</a>
+    <a href="#salon">预约顾问</a>
+  </nav>
+
+  <main id="top">
+    <section class="hero" aria-label="手工定制包包首屏">
+      <div class="hero-content">
+        <div class="eyebrow reveal">Bespoke Bag Studio</div>
+        <h1 class="reveal">先由客户 DIY，再由意大利工匠手作。</h1>
+        <div class="hero-lower reveal">
+          <p>选择包型、颜色、拉链/五金、皮料，页面会实时生成你的定制样板。确认后进入佛罗伦萨工坊排产、手工裁皮、封边、质检，再发运到全国。</p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#builder">开始定制</a>
+            <a class="btn" href="#craft">查看手作流程</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="builder" id="builder" aria-label="客户 DIY 定制设计">
+      <div class="builder-head">
+        <h2 class="reveal">客户 DIY 设计台</h2>
+        <p class="reveal">每个选项都能点开详情页，查看材质、触感、适用场景和养护建议。左侧原型会跟随鼠标 360 度旋转，并根据选择变化。</p>
+      </div>
+
+      <div class="builder-shell">
+        <aside class="preview-panel reveal" aria-label="定制预览">
+          <div class="preview-title">
+            <div>
+              <span>Live Sample</span>
+              <h3 id="previewName">Bellina Tote</h3>
+            </div>
+            <a class="info-link" id="previewDetail" href="bag-detail.html?topic=style-tote">查看包型详情</a>
+          </div>
+          <div class="bag-stage" id="bagStage" aria-label="可旋转包包原型">
+          </div>
+          <div class="preview-caption">
+            <span id="previewMaterial">意大利全粒面小牛皮 · 香槟金拉链</span>
+            <span>拖动预览 360° 轮廓</span>
+          </div>
+        </aside>
+
+        <section class="control-panel reveal" aria-label="定制选项">
+          <div class="option-group">
+            <div class="group-title">
+              <h3>包包样式</h3>
+              <span>4 个样板</span>
+            </div>
+            <div class="choice-grid">
+              <article class="choice active" tabindex="0" role="button" data-group="style" data-value="tote">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=700&q=84" alt="托特包样板"></div>
+                <h4>Bellina Tote</h4>
+                <p>通勤容量，挺括侧身，适合电脑与日常文件。</p>
+                <a class="info-link" href="bag-detail.html?topic=style-tote">了解这个包型</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="style" data-value="saddle">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=700&q=84" alt="半月包样板"></div>
+                <h4>Roma Saddle</h4>
+                <p>半月翻盖轮廓，线条柔和，适合轻晚宴和约会。</p>
+                <a class="info-link" href="bag-detail.html?topic=style-saddle">了解这个包型</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="style" data-value="baguette">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=700&q=84" alt="法棍包样板"></div>
+                <h4>Milano Baguette</h4>
+                <p>横向比例，肩背轻盈，强调五金和皮面光泽。</p>
+                <a class="info-link" href="bag-detail.html?topic=style-baguette">了解这个包型</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="style" data-value="bucket">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=700&q=84" alt="水桶包样板"></div>
+                <h4>Capri Bucket</h4>
+                <p>抽绳结构，容量自由，适合旅行和周末出行。</p>
+                <a class="info-link" href="bag-detail.html?topic=style-bucket">了解这个包型</a>
+              </article>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <div class="group-title">
+              <h3>颜色</h3>
+              <span>浅粉主推</span>
+            </div>
+            <div class="choice-grid">
+              <article class="choice active" tabindex="0" role="button" data-group="color" data-value="blush">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#e8b7c3"></span><span class="swatch-dot" style="background:#ffe0e8"></span></div>
+                <h4>浅玫瑰粉</h4>
+                <p>柔和、显贵，适合婚礼、通勤和礼赠。</p>
+                <a class="info-link" href="bag-detail.html?topic=color-blush">颜色详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="color" data-value="pearl">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#f3e2da"></span><span class="swatch-dot" style="background:#fff7f0"></span></div>
+                <h4>珍珠米粉</h4>
+                <p>更安静的浅色，和金色五金非常干净。</p>
+                <a class="info-link" href="bag-detail.html?topic=color-pearl">颜色详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="color" data-value="wine">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#8d3150"></span><span class="swatch-dot" style="background:#c96f88"></span></div>
+                <h4>石榴酒红</h4>
+                <p>成熟浓郁，适合晚宴和秋冬造型。</p>
+                <a class="info-link" href="bag-detail.html?topic=color-wine">颜色详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="color" data-value="cacao">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#6b4a3d"></span><span class="swatch-dot" style="background:#b08a72"></span></div>
+                <h4>可可棕</h4>
+                <p>复古耐看，适合植鞣皮与旅行包型。</p>
+                <a class="info-link" href="bag-detail.html?topic=color-cacao">颜色详情</a>
+              </article>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <div class="group-title">
+              <h3>拉链 / 五金材质</h3>
+              <span>影响细节质感</span>
+            </div>
+            <div class="choice-grid">
+              <article class="choice active" tabindex="0" role="button" data-group="zipper" data-value="champagne">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#c29a63"></span><span class="swatch-dot" style="background:#efd8a8"></span></div>
+                <h4>香槟金黄铜</h4>
+                <p>温柔光泽，最适合浅粉色和米色皮料。</p>
+                <a class="info-link" href="bag-detail.html?topic=zipper-champagne">五金详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="zipper" data-value="palladium">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#cfd2d3"></span><span class="swatch-dot" style="background:#f5f6f6"></span></div>
+                <h4>钯银拉链</h4>
+                <p>冷调、干净，适合现代通勤包。</p>
+                <a class="info-link" href="bag-detail.html?topic=zipper-palladium">五金详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="zipper" data-value="gunmetal">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#3b3a3b"></span><span class="swatch-dot" style="background:#777578"></span></div>
+                <h4>黑镍拉链</h4>
+                <p>更酷的深色细节，适合酒红和黑色风格。</p>
+                <a class="info-link" href="bag-detail.html?topic=zipper-gunmetal">五金详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="zipper" data-value="leather">
+                <div class="swatch-strip"><span class="swatch-dot" style="background:#b88972"></span><span class="swatch-dot" style="background:#6b4a3d"></span></div>
+                <h4>手缝皮拉片</h4>
+                <p>减少金属露出，让包包更手工、更柔和。</p>
+                <a class="info-link" href="bag-detail.html?topic=zipper-leather">拉片详情</a>
+              </article>
+            </div>
+          </div>
+
+          <div class="option-group">
+            <div class="group-title">
+              <h3>皮料</h3>
+              <span>真实纹理与手感</span>
+            </div>
+            <div class="choice-grid">
+              <article class="choice active" tabindex="0" role="button" data-group="leather" data-value="fullgrain">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=700&q=84" alt="全粒面皮革纹理"></div>
+                <h4>全粒面小牛皮</h4>
+                <p>细腻平滑，光泽高级，适合浅色定制。</p>
+                <a class="info-link" href="bag-detail.html?topic=leather-fullgrain">皮料详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="leather" data-value="pebbled">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=700&q=84" alt="荔枝纹皮革纹理"></div>
+                <h4>荔枝纹小牛皮</h4>
+                <p>更耐划，颗粒纹理明显，日常使用友好。</p>
+                <a class="info-link" href="bag-detail.html?topic=leather-pebbled">皮料详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="leather" data-value="veg">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=700&q=84" alt="植鞣皮革和工具"></div>
+                <h4>植鞣马鞍皮</h4>
+                <p>会随时间变深，适合复古和旅行款。</p>
+                <a class="info-link" href="bag-detail.html?topic=leather-veg">皮料详情</a>
+              </article>
+              <article class="choice" tabindex="0" role="button" data-group="leather" data-value="suede">
+                <div class="choice-media"><img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=700&q=84" alt="绒面材质细节"></div>
+                <h4>绒面拼皮</h4>
+                <p>触感柔软，适合晚宴包与内衬细节。</p>
+                <a class="info-link" href="bag-detail.html?topic=leather-suede">皮料详情</a>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="order-panel reveal" aria-label="定制汇总">
+          <div>
+            <div class="summary-list" id="summaryList"></div>
+          </div>
+          <div class="price-box">
+            <span>预估定制价</span>
+            <strong id="priceText">¥ 36,800</strong>
+          </div>
+          <button class="btn dark" type="button" id="saveDesign">保存我的设计</button>
+        </section>
+      </div>
+    </section>
+
+    <section class="section samples" id="samples" aria-label="定制样板展示">
+      <div class="section-head">
+        <h2 class="reveal">模拟样板</h2>
+        <p class="reveal">客户可以从样板出发，再进入 DIY 调整颜色、皮料和五金。每个样板都能跳转到独立介绍页。</p>
+      </div>
+      <div class="sample-grid">
+        <a class="sample-card reveal" href="bag-detail.html?topic=sample-studio">
+          <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=86" alt="浅粉托特包样板">
+          <div class="sample-copy">
+            <span>Office Bespoke</span>
+            <h3>粉色通勤托特</h3>
+            <p>全粒面小牛皮、香槟金拉链、电脑夹层。</p>
+          </div>
+        </a>
+        <a class="sample-card reveal" href="bag-detail.html?topic=sample-evening">
+          <img src="https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=86" alt="晚宴链条包样板">
+          <div class="sample-copy">
+            <span>Evening Bespoke</span>
+            <h3>酒红晚宴包</h3>
+            <p>钯银扣具、绒面内衬、可拆链条。</p>
+          </div>
+        </a>
+        <a class="sample-card reveal" href="bag-detail.html?topic=sample-travel">
+          <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=86" alt="旅行水桶包样板">
+          <div class="sample-copy">
+            <span>Travel Bespoke</span>
+            <h3>可可旅行水桶</h3>
+            <p>植鞣皮底座、皮拉片、可调节肩带。</p>
+          </div>
+        </a>
+        <a class="sample-card reveal" href="bag-detail.html?topic=sample-gift">
+          <img src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=86" alt="礼赠定制小包样板">
+          <div class="sample-copy">
+            <span>Gift Bespoke</span>
+            <h3>珍珠米粉礼赠款</h3>
+            <p>姓名缩写烫印、礼盒包装、手写卡片。</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section craft" id="craft" aria-label="意大利工匠手作流程">
+      <div class="section-head">
+        <h2 class="reveal">意大利工匠手作</h2>
+        <p class="reveal">客户确认设计后，订单进入佛罗伦萨合作工坊。工匠按版型裁皮、手缝关键受力位、反复封边和质检。</p>
+      </div>
+      <div class="craft-layout">
+        <figure class="video-frame reveal">
+          <video muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1400&q=84">
+            <source src="https://videos.pexels.com/video-files/5963495/5963495-hd_1920_1080_25fps.mp4" type="video/mp4">
+          </video>
+          <button class="video-play-btn" type="button" aria-label="播放视频"></button>
+          <figcaption class="video-caption">
+            <span>佛罗伦萨工坊手作过程 — 从裁皮到成品的完整记录</span>
+            <a href="bag-detail.html?topic=process-video">视频与工坊说明</a>
+          </figcaption>
+        </figure>
+        <div class="process-list reveal">
+          <a class="process-link" href="bag-detail.html?topic=process-pattern">
+            <strong>01</strong>
+            <div><h3>版型确认</h3><p>根据客户 DIY 选择生成纸样、肩带孔位、拉链长度和内袋结构。</p></div>
+            <span>详情</span>
+          </a>
+          <a class="process-link" href="bag-detail.html?topic=process-cutting">
+            <strong>02</strong>
+            <div><h3>裁皮与配色</h3><p>按皮面纹理避开天然瑕疵，保证翻盖、侧身和把手色差一致。</p></div>
+            <span>详情</span>
+          </a>
+          <a class="process-link" href="bag-detail.html?topic=process-stitch">
+            <strong>03</strong>
+            <div><h3>手缝与封边</h3><p>受力位手缝加固，边油分层打磨，让包口和肩带边缘更精致。</p></div>
+            <span>详情</span>
+          </a>
+          <a class="process-link" href="bag-detail.html?topic=process-qc">
+            <strong>04</strong>
+            <div><h3>质检入盒</h3><p>检查五金开合、线迹间距、边油平整度和包身站立角度。</p></div>
+            <span>详情</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shipping" id="shipping" aria-label="意大利工坊到全国发运">
+      <div class="section-head">
+        <h2 class="reveal">从佛罗伦萨到全国</h2>
+        <p class="reveal">定制包完成后从意大利工坊出库，进入国际运输、清关、国内仓质检，再发往全国主要城市。</p>
+      </div>
+      <div class="route">
+        <a class="route-step reveal" href="bag-detail.html?topic=process-shipping">
+          <span>Firenze</span>
+          <h3>工坊出库</h3>
+          <p>每只包附带定制编号、材质卡和工匠签名质检单。</p>
+        </a>
+        <a class="route-step reveal" href="bag-detail.html?topic=process-shipping">
+          <span>Air Freight</span>
+          <h3>国际运输</h3>
+          <p>防潮包装和硬盒保护，关键节点同步给客户。</p>
+        </a>
+        <a class="route-step reveal" href="bag-detail.html?topic=process-shipping">
+          <span>QC Hub</span>
+          <h3>国内复检</h3>
+          <p>入仓后复查五金、边油、外盒和随包文件。</p>
+        </a>
+        <a class="route-step reveal" href="bag-detail.html?topic=process-shipping">
+          <span>Nationwide</span>
+          <h3>全国发运</h3>
+          <p>顺丰保价发运，支持北京、上海、广州、深圳、成都、杭州等城市。</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="salon" id="salon" aria-label="预约定制顾问">
+      <div class="salon-media">
+        <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1400&q=86" alt="高级定制顾问空间">
+      </div>
+      <div class="salon-copy">
+        <div class="eyebrow">Private Fitting</div>
+        <h2>把线上 DIY 变成真正的手工订单。</h2>
+        <p>客户可以保存方案，顾问再确认尺寸、背法、常用场景和姓名缩写。确认定金后进入意大利工坊排产。</p>
+        <div class="salon-actions">
+          <a class="btn primary" href="mailto:salon@aurelia.example">预约顾问</a>
+          <a class="btn" href="bag-detail.html?topic=service-bespoke">查看定制服务</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <h2>Aurelia Atelier</h2>
+      <p>手工定制包包网站原型：客户 DIY 配置、独立详情页、意大利手作视频、工坊流程和全国发运说明。</p>
+    </div>
+    <div>
+      <h3>DIY</h3>
+      <nav>
+        <a href="#builder">开始定制</a>
+        <a href="#samples">查看样板</a>
+        <a href="bag-detail.html?topic=service-bespoke">定制说明</a>
+      </nav>
+    </div>
+    <div>
+      <h3>工坊</h3>
+      <nav>
+        <a href="#craft">意大利手作</a>
+        <a href="bag-detail.html?topic=process-qc">质检标准</a>
+        <a href="#shipping">全国发运</a>
+      </nav>
+    </div>
+    <div>
+      <h3>联系</h3>
+      <p>Firenze · Shanghai<br>Made to order in 21-35 days</p>
+    </div>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite" id="toast">已保存你的定制设计</div>
+
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    /* ── DOM ── */
+    const header = document.querySelector(".site-header");
+    const menuButton = document.querySelector(".menu-toggle");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const bagStage = document.getElementById("bagStage");
+    const previewName = document.getElementById("previewName");
+    const previewMaterial = document.getElementById("previewMaterial");
+    const previewDetail = document.getElementById("previewDetail");
+    const summaryList = document.getElementById("summaryList");
+    const priceText = document.getElementById("priceText");
+    const toast = document.getElementById("toast");
+
+    /* ── 配置数据 ── */
+    const config = {
+      style: {
+        tote: { label: "Bellina Tote", detail: "bag-detail.html?topic=style-tote", price: 26800, days: "28-35 天" },
+        saddle: { label: "Roma Saddle", detail: "bag-detail.html?topic=style-saddle", price: 23800, days: "24-32 天" },
+        baguette: { label: "Milano Baguette", detail: "bag-detail.html?topic=style-baguette", price: 21800, days: "21-30 天" },
+        bucket: { label: "Capri Bucket", detail: "bag-detail.html?topic=style-bucket", price: 24800, days: "28-35 天" }
+      },
+      color: {
+        blush: { label: "浅玫瑰粉", hex: 0xe8b7c3, price: 0 },
+        pearl: { label: "珍珠米粉", hex: 0xf3e2da, price: 800 },
+        wine: { label: "石榴酒红", hex: 0x8d3150, price: 1200 },
+        cacao: { label: "可可棕", hex: 0x6b4a3d, price: 1000 }
+      },
+      zipper: {
+        champagne: { label: "香槟金黄铜", hex: 0xc29a63, price: 1200 },
+        palladium: { label: "钯银拉链", hex: 0xcfd2d3, price: 1500 },
+        gunmetal: { label: "黑镍拉链", hex: 0x3b3a3b, price: 1100 },
+        leather: { label: "手缝皮拉片", hex: 0x9b664e, price: 1800 }
+      },
+      leather: {
+        fullgrain: { label: "意大利全粒面小牛皮", roughness: 0.45, clearcoat: 0.6, price: 7600 },
+        pebbled: { label: "荔枝纹小牛皮", roughness: 0.7, clearcoat: 0.3, price: 6800 },
+        veg: { label: "植鞣马鞍皮", roughness: 0.55, clearcoat: 0.4, price: 8200 },
+        suede: { label: "绒面拼皮", roughness: 0.92, clearcoat: 0.05, price: 7200 }
+      }
+    };
+
+    const selection = { style: "tote", color: "blush", zipper: "champagne", leather: "fullgrain" };
+    const params = new URLSearchParams(window.location.search);
+    for (const group of Object.keys(selection)) {
+      const v = params.get(group);
+      if (v && config[group][v]) selection[group] = v;
+    }
+
+    /* ── Three.js 场景 ── */
+    const scene = new THREE.Scene();
+    scene.background = null;
+
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+    camera.position.set(0, 1.5, 5.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    bagStage.appendChild(renderer.domElement);
+
+    /* ── 灯光 ── */
+    const ambientLight = new THREE.AmbientLight(0xfff5f8, 0.6);
+    scene.add(ambientLight);
+
+    const mainLight = new THREE.DirectionalLight(0xfff8f0, 1.8);
+    mainLight.position.set(4, 6, 4);
+    mainLight.castShadow = true;
+    mainLight.shadow.mapSize.set(1024, 1024);
+    mainLight.shadow.camera.near = 0.5;
+    mainLight.shadow.camera.far = 20;
+    mainLight.shadow.camera.left = -4;
+    mainLight.shadow.camera.right = 4;
+    mainLight.shadow.camera.top = 4;
+    mainLight.shadow.camera.bottom = -4;
+    mainLight.shadow.radius = 4;
+    scene.add(mainLight);
+
+    const fillLight = new THREE.DirectionalLight(0xe8d0e0, 0.5);
+    fillLight.position.set(-3, 3, -2);
+    scene.add(fillLight);
+
+    const rimLight = new THREE.DirectionalLight(0xffd4e5, 0.4);
+    rimLight.position.set(0, 2, -5);
+    scene.add(rimLight);
+
+    const spotLight = new THREE.SpotLight(0xfff0f5, 0.6, 15, Math.PI / 6, 0.5);
+    spotLight.position.set(-2, 5, 3);
+    spotLight.target.position.set(0, 0, 0);
+    scene.add(spotLight);
+    scene.add(spotLight.target);
+
+    /* ── 地面阴影 ── */
+    const groundGeo = new THREE.PlaneGeometry(8, 8);
+    const groundMat = new THREE.ShadowMaterial({ opacity: 0.18 });
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.y = -1.52;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    /* ── 材质 ── */
+    const leatherMat = new THREE.MeshPhysicalMaterial({
+      color: config.color[selection.color].hex,
+      roughness: config.leather[selection.leather].roughness,
+      metalness: 0.0,
+      clearcoat: config.leather[selection.leather].clearcoat,
+      clearcoatRoughness: 0.3,
+      sheen: 0.5,
+      sheenRoughness: 0.4,
+      sheenColor: new THREE.Color(0xffffff),
+      side: THREE.DoubleSide
+    });
+
+    const metalMat = new THREE.MeshStandardMaterial({
+      color: config.zipper[selection.zipper].hex,
+      roughness: 0.18,
+      metalness: 0.95
+    });
+
+    /* ── 包包几何体工厂 ── */
+    function createRoundedBox(w, h, d, r, segs) {
+      const shape = new THREE.Shape();
+      const x = -w / 2, y = -h / 2;
+      shape.moveTo(x + r, y);
+      shape.lineTo(x + w - r, y);
+      shape.quadraticCurveTo(x + w, y, x + w, y + r);
+      shape.lineTo(x + w, y + h - r);
+      shape.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      shape.lineTo(x + r, y + h);
+      shape.quadraticCurveTo(x, y + h, x, y + h - r);
+      shape.lineTo(x, y + r);
+      shape.quadraticCurveTo(x, y, x + r, y);
+      const extrudeSettings = { depth: d, bevelEnabled: true, bevelThickness: r * 0.3, bevelSize: r * 0.3, bevelSegments: segs };
+      const geo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      geo.center();
+      return geo;
+    }
+
+    function createHandle(radius, tube, arc) {
+      const geo = new THREE.TorusGeometry(radius, tube, 12, 24, arc);
+      geo.rotateX(Math.PI);
+      return geo;
+    }
+
+    function createMetalPart(w, h, d) {
+      return createRoundedBox(w, h, d, 0.01, 2);
+    }
+
+    function buildBag(style) {
+      const group = new THREE.Group();
+
+      if (style === "tote") {
+        const body = new THREE.Mesh(createRoundedBox(2.4, 1.8, 1.0, 0.15, 4), leatherMat);
+        body.castShadow = true;
+        group.add(body);
+        const flap = new THREE.Mesh(createRoundedBox(2.4, 0.15, 1.02, 0.06, 3), leatherMat);
+        flap.position.y = 0.95;
+        flap.castShadow = true;
+        group.add(flap);
+        const handleGeo = createHandle(0.5, 0.05, Math.PI);
+        [-0.55, 0.55].forEach(xPos => {
+          const h = new THREE.Mesh(handleGeo, leatherMat);
+          h.position.set(xPos, 0.95, 0);
+          h.castShadow = true;
+          group.add(h);
+        });
+        const zipperGeo = new THREE.BoxGeometry(1.6, 0.04, 0.06);
+        const zipper = new THREE.Mesh(zipperGeo, metalMat);
+        zipper.position.set(0, 0.93, 0.52);
+        group.add(zipper);
+        const pullGeo = new THREE.BoxGeometry(0.12, 0.2, 0.04);
+        const pull = new THREE.Mesh(pullGeo, metalMat);
+        pull.position.set(0.82, 0.93, 0.54);
+        group.add(pull);
+        const claspGeo = createMetalPart(0.18, 0.12, 0.06);
+        [-0.3, 0.3].forEach(xPos => {
+          const c = new THREE.Mesh(claspGeo, metalMat);
+          c.position.set(xPos, 0.92, 0.53);
+          group.add(c);
+        });
+      } else if (style === "saddle") {
+        const body = new THREE.Mesh(createRoundedBox(2.0, 1.4, 0.8, 0.35, 6), leatherMat);
+        body.castShadow = true;
+        group.add(body);
+        const flapShape = new THREE.Shape();
+        flapShape.moveTo(-1.0, 0);
+        flapShape.lineTo(1.0, 0);
+        flapShape.quadraticCurveTo(1.0, -0.8, 0, -0.9);
+        flapShape.quadraticCurveTo(-1.0, -0.8, -1.0, 0);
+        const flapGeo = new THREE.ExtrudeGeometry(flapShape, { depth: 0.82, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 4 });
+        flapGeo.center();
+        const flap = new THREE.Mesh(flapGeo, leatherMat);
+        flap.position.y = 0.5;
+        flap.castShadow = true;
+        group.add(flap);
+        const strapGeo = new THREE.CylinderGeometry(0.04, 0.04, 2.2, 8);
+        const strap = new THREE.Mesh(strapGeo, leatherMat);
+        strap.rotation.z = Math.PI / 2;
+        strap.position.y = 1.2;
+        strap.castShadow = true;
+        group.add(strap);
+        const buckleGeo = createMetalPart(0.25, 0.18, 0.08);
+        const buckle = new THREE.Mesh(buckleGeo, metalMat);
+        buckle.position.set(0, 0.15, 0.44);
+        group.add(buckle);
+        const ringGeo = new THREE.TorusGeometry(0.1, 0.025, 8, 16);
+        [-1.0, 1.0].forEach(xPos => {
+          const ring = new THREE.Mesh(ringGeo, metalMat);
+          ring.position.set(xPos, 1.2, 0);
+          ring.rotation.y = Math.PI / 2;
+          group.add(ring);
+        });
+      } else if (style === "baguette") {
+        const body = new THREE.Mesh(createRoundedBox(2.6, 1.0, 0.7, 0.2, 5), leatherMat);
+        body.castShadow = true;
+        group.add(body);
+        const flap = new THREE.Mesh(createRoundedBox(2.6, 0.4, 0.72, 0.15, 4), leatherMat);
+        flap.position.y = 0.5;
+        flap.castShadow = true;
+        group.add(flap);
+        const strapGeo = new THREE.CylinderGeometry(0.035, 0.035, 1.6, 8);
+        const strap = new THREE.Mesh(strapGeo, leatherMat);
+        strap.rotation.z = Math.PI / 2;
+        strap.position.y = 1.0;
+        strap.castShadow = true;
+        group.add(strap);
+        const logoGeo = createMetalPart(0.3, 0.15, 0.04);
+        const logo = new THREE.Mesh(logoGeo, metalMat);
+        logo.position.set(0, 0.65, 0.37);
+        group.add(logo);
+        const zipperGeo = new THREE.BoxGeometry(1.8, 0.03, 0.05);
+        const zipper = new THREE.Mesh(zipperGeo, metalMat);
+        zipper.position.set(0, 0.5, 0.36);
+        group.add(zipper);
+      } else if (style === "bucket") {
+        const bodyGeo = new THREE.CylinderGeometry(0.7, 0.85, 1.8, 24, 1, false);
+        const body = new THREE.Mesh(bodyGeo, leatherMat);
+        body.castShadow = true;
+        group.add(body);
+        const rimGeo = new THREE.TorusGeometry(0.7, 0.06, 8, 24);
+        const rim = new THREE.Mesh(rimGeo, leatherMat);
+        rim.position.y = 0.9;
+        rim.rotation.x = Math.PI / 2;
+        group.add(rim);
+        const baseGeo = new THREE.CylinderGeometry(0.85, 0.85, 0.08, 24);
+        const base = new THREE.Mesh(baseGeo, leatherMat);
+        base.position.y = -0.9;
+        base.castShadow = true;
+        group.add(base);
+        const handleGeo = createHandle(0.55, 0.04, Math.PI);
+        const handle = new THREE.Mesh(handleGeo, leatherMat);
+        handle.position.y = 0.9;
+        handle.castShadow = true;
+        group.add(handle);
+        const drawstringGeo = new THREE.TorusGeometry(0.68, 0.02, 6, 24);
+        const drawstring = new THREE.Mesh(drawstringGeo, metalMat);
+        drawstring.position.y = 0.82;
+        drawstring.rotation.x = Math.PI / 2;
+        group.add(drawstring);
+        const grommetGeo = new THREE.CylinderGeometry(0.04, 0.04, 0.05, 8);
+        [0, Math.PI / 2, Math.PI, Math.PI * 1.5].forEach(angle => {
+          const grommet = new THREE.Mesh(grommetGeo, metalMat);
+          grommet.position.set(Math.cos(angle) * 0.68, 0.82, Math.sin(angle) * 0.68);
+          group.add(grommet);
+        });
+      }
+
+      return group;
+    }
+
+    /* ── 当前模型 ── */
+    let currentBag = buildBag(selection.style);
+    scene.add(currentBag);
+
+    /* ── OrbitControls ── */
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.enableZoom = false;
+    controls.enablePan = false;
+    controls.minPolarAngle = Math.PI / 4;
+    controls.maxPolarAngle = Math.PI / 1.5;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.2;
+
+    /* ── 尺寸适配 ── */
+    function resize() {
+      const rect = bagStage.getBoundingClientRect();
+      const w = rect.width, h = rect.height;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    /* ── 渲染循环 ── */
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    /* ── 更新 3D 模型 ── */
+    let lastStyle = selection.style;
+
+    function updateBagModel() {
+      if (selection.style === lastStyle) return;
+      scene.remove(currentBag);
+      currentBag.traverse(child => { if (child.geometry) child.geometry.dispose(); });
+      currentBag = buildBag(selection.style);
+      scene.add(currentBag);
+      lastStyle = selection.style;
+    }
+
+    function updateMaterials() {
+      const color = config.color[selection.color];
+      const zipper = config.zipper[selection.zipper];
+      const leather = config.leather[selection.leather];
+      leatherMat.color.setHex(color.hex);
+      leatherMat.roughness = leather.roughness;
+      leatherMat.clearcoat = leather.clearcoat;
+      metalMat.color.setHex(zipper.hex);
+    }
+
+    /* ── UI: header / menu ── */
+    window.addEventListener("scroll", () => header.classList.toggle("scrolled", window.scrollY > 24));
+
+    menuButton.addEventListener("click", () => {
+      const open = mobileMenu.classList.toggle("open");
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.textContent = open ? "×" : "☰";
+    });
+
+    mobileMenu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.textContent = "☰";
+      });
+    });
+
+    /* ── UI: render ── */
+    function formatPrice(v) { return `¥ ${v.toLocaleString("zh-CN")}`; }
+
+    function render() {
+      const style = config.style[selection.style];
+      const color = config.color[selection.color];
+      const zipper = config.zipper[selection.zipper];
+      const leather = config.leather[selection.leather];
+      const total = style.price + color.price + zipper.price + leather.price;
+
+      previewName.textContent = style.label;
+      previewMaterial.textContent = `${leather.label} · ${zipper.label} · 工期 ${style.days}`;
+      previewDetail.href = style.detail;
+      priceText.textContent = formatPrice(total);
+
+      summaryList.innerHTML = [
+        `包型：${style.label}`, `颜色：${color.label}`,
+        `五金：${zipper.label}`, `皮料：${leather.label}`,
+        `预计工期：${style.days}`
+      ].map(t => `<span class="summary-chip">${t}</span>`).join("");
+
+      document.querySelectorAll(".choice").forEach(c => {
+        c.classList.toggle("active", selection[c.dataset.group] === c.dataset.value);
+      });
+
+      updateMaterials();
+      updateBagModel();
+    }
+
+    /* ── UI: 选项交互 ── */
+    document.querySelectorAll(".choice").forEach(choice => {
+      function selectChoice(e) {
+        if (e.target.closest("a")) return;
+        selection[choice.dataset.group] = choice.dataset.value;
+        render();
+      }
+      choice.addEventListener("click", selectChoice);
+      choice.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectChoice(e); }
+      });
+    });
+
+    document.getElementById("saveDesign").addEventListener("click", () => {
+      const query = new URLSearchParams(selection).toString();
+      history.replaceState(null, "", `${window.location.pathname}?${query}#builder`);
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1800);
+    });
+
+    /* ── 滚动动画 ── */
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+    /* ── 视频播放 ── */
+    const videoFrame = document.querySelector(".video-frame");
+    if (videoFrame) {
+      const video = videoFrame.querySelector("video");
+      const playBtn = videoFrame.querySelector(".video-play-btn");
+      playBtn.addEventListener("click", () => {
+        if (video.paused) { video.play(); video.setAttribute("data-playing", "true"); playBtn.style.opacity = "0"; playBtn.style.pointerEvents = "none"; }
+      });
+      video.addEventListener("click", () => {
+        if (!video.paused) { video.pause(); video.removeAttribute("data-playing"); playBtn.style.opacity = "1"; playBtn.style.pointerEvents = "auto"; }
+      });
+      video.addEventListener("ended", () => { video.removeAttribute("data-playing"); playBtn.style.opacity = "1"; playBtn.style.pointerEvents = "auto"; });
+    }
+
+    /* ── 初始化 ── */
+    render();
+  </script>
+</body>
+</html>
