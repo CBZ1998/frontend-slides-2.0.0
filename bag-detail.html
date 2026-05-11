@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aurelia Atelier | 详情</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #20181a;
+      --text: #34282b;
+      --muted: #76686b;
+      --soft: #fff4f7;
+      --paper: #fffafb;
+      --rose: #e8b7c3;
+      --rose-deep: #9a3b54;
+      --wine: #653242;
+      --sage: #596e61;
+      --gold: #c29a63;
+      --line: #ead6dc;
+      --shadow: 0 24px 70px rgba(70, 35, 46, 0.14);
+      --serif: "Cormorant Garamond", "Noto Serif SC", serif;
+      --sans: "Inter", "Noto Serif SC", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--soft);
+      color: var(--text);
+    }
+
+    body {
+      min-width: 320px;
+      overflow-x: hidden;
+      font-family: var(--sans);
+    }
+
+    img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+    a { color: inherit; text-decoration: none; }
+    button { border: 0; background: none; color: inherit; font: inherit; cursor: pointer; }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 74px;
+      padding: 0 48px;
+      background: rgba(255, 250, 251, 0.96);
+      box-shadow: 0 10px 32px rgba(70, 35, 46, 0.06);
+      backdrop-filter: blur(18px);
+    }
+
+    .header-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      transition: color 180ms ease;
+    }
+
+    .header-back:hover { color: var(--rose-deep); }
+
+    .header-back svg { width: 18px; height: 18px; }
+
+    .brand {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 0.95;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--sans);
+      font-size: 0.52rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .header-right { width: 120px; }
+
+    /* Hero */
+    .detail-hero {
+      position: relative;
+      min-height: 56vh;
+      display: grid;
+      place-items: center;
+      color: #fffafb;
+      isolation: isolate;
+    }
+
+    .detail-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+    }
+
+    .detail-hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      z-index: -1;
+      height: 40%;
+      background: linear-gradient(0deg, rgba(20, 8, 13, 0.5), transparent);
+    }
+
+    .hero-inner {
+      text-align: center;
+      padding: 100px 24px 60px;
+      max-width: 780px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .eyebrow::before, .eyebrow::after {
+      content: "";
+      width: 32px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 0.98; }
+
+    h1 { font-size: clamp(2.8rem, 6vw, 5.6rem); }
+
+    .hero-subtitle {
+      margin-top: 18px;
+      color: rgba(255, 250, 251, 0.82);
+      font-size: 1.08rem;
+      line-height: 1.8;
+      max-width: 600px;
+      margin-inline: auto;
+    }
+
+    /* Content */
+    .detail-content {
+      width: min(1100px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 72px 0 96px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 460px);
+      gap: 48px;
+      align-items: start;
+    }
+
+    .content-main h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 22px;
+    }
+
+    .content-main p {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.88;
+      margin-bottom: 18px;
+    }
+
+    .content-main ul {
+      list-style: none;
+      margin: 24px 0;
+    }
+
+    .content-main li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 14px;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    .content-main li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--rose);
+    }
+
+    .content-aside {
+      position: sticky;
+      top: 100px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 251, 0.82);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .aside-image {
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+    }
+
+    .aside-image img {
+      transition: transform 400ms ease;
+    }
+
+    .content-aside:hover .aside-image img {
+      transform: scale(1.04);
+    }
+
+    .aside-body {
+      padding: 22px;
+    }
+
+    .aside-body h3 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .aside-body p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .aside-specs {
+      display: grid;
+      gap: 1px;
+      background: var(--line);
+      margin: 16px -22px -22px;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 22px;
+      background: var(--paper);
+      font-size: 0.84rem;
+    }
+
+    .spec-row span:first-child { color: var(--muted); }
+    .spec-row span:last-child { font-weight: 700; }
+
+    /* Gallery */
+    .detail-gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      aspect-ratio: 1;
+      background: var(--soft);
+    }
+
+    .gallery-item img {
+      transition: transform 400ms ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    /* Related */
+    .related-section {
+      padding: 72px 48px 96px;
+      background: var(--paper);
+    }
+
+    .related-section h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: min(1100px, 100%);
+      margin: 0 auto;
+    }
+
+    .related-card {
+      display: grid;
+      min-height: 340px;
+      align-content: end;
+      overflow: hidden;
+      position: relative;
+      color: #fffafb;
+      background: var(--ink);
+    }
+
+    .related-card img {
+      position: absolute;
+      inset: 0;
+      opacity: 0.86;
+      transition: transform 400ms ease;
+    }
+
+    .related-card:hover img { transform: scale(1.05); }
+
+    .related-card::after {
+      content: "";
+      position: absolute;
+      inset: 40% 0 0;
+      background: linear-gradient(0deg, rgba(28, 12, 18, 0.78), transparent);
+    }
+
+    .related-copy {
+      position: relative;
+      z-index: 2;
+      padding: 22px;
+    }
+
+    .related-copy span {
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .related-copy h3 {
+      margin: 8px 0;
+      font-size: 1.6rem;
+    }
+
+    .related-copy p {
+      color: rgba(255, 250, 251, 0.72);
+      font-size: 0.84rem;
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .detail-cta {
+      text-align: center;
+      padding: 72px 24px;
+    }
+
+    .detail-cta h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 18px;
+    }
+
+    .detail-cta p {
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.8;
+      max-width: 560px;
+      margin: 0 auto 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 22px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn.primary {
+      border-color: var(--rose-deep);
+      background: var(--rose-deep);
+      color: #fffafb;
+    }
+
+    .cta-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    .site-footer {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      gap: 28px;
+      padding: 46px 48px;
+      background: var(--ink);
+      color: #fffafb;
+    }
+
+    .site-footer h2 { margin-bottom: 12px; font-size: 2.2rem; }
+    .site-footer h3 {
+      margin-bottom: 12px;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .site-footer p, .site-footer a {
+      color: rgba(255, 250, 251, 0.68);
+      font-size: 0.86rem;
+      line-height: 1.8;
+    }
+
+    .site-footer nav { display: grid; gap: 8px; }
+
+    /* Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 560ms ease, transform 560ms ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .site-header { padding: 0 24px; }
+      .content-grid { grid-template-columns: 1fr; }
+      .content-aside { position: relative; top: auto; }
+      .related-grid { grid-template-columns: repeat(2, 1fr); }
+      .site-footer { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .site-header { min-height: 64px; padding: 0 16px; }
+      .brand { font-size: 1.3rem; }
+      .header-back { font-size: 0.7rem; }
+      .detail-content { padding: 48px 0 64px; }
+      .detail-gallery { grid-template-columns: repeat(2, 1fr); }
+      .related-grid { grid-template-columns: 1fr; }
+      .site-footer { grid-template-columns: 1fr; }
+      .related-section { padding: 56px 16px 72px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="header-back" href="luxury-bags.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      返回首页
+    </a>
+    <a class="brand" href="luxury-bags.html" aria-label="Aurelia Atelier 首页">Aurelia<span>Atelier Firenze</span></a>
+    <div class="header-right"></div>
+  </header>
+
+  <main id="mainContent"></main>
+
+  <footer class="site-footer">
+    <div>
+      <h2>Aurelia Atelier</h2>
+      <p>手工定制包包品牌，源自佛罗伦萨，匠心传承。</p>
+    </div>
+    <div>
+      <h3>定制</h3>
+      <nav>
+        <a href="luxury-bags.html#builder">开始定制</a>
+        <a href="luxury-bags.html#samples">查看样板</a>
+        <a href="bag-detail.html?topic=service-bespoke">定制说明</a>
+      </nav>
+    </div>
+    <div>
+      <h3>工坊</h3>
+      <nav>
+        <a href="luxury-bags.html#craft">意大利手作</a>
+        <a href="bag-detail.html?topic=process-qc">质检标准</a>
+        <a href="luxury-bags.html#shipping">全国发运</a>
+      </nav>
+    </div>
+    <div>
+      <h3>联系</h3>
+      <p>Firenze · Shanghai<br>Made to order in 21-35 days</p>
+    </div>
+  </footer>
+
+  <script>
+    const TOPICS = {
+      /* ── 包型详情 ── */
+      "style-tote": {
+        eyebrow: "Style Guide",
+        title: "Bellina Tote",
+        subtitle: "通勤容量与优雅比例的完美平衡，适合需要携带电脑和日常文件的现代女性。",
+        heroImg: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "Bellina Tote 规格",
+        asideDesc: "意大利全粒面小牛皮，挺括侧身结构，可容纳13寸笔记本电脑。内置磁吸翻盖和拉链内袋。",
+        specs: { "容量": "13寸电脑 + A4文件", "重量": "约 680g", "肩带": "可调节 / 可拆卸", "内袋": "拉链袋 × 1 + 开放袋 × 2", "工期": "28-35 天" },
+        body: "<p>Bellina Tote 是 Aurelia Atelier 最经典的通勤包型。它的设计初衷是让职业女性在保持优雅的同时拥有足够的收纳空间。</p><p>包身采用双层结构，外层为意大利进口全粒面小牛皮，内层为柔软的绒面衬里。侧身使用硬挺的定型材料，确保包包即使在半空状态下也能保持挺括的轮廓。</p><h2>设计细节</h2><p>翻盖采用磁吸开合，单手即可操作。包口设有隐藏式拉链，兼顾安全性和美观。内部空间经过精心规划：一个带拉链的安全袋、两个开放式插袋，以及一个专门为手机设计的窄口袋。</p><ul><li>可拆卸肩带支持手提、肩背和斜挎三种背法</li><li>底部配有四个金属脚钉，保护皮面不被磨损</li><li>五金件采用意大利进口黄铜，表面经过防氧化处理</li><li>边油经过四层打磨，触感光滑且不易开裂</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=style-saddle", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Roma Saddle", desc: "半月翻盖轮廓，线条柔和" },
+          { href: "bag-detail.html?topic=style-baguette", img: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Milano Baguette", desc: "横向比例，肩背轻盈" },
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑，光泽高级" }
+        ]
+      },
+
+      "style-saddle": {
+        eyebrow: "Style Guide",
+        title: "Roma Saddle",
+        subtitle: "半月翻盖轮廓，线条柔和流畅，适合轻晚宴和约会场景。",
+        heroImg: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "Roma Saddle 规格",
+        asideDesc: "灵感源自马术鞍具，半月形翻盖搭配圆润底部，兼具复古与现代感。",
+        specs: { "容量": "手机 + 钱包 + 化妆品", "重量": "约 520g", "肩带": "可调节链条 / 皮带", "开合": "旋转锁扣", "工期": "24-32 天" },
+        body: "<p>Roma Saddle 的设计灵感来自佛罗伦萨传统马术文化。半月形的翻盖线条经过反复调整，最终呈现出既复古又现代的优雅弧度。</p><p>包身采用一体成型工艺，底部的圆润曲线不需要拼接，由工匠在湿润状态下手工塑形。这种工艺要求极高的技巧，每只包需要工匠花费约4小时完成塑形和定型。</p><h2>设计细节</h2><p>翻盖使用旋转锁扣开合，操作优雅且安全性高。链条肩带可以拆卸，方便在手拿包和肩背包之间切换。</p><ul><li>半月形翻盖，弧度经过人体工学优化</li><li>旋转锁扣采用黄铜材质，表面镀香槟金</li><li>内部为全绒面衬里，触感柔软</li><li>可拆卸链条肩带，支持肩背和手拿</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=style-tote", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Bellina Tote", desc: "通勤容量，挺括侧身" },
+          { href: "bag-detail.html?topic=style-bucket", img: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Capri Bucket", desc: "抽绳结构，容量自由" },
+          { href: "bag-detail.html?topic=color-wine", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "石榴酒红", desc: "成熟浓郁，适合晚宴" }
+        ]
+      },
+
+      "style-baguette": {
+        eyebrow: "Style Guide",
+        title: "Milano Baguette",
+        subtitle: "横向比例设计，肩背轻盈，强调五金和皮面的光泽对比。",
+        heroImg: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "Milano Baguette 规格",
+        asideDesc: "灵感源自法式面包包型，横向比例设计，适合肩背和手挽。",
+        specs: { "容量": "手机 + 卡包 + 口红", "重量": "约 380g", "肩带": "短肩带 / 手挽", "开合": "磁吸翻盖", "工期": "21-30 天" },
+        body: "<p>Milano Baguette 的设计语言是「减法美学」。横向比例让包包在视觉上更加轻盈，短肩带设计让它紧贴手臂，营造出优雅的都市女性形象。</p><p>这款包型特别强调五金与皮面的光泽对比。拉链头和扣件都经过抛光处理，在浅色皮面上形成精致的点缀。</p><h2>设计细节</h2><p>翻盖采用磁吸开合，内部空间紧凑但分区合理。虽然体积小巧，但足以容纳日常出行的必需品。</p><ul><li>横向比例设计，视觉上更轻盈</li><li>短肩带适合肩背和手挽</li><li>五金件经过高光抛光处理</li><li>内部设有卡位和唇膏位</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=style-saddle", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Roma Saddle", desc: "半月翻盖轮廓" },
+          { href: "bag-detail.html?topic=style-tote", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Bellina Tote", desc: "通勤容量" },
+          { href: "bag-detail.html?topic=zipper-champagne", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "香槟金黄铜", desc: "温柔光泽" }
+        ]
+      },
+
+      "style-bucket": {
+        eyebrow: "Style Guide",
+        title: "Capri Bucket",
+        subtitle: "抽绳结构设计，容量自由调节，适合旅行和周末出行。",
+        heroImg: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "Capri Bucket 规格",
+        asideDesc: "水桶包型，抽绳收口设计，容量可根据内容物自由调节。",
+        specs: { "容量": "可调节，最大 A4 尺寸", "重量": "约 620g", "肩带": "可调节长肩带", "开合": "抽绳 + 内磁吸", "工期": "28-35 天" },
+        body: "<p>Capri Bucket 的设计灵感来自意大利南部海岸的悠闲生活。水桶包型的经典轮廓搭配抽绳收口，既实用又充满度假气息。</p><p>抽绳采用与包身同色的皮绳，收紧时呈现优雅的褶皱效果。内部配有一个带拉链的内袋，可以安全存放贵重物品。</p><h2>设计细节</h2><p>包底采用加固设计，即使在半空状态下也能保持立体形状。肩带可调节长度，支持肩背和斜挎。</p><ul><li>抽绳收口，容量可自由调节</li><li>底部加固，保持立体轮廓</li><li>内置拉链安全袋</li><li>可调节肩带，支持多种背法</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=style-tote", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Bellina Tote", desc: "通勤容量" },
+          { href: "bag-detail.html?topic=leather-veg", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "植鞣马鞍皮", desc: "会随时间变深" },
+          { href: "bag-detail.html?topic=color-cacao", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "可可棕", desc: "复古耐看" }
+        ]
+      },
+
+      /* ── 颜色详情 ── */
+      "color-blush": {
+        eyebrow: "Color Palette",
+        title: "浅玫瑰粉",
+        subtitle: "柔和、显贵，是 Aurelia Atelier 最具代表性的品牌色。适合婚礼、通勤和礼赠场景。",
+        heroImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "色彩参数",
+        asideDesc: "浅玫瑰粉是一种低饱和度的暖粉色，灵感来自清晨的佛罗伦萨玫瑰园。",
+        specs: { "色号": "#E8B7C3", "色调": "暖粉 / 低饱和", "搭配推荐": "香槟金五金", "适合季节": "四季皆宜", "价格": "基础色" },
+        body: "<p>浅玫瑰粉是 Aurelia Atelier 的标志性色彩。它不同于常见的少女粉——我们在其中加入了一丝灰调，让它呈现出更加成熟和高级的质感。</p><p>这个颜色的灵感来自佛罗伦萨波波利花园中清晨绽放的大马士革玫瑰。花瓣在晨光中呈现出的那种柔和、温暖又不失优雅的粉色调，正是我们想要捕捉的。</p><h2>色彩搭配建议</h2><p>浅玫瑰粉与香槟金五金的搭配是我们的经典组合。金色的温暖光泽与粉色的柔和质感相得益彰，营造出低调奢华的视觉效果。</p><ul><li>最佳五金搭配：香槟金黄铜</li><li>推荐皮料：全粒面小牛皮（光泽感最佳）</li><li>适用场景：婚礼、通勤、下午茶、礼赠</li><li>养护提示：避免长时间阳光直射，定期使用专用护理油</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=color-pearl", img: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "珍珠米粉", desc: "更安静的浅色" },
+          { href: "bag-detail.html?topic=zipper-champagne", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "香槟金黄铜", desc: "温柔光泽" },
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑" }
+        ]
+      },
+
+      "color-pearl": {
+        eyebrow: "Color Palette",
+        title: "珍珠米粉",
+        subtitle: "比浅玫瑰粉更安静的浅色系，与金色五金搭配格外干净纯粹。",
+        heroImg: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "色彩参数",
+        asideDesc: "珍珠米粉是一种带有微妙珍珠光泽的暖米色，适合追求极简美学的客户。",
+        specs: { "色号": "#F3E2DA", "色调": "暖米 / 珠光", "搭配推荐": "香槟金 / 钯银", "适合季节": "春夏季", "价格": "基础色 + ¥800" },
+        body: "<p>珍珠米粉是一种非常微妙的色彩——它既不是纯粹的米色，也不是传统意义上的粉色，而是介于两者之间的一种温暖、柔和的中间色调。</p><p>在不同光线下，珍珠米粉会呈现出微妙的色彩变化：室内暖光下偏粉，自然光线下偏米，这种特质让它成为最百搭的颜色之一。</p><h2>色彩搭配建议</h2><p>珍珠米粉与香槟金和钯银五金都能完美搭配。与金色搭配更温暖，与银色搭配更现代。</p><ul><li>最佳五金搭配：香槟金（温暖）或钯银（现代）</li><li>推荐皮料：全粒面小牛皮或荔枝纹小牛皮</li><li>适用场景：日常通勤、约会、婚礼、极简风格搭配</li><li>养护提示：浅色皮面需要更频繁的清洁，建议每月护理一次</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=color-blush", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "浅玫瑰粉", desc: "品牌标志性色彩" },
+          { href: "bag-detail.html?topic=zipper-palladium", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "钯银拉链", desc: "冷调干净" },
+          { href: "bag-detail.html?topic=style-baguette", img: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Milano Baguette", desc: "横向比例" }
+        ]
+      },
+
+      "color-wine": {
+        eyebrow: "Color Palette",
+        title: "石榴酒红",
+        subtitle: "成熟浓郁的深红色调，适合晚宴和秋冬造型，彰显自信与力量。",
+        heroImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "色彩参数",
+        asideDesc: "石榴酒红是一种深沉而富有层次的红色，灵感来自托斯卡纳的红酒文化。",
+        specs: { "色号": "#8D3150", "色调": "深酒红 / 暖调", "搭配推荐": "黑镍 / 香槟金", "适合季节": "秋冬季", "价格": "基础色 + ¥1,200" },
+        body: "<p>石榴酒红是 Aurelia Atelier 最具戏剧性的色彩。它的灵感来自托斯卡纳基安蒂产区的陈年红酒——那种深沉、浓郁、带有紫色光泽的红色。</p><p>这个颜色在浅色皮面上呈现出丰富的层次感：边缘偏深、中心偏亮，随着使用时间的推移会变得更加温润。</p><h2>色彩搭配建议</h2><p>石榴酒红与黑镍五金的搭配最为经典，营造出酷感十足的现代风格。与香槟金搭配则更加温暖复古。</p><ul><li>最佳五金搭配：黑镍（现代）或香槟金（复古）</li><li>推荐皮料：全粒面小牛皮（光泽感最佳）</li><li>适用场景：晚宴、秋冬造型、正式场合</li><li>养护提示：深色皮面需要防止色移，避免与浅色衣物长时间接触</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=color-cacao", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "可可棕", desc: "复古耐看" },
+          { href: "bag-detail.html?topic=zipper-gunmetal", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "黑镍拉链", desc: "酷感深色细节" },
+          { href: "bag-detail.html?topic=style-saddle", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Roma Saddle", desc: "半月翻盖" }
+        ]
+      },
+
+      "color-cacao": {
+        eyebrow: "Color Palette",
+        title: "可可棕",
+        subtitle: "复古耐看的大地色调，适合植鞣皮与旅行包型，越用越有味道。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "色彩参数",
+        asideDesc: "可可棕是一种温暖的中性棕色，灵感来自晒干的可可豆和佛罗伦萨老城的赭石墙面。",
+        specs: { "色号": "#6B4A3D", "色调": "暖棕 / 大地色", "搭配推荐": "香槟金 / 皮拉片", "适合季节": "四季皆宜", "价格": "基础色 + ¥1,000" },
+        body: "<p>可可棕是 Aurelia Atelier 最适合日常使用的颜色。它的灵感来自两个来源：晒干的可可豆的深棕色，以及佛罗伦萨老城建筑上那种温暖的赭石色调。</p><p>这个颜色与植鞣皮的搭配堪称完美——植鞣皮会随着时间的推移逐渐变深，与可可棕的底色形成自然的渐变效果，让每只包都成为独一无二的作品。</p><h2>色彩搭配建议</h2><p>可可棕与香槟金五金的搭配温暖而经典。与手缝皮拉片的组合则更加手工质朴，适合追求自然风格的客户。</p><ul><li>最佳五金搭配：香槟金（经典）或手缝皮拉片（自然）</li><li>推荐皮料：植鞣马鞍皮（会随时间变深）</li><li>适用场景：日常通勤、旅行、周末出行</li><li>养护提示：植鞣皮需要定期上油保养，避免长时间浸水</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=color-wine", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "石榴酒红", desc: "成熟浓郁" },
+          { href: "bag-detail.html?topic=leather-veg", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "植鞣马鞍皮", desc: "会随时间变深" },
+          { href: "bag-detail.html?topic=style-bucket", img: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Capri Bucket", desc: "抽绳结构" }
+        ]
+      },
+
+      /* ── 五金详情 ── */
+      "zipper-champagne": {
+        eyebrow: "Hardware",
+        title: "香槟金黄铜",
+        subtitle: "温柔的金色光泽，最适合浅粉色和米色皮料，是 Aurelia Atelier 的经典五金选择。",
+        heroImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "五金规格",
+        asideDesc: "意大利进口黄铜材质，表面经过多层电镀和抛光处理，呈现出温暖的香槟金色泽。",
+        specs: { "材质": "意大利黄铜", "表面处理": "多层电镀抛光", "色号": "#C29A63", "耐久度": "防氧化处理", "价格": "¥1,200" },
+        body: "<p>香槟金黄铜是 Aurelia Atelier 使用最多的五金材质。它的颜色介于黄金和玫瑰金之间，呈现出一种温暖、柔和、不张扬的金色光泽。</p><p>所有五金件都在意大利瓦伦扎的工坊中制作，经过多层电镀和抛光处理。每一层电镀都经过严格的质量控制，确保五金件在长期使用后仍能保持原有的光泽。</p><h2>工艺细节</h2><p>五金件的制作需要经过12道工序：铸造、打磨、抛光、清洗、底镀、面镀、再抛光、防氧化处理等。每道工序都有专人负责质量检查。</p><ul><li>意大利瓦伦扎工坊制作</li><li>12道工序，每道都有质检</li><li>防氧化处理，适合日常使用</li><li>与浅色皮料搭配效果最佳</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=zipper-palladium", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "钯银拉链", desc: "冷调干净" },
+          { href: "bag-detail.html?topic=color-blush", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "浅玫瑰粉", desc: "品牌标志性色彩" },
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑" }
+        ]
+      },
+
+      "zipper-palladium": {
+        eyebrow: "Hardware",
+        title: "钯银拉链",
+        subtitle: "冷调、干净的银色光泽，适合现代通勤包和极简风格设计。",
+        heroImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "五金规格",
+        asideDesc: "钯金电镀工艺，呈现出冷调的银白色光泽，适合追求现代感的客户。",
+        specs: { "材质": "黄铜 + 钯金电镀", "表面处理": "镜面抛光", "色号": "#CFD2D3", "耐久度": "高耐腐蚀", "价格": "¥1,500" },
+        body: "<p>钯银拉链是 Aurelia Atelier 为追求现代感的客户准备的选择。钯金是一种贵金属，比银更耐氧化，呈现出冷调的银白色光泽。</p><p>与传统的银色五金不同，钯银的光泽更加内敛，不会过于闪亮，与浅色皮料搭配时能营造出干净、利落的视觉效果。</p><h2>工艺细节</h2><p>钯银五金采用黄铜基底，表面经过钯金电镀处理。电镀层的厚度经过精确控制，确保在长期使用后仍能保持原有的色泽。</p><ul><li>钯金电镀，比银更耐氧化</li><li>镜面抛光，光泽内敛不张扬</li><li>适合现代极简风格</li><li>与珍珠米粉和浅灰色皮料搭配最佳</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=zipper-champagne", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "香槟金黄铜", desc: "温柔光泽" },
+          { href: "bag-detail.html?topic=color-pearl", img: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "珍珠米粉", desc: "更安静的浅色" },
+          { href: "bag-detail.html?topic=style-baguette", img: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Milano Baguette", desc: "横向比例" }
+        ]
+      },
+
+      "zipper-gunmetal": {
+        eyebrow: "Hardware",
+        title: "黑镍拉链",
+        subtitle: "酷感十足的深色五金，适合酒红和黑色风格，彰显现代个性。",
+        heroImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "五金规格",
+        asideDesc: "黑镍电镀工艺，呈现出深沉的枪灰色光泽，适合打造酷感十足的造型。",
+        specs: { "材质": "黄铜 + 黑镍电镀", "表面处理": "哑光处理", "色号": "#3B3A3B", "耐久度": "高耐磨", "价格": "¥1,100" },
+        body: "<p>黑镍拉链是 Aurelia Atelier 最具个性的五金选择。黑镍电镀工艺让五金件呈现出深沉的枪灰色光泽，与深色皮料搭配时能营造出强烈的视觉对比。</p><p>哑光处理让黑镍五金不会过于闪亮，而是呈现出一种低调的质感。这种处理方式也使得五金件更耐指纹和划痕。</p><h2>工艺细节</h2><p>黑镍五金采用黄铜基底，表面经过黑镍电镀和哑光处理。电镀层的厚度和哑光度都经过精确控制。</p><ul><li>黑镍电镀，深沉枪灰色</li><li>哑光处理，耐指纹和划痕</li><li>适合酷感风格和深色皮料</li><li>与石榴酒红和黑色皮料搭配最佳</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=zipper-champagne", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "香槟金黄铜", desc: "温柔光泽" },
+          { href: "bag-detail.html?topic=color-wine", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "石榴酒红", desc: "成熟浓郁" },
+          { href: "bag-detail.html?topic=style-saddle", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Roma Saddle", desc: "半月翻盖" }
+        ]
+      },
+
+      "zipper-leather": {
+        eyebrow: "Hardware",
+        title: "手缝皮拉片",
+        subtitle: "减少金属露出，让包包更手工、更柔和，适合追求自然风格的客户。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "拉片规格",
+        asideDesc: "手工缝制的皮质拉片，替代传统金属拉链头，让包包更加手工质朴。",
+        specs: { "材质": "与包身同款皮料", "工艺": "手工缝制", "颜色": "与包身一致", "特点": "减少金属露出", "价格": "¥1,800" },
+        body: "<p>手缝皮拉片是 Aurelia Atelier 最具手工感的五金替代方案。它用与包身相同的皮料制作拉片，替代传统的金属拉链头，让包包看起来更加手工质朴。</p><p>每个皮拉片都由工匠手工缝制，针脚均匀、结实。拉片的形状经过精心设计，既方便拉合，又不会显得笨重。</p><h2>工艺细节</h2><p>皮拉片的制作需要额外的手工时间。工匠需要先裁切皮料，然后手工缝制到拉链头上。每只包的拉片都需要与包身皮料完美匹配。</p><ul><li>与包身同款皮料，颜色一致</li><li>手工缝制，针脚均匀</li><li>减少金属露出，更柔和</li><li>适合自然风格和复古包型</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=zipper-champagne", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "香槟金黄铜", desc: "温柔光泽" },
+          { href: "bag-detail.html?topic=leather-veg", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "植鞣马鞍皮", desc: "会随时间变深" },
+          { href: "bag-detail.html?topic=style-bucket", img: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Capri Bucket", desc: "抽绳结构" }
+        ]
+      },
+
+      /* ── 皮料详情 ── */
+      "leather-fullgrain": {
+        eyebrow: "Material",
+        title: "全粒面小牛皮",
+        subtitle: "意大利进口，细腻平滑，光泽高级，是 Aurelia Atelier 最常用的皮料。",
+        heroImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "皮料参数",
+        asideDesc: "来自意大利托斯卡纳地区的全粒面小牛皮，保留了天然的毛孔和纹理。",
+        specs: { "产地": "意大利托斯卡纳", "厚度": "0.8-1.0mm", "特点": "细腻平滑", "适用": "所有包型", "价格": "¥7,600" },
+        body: "<p>全粒面小牛皮是 Aurelia Atelier 使用最多的皮料。它来自意大利托斯卡纳地区的制革厂，采用传统的植物鞣制工艺，保留了皮革天然的毛孔和纹理。</p><p>「全粒面」意味着皮革表面没有经过打磨或压花处理，完全保留了原始的皮面质感。这种皮料的光泽是自然形成的，随着使用时间的推移会变得更加温润。</p><h2>皮料特性</h2><p>全粒面小牛皮的最大特点是细腻和平滑。它的毛孔非常细小，肉眼几乎不可见，触感如同婴儿的肌肤。</p><ul><li>意大利托斯卡纳地区进口</li><li>传统植物鞣制工艺</li><li>保留天然毛孔和纹理</li><li>光泽会随时间变得更加温润</li><li>适合所有包型，尤其是浅色定制</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=leather-pebbled", img: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "荔枝纹小牛皮", desc: "更耐划" },
+          { href: "bag-detail.html?topic=color-blush", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "浅玫瑰粉", desc: "品牌标志性色彩" },
+          { href: "bag-detail.html?topic=zipper-champagne", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "香槟金黄铜", desc: "温柔光泽" }
+        ]
+      },
+
+      "leather-pebbled": {
+        eyebrow: "Material",
+        title: "荔枝纹小牛皮",
+        subtitle: "颗粒纹理明显，更耐划，日常使用友好，适合需要耐用性的客户。",
+        heroImg: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "皮料参数",
+        asideDesc: "经过压花处理的小牛皮，表面呈现出均匀的颗粒纹理，更耐日常磨损。",
+        specs: { "产地": "意大利", "厚度": "0.9-1.1mm", "特点": "颗粒纹理", "适用": "所有包型", "价格": "¥6,800" },
+        body: "<p>荔枝纹小牛皮是经过压花处理的皮革，表面呈现出均匀的颗粒纹理。这种纹理不仅美观，还具有很强的实用性——它能有效隐藏日常使用中的细小划痕。</p><p>与全粒面皮相比，荔枝纹皮的维护更加简单。即使不小心留下划痕，颗粒纹理也能很好地掩盖，让包包始终保持良好的外观。</p><h2>皮料特性</h2><p>荔枝纹的颗粒大小经过精心设计，既不会太大显得粗糙，也不会太小失去纹理效果。</p><ul><li>压花工艺，颗粒均匀</li><li>更耐日常磨损和划痕</li><li>维护简单，适合日常使用</li><li>适合所有包型，尤其是通勤包</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑" },
+          { href: "bag-detail.html?topic=style-tote", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Bellina Tote", desc: "通勤容量" },
+          { href: "bag-detail.html?topic=color-pearl", img: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "珍珠米粉", desc: "更安静的浅色" }
+        ]
+      },
+
+      "leather-veg": {
+        eyebrow: "Material",
+        title: "植鞣马鞍皮",
+        subtitle: "会随时间变深，越用越有味道，适合复古和旅行款包型。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "皮料参数",
+        asideDesc: "传统植物鞣制工艺，不使用化学铬盐，皮革会随着时间自然变深变润。",
+        specs: { "产地": "意大利托斯卡纳", "厚度": "1.2-1.4mm", "特点": "会变色", "适用": "旅行包 / 复古款", "价格": "¥8,200" },
+        body: "<p>植鞣马鞍皮是 Aurelia Atelier 最具「生命力」的皮料。它采用传统的植物鞣制工艺，使用树皮、果实等天然材料进行鞣制，完全不使用化学铬盐。</p><p>这种皮料最大的特点是会随着时间的推移自然变深。新皮时是浅米色，经过阳光、油脂和使用，会逐渐变成深棕色，每只包都会形成独一无二的色泽。</p><h2>皮料特性</h2><p>植鞣皮的厚度和硬度都比普通皮革更高，非常适合制作需要保持形状的包型。</p><ul><li>传统植物鞣制，天然环保</li><li>会随时间自然变深变润</li><li>厚度和硬度较高，保持形状</li><li>适合旅行包和复古包型</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑" },
+          { href: "bag-detail.html?topic=color-cacao", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "可可棕", desc: "复古耐看" },
+          { href: "bag-detail.html?topic=style-bucket", img: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Capri Bucket", desc: "抽绳结构" }
+        ]
+      },
+
+      "leather-suede": {
+        eyebrow: "Material",
+        title: "绒面拼皮",
+        subtitle: "触感柔软细腻，适合晚宴包与内衬细节，增添奢华质感。",
+        heroImg: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "皮料参数",
+        asideDesc: "经过特殊处理的绒面皮革，触感如天鹅绒般柔软，常用于包身拼接和内衬。",
+        specs: { "产地": "意大利", "厚度": "0.6-0.8mm", "特点": "触感柔软", "适用": "晚宴包 / 内衬", "价格": "¥7,200" },
+        body: "<p>绒面皮是经过打磨处理的皮革表面，呈现出细腻的绒毛质感，触感如同天鹅绒般柔软。在 Aurelia Atelier，绒面皮主要用于包身的拼接设计和内衬。</p><p>绒面皮的视觉效果非常独特——它不反光，而是呈现出一种柔和的哑光质感，与光面皮料形成有趣的对比。</p><h2>皮料特性</h2><p>绒面皮需要特殊的养护方式，避免接触水分和油污。</p><ul><li>打磨工艺，触感如天鹅绒</li><li>哑光质感，不反光</li><li>适合拼接设计和内衬</li><li>需要特殊养护，避免水分</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑" },
+          { href: "bag-detail.html?topic=color-wine", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Color", title: "石榴酒红", desc: "成熟浓郁" },
+          { href: "bag-detail.html?topic=style-saddle", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=84", tag: "Style", title: "Roma Saddle", desc: "半月翻盖" }
+        ]
+      },
+
+      /* ── 工艺流程 ── */
+      "process-pattern": {
+        eyebrow: "Craft Process",
+        title: "版型确认",
+        subtitle: "根据客户的 DIY 选择，生成精确的纸样和工艺文件。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "版型工艺",
+        asideDesc: "每位客户的定制方案都会生成专属的版型文件，确保每个细节都符合设计要求。",
+        specs: { "耗时": "2-3 天", "工具": "CAD + 手工纸样", "输出": "纸样 + 工艺单", "校验": "双重审核", "精度": "±0.5mm" },
+        body: "<p>版型确认是定制流程的第一步，也是最关键的一步。根据客户在 DIY 设计台上选择的包型、颜色、五金和皮料，我们的版型师会生成专属的纸样和工艺文件。</p><p>每个纸样都需要考虑皮料的纹理方向、五金件的位置、拉链的长度和内袋的结构。版型师会根据皮料的特性进行微调，确保最终成品与设计完全一致。</p><h2>版型细节</h2><p>纸样生成后需要经过双重审核：首先是版型师自检，然后由工坊主管进行复核。</p><ul><li>CAD 软件生成初始纸样</li><li>手工微调关键部位</li><li>标注皮料纹理方向</li><li>五金件定位和拉链长度</li><li>双重审核确保精度</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-cutting", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "裁皮与配色", desc: "按皮面纹理避开瑕疵" },
+          { href: "bag-detail.html?topic=process-stitch", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "手缝与封边", desc: "受力位手缝加固" },
+          { href: "bag-detail.html?topic=service-bespoke", img: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=900&q=84", tag: "Service", title: "定制服务", desc: "从 DIY 到成品" }
+        ]
+      },
+
+      "process-cutting": {
+        eyebrow: "Craft Process",
+        title: "裁皮与配色",
+        subtitle: "按皮面纹理避开天然瑕疵，保证翻盖、侧身和把手色差一致。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "裁皮工艺",
+        asideDesc: "经验丰富的裁皮师会根据皮面的纹理和瑕疵位置，选择最佳的裁切方案。",
+        specs: { "耗时": "3-4 小时", "工具": "手工裁刀", "标准": "零瑕疵可见面", "配色": "同色差 ≤ 5%", "废料率": "约 35%" },
+        body: "<p>裁皮是整个制作流程中最需要经验的环节。每张皮革都有天然的纹理差异和微小瑕疵，裁皮师需要根据这些特征选择最佳的裁切方案。</p><p>裁皮师会先仔细检查整张皮料，标记出瑕疵位置，然后规划裁切方案。目标是让包包的可见面完全没有瑕疵，同时保证各个部件之间的色差控制在 5% 以内。</p><h2>裁皮细节</h2><p>由于需要避开瑕疵并保证配色一致，裁皮的废料率通常在 35% 左右。这也是定制包价格较高的原因之一。</p><ul><li>手工裁切，非机器冲压</li><li>按纹理方向裁切</li><li>避开天然瑕疵</li><li>保证各部件色差 ≤ 5%</li><li>废料率约 35%</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-pattern", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "版型确认", desc: "生成专属纸样" },
+          { href: "bag-detail.html?topic=process-stitch", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "手缝与封边", desc: "受力位手缝加固" },
+          { href: "bag-detail.html?topic=leather-fullgrain", img: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=900&q=84", tag: "Material", title: "全粒面小牛皮", desc: "细腻平滑" }
+        ]
+      },
+
+      "process-stitch": {
+        eyebrow: "Craft Process",
+        title: "手缝与封边",
+        subtitle: "受力位手缝加固，边油分层打磨，让包口和肩带边缘更精致。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "缝制工艺",
+        asideDesc: "关键受力部位采用手工缝制，使用蜡线和菱斩，确保结实耐用。",
+        specs: { "耗时": "6-8 小时", "工具": "菱斩 + 蜡线", "针距": "3.5mm 等距", "封边": "四层打磨", "标准": "无跳针断线" },
+        body: "<p>手缝是 Aurelia Atelier 最引以为傲的工艺。与机器缝制不同，手工缝制使用菱斩打孔，然后用两根针交叉缝制，形成牢固的马鞍缝法。</p><p>关键受力部位——如肩带连接处、拉链两端、翻盖转角——都采用手工缝制。这些部位承受的拉力最大，手工缝制的强度远高于机器缝制。</p><h2>缝制细节</h2><p>封边同样重要。边油需要分层涂抹和打磨，通常需要四层处理才能达到光滑如镜的效果。</p><ul><li>菱斩打孔，3.5mm 等距</li><li>蜡线马鞍缝法，双针交叉</li><li>受力位全部手缝加固</li><li>边油四层打磨，光滑如镜</li><li>无跳针、断线标准</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-cutting", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "裁皮与配色", desc: "按皮面纹理裁切" },
+          { href: "bag-detail.html?topic=process-qc", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "质检入盒", desc: "检查五金和线迹" },
+          { href: "bag-detail.html?topic=zipper-leather", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Hardware", title: "手缝皮拉片", desc: "手工缝制" }
+        ]
+      },
+
+      "process-qc": {
+        eyebrow: "Craft Process",
+        title: "质检入盒",
+        subtitle: "检查五金开合、线迹间距、边油平整度和包身站立角度。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "质检标准",
+        asideDesc: "每只包都需要通过 28 项质量检查，任何一项不合格都会返工。",
+        specs: { "检查项": "28 项", "耗时": "1-2 小时", "标准": "零缺陷出厂", "文件": "质检单 + 签名", "包装": "定制礼盒" },
+        body: "<p>质检是 Aurelia Atelier 对品质的最后把关。每只包在出厂前都需要通过 28 项质量检查，任何一项不合格都会返回工匠手中返工。</p><p>质检内容涵盖五金开合顺畅度、线迹间距均匀度、边油平整度、包身站立角度、内衬贴合度等。质检师会使用专业工具进行测量，确保每个细节都符合标准。</p><h2>质检细节</h2><p>通过质检的包包会附带一张质检单，上面有质检师和工匠的签名，以及包包的定制编号。</p><ul><li>28 项质量检查</li><li>五金开合测试</li><li>线迹间距测量</li><li>边油平整度检查</li><li>包身站立角度测试</li><li>附带签名质检单</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-stitch", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "手缝与封边", desc: "受力位手缝加固" },
+          { href: "bag-detail.html?topic=process-shipping", img: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "发运流程", desc: "从佛罗伦萨到全国" },
+          { href: "bag-detail.html?topic=service-bespoke", img: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=900&q=84", tag: "Service", title: "定制服务", desc: "从 DIY 到成品" }
+        ]
+      },
+
+      "process-video": {
+        eyebrow: "Craft Process",
+        title: "意大利工坊视频",
+        subtitle: "观看佛罗伦萨工坊的手作过程，感受匠心传承。",
+        heroImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "工坊信息",
+        asideDesc: "位于佛罗伦萨郊外的传统皮革工坊，三代传承的手工艺技术。",
+        specs: { "位置": "佛罗伦萨, 意大利", "传承": "三代工匠", "面积": "约 800㎡", "工匠": "12 位", "历史": "始于 1968 年" },
+        body: "<p>观看我们的工坊视频，了解每只 Aurelia Atelier 包包的诞生过程。从选皮、裁切、缝制到质检，每一步都凝聚着工匠的心血。</p><p>我们的工坊位于佛罗伦萨郊外，由 Ferraro 家族创立于 1968 年。三代人传承的不仅是技术，更是对皮革工艺的热爱和执着。</p><h2>视频内容</h2><p>视频记录了从皮料选择到成品包装的完整流程，您可以看到工匠们如何用双手将一张皮革变成一件精美的艺术品。</p><ul><li>皮料选择和检查</li><li>手工裁切和配色</li><li>菱斩打孔和手缝</li><li>五金安装和调试</li><li>封边打磨和质检</li><li>包装和签名</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-pattern", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "版型确认", desc: "生成专属纸样" },
+          { href: "bag-detail.html?topic=process-stitch", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "手缝与封边", desc: "受力位手缝加固" },
+          { href: "bag-detail.html?topic=service-bespoke", img: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=900&q=84", tag: "Service", title: "定制服务", desc: "从 DIY 到成品" }
+        ]
+      },
+
+      "process-shipping": {
+        eyebrow: "Craft Process",
+        title: "从佛罗伦萨到全国",
+        subtitle: "定制包完成后从意大利工坊出库，经过国际运输、清关、质检，发往全国。",
+        heroImg: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "发运信息",
+        asideDesc: "全程保价运输，关键节点同步通知客户，确保包包安全送达。",
+        specs: { "运输": "国际空运 + 国内顺丰", "时间": "7-12 天", "包装": "防潮 + 硬盒", "保价": "全额保价", "覆盖": "全国主要城市" },
+        body: "<p>定制包完成后，会从佛罗伦萨工坊出库，进入国际运输环节。我们使用专业的奢侈品物流公司，全程防潮包装和硬盒保护。</p><p>到达国内后，包包会先经过国内仓的复检，确认五金、边油、外盒和随包文件都完好无损。然后通过顺丰保价发运，送达全国主要城市。</p><h2>发运流程</h2><p>在运输的每个关键节点，我们都会同步通知客户，让客户随时了解包包的位置和状态。</p><ul><li>佛罗伦萨工坊出库</li><li>国际空运，防潮包装</li><li>国内仓复检</li><li>顺丰保价发运</li><li>覆盖北京、上海、广州、深圳、成都、杭州等城市</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-qc", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "质检入盒", desc: "28 项质量检查" },
+          { href: "bag-detail.html?topic=service-bespoke", img: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=900&q=84", tag: "Service", title: "定制服务", desc: "从 DIY 到成品" },
+          { href: "luxury-bags.html#shipping", img: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=900&q=84", tag: "Info", title: "发运说明", desc: "查看完整发运流程" }
+        ]
+      },
+
+      /* ── 样板展示 ── */
+      "sample-studio": {
+        eyebrow: "Sample Design",
+        title: "粉色通勤托特",
+        subtitle: "全粒面小牛皮、香槟金拉链、电脑夹层，为现代职业女性设计。",
+        heroImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "样板配置",
+        asideDesc: "这是我们最受欢迎的样板之一，适合需要携带电脑通勤的现代女性。",
+        specs: { "包型": "Bellina Tote", "颜色": "浅玫瑰粉", "五金": "香槟金黄铜", "皮料": "全粒面小牛皮", "价格": "¥36,800" },
+        body: "<p>粉色通勤托特是 Aurelia Atelier 最经典的样板设计。它将品牌标志性的浅玫瑰粉与通勤包的实用性完美结合。</p><p>这个样板采用 Bellina Tote 包型，容量足以容纳 13 寸笔记本电脑和 A4 文件。全粒面小牛皮的光泽与香槟金五金的温暖色调相得益彰。</p><h2>设计亮点</h2><p>浅玫瑰粉是我们的品牌色，它不同于常见的少女粉——加入了一丝灰调，呈现出更加成熟和高级的质感。</p><ul><li>品牌标志性浅玫瑰粉</li><li>香槟金五金，温暖光泽</li><li>全粒面小牛皮，细腻平滑</li><li>内置电脑夹层和文件袋</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=sample-evening", img: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "酒红晚宴包", desc: "钯银扣具、绒面内衬" },
+          { href: "bag-detail.html?topic=sample-travel", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "可可旅行水桶", desc: "植鞣皮底座" },
+          { href: "luxury-bags.html?style=tote&color=blush&zipper=champagne&leather=fullgrain#builder", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=900&q=84", tag: "DIY", title: "开始定制", desc: "以此为基础定制" }
+        ]
+      },
+
+      "sample-evening": {
+        eyebrow: "Sample Design",
+        title: "酒红晚宴包",
+        subtitle: "钯银扣具、绒面内衬、可拆链条，为重要场合打造。",
+        heroImg: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "样板配置",
+        asideDesc: "专为晚宴和正式场合设计，酒红色调搭配钯银五金，优雅而有力量。",
+        specs: { "包型": "Roma Saddle", "颜色": "石榴酒红", "五金": "钯银", "皮料": "全粒面小牛皮", "价格": "¥38,200" },
+        body: "<p>酒红晚宴包是 Aurelia Atelier 为重要场合设计的样板。石榴酒红的深沉色调搭配钯银五金的冷调光泽，营造出优雅而有力量的视觉效果。</p><p>这个样板采用 Roma Saddle 包型，半月翻盖的设计非常适合晚宴场景。可拆链条让包包可以肩背或手拿，适应不同的场合需求。</p><h2>设计亮点</h2><p>石榴酒红是托斯卡纳红酒文化与皮革工艺的完美结合，每个角度都呈现出不同的光泽层次。</p><ul><li>石榴酒红，深沉而有层次</li><li>钯银五金，冷调光泽</li><li>绒面内衬，触感柔软</li><li>可拆链条，肩背或手拿</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=sample-studio", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "粉色通勤托特", desc: "全粒面小牛皮" },
+          { href: "bag-detail.html?topic=sample-gift", img: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "珍珠米粉礼赠款", desc: "姓名缩写烫印" },
+          { href: "luxury-bags.html?style=saddle&color=wine&zipper=palladium&leather=fullgrain#builder", img: "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?auto=format&fit=crop&w=900&q=84", tag: "DIY", title: "开始定制", desc: "以此为基础定制" }
+        ]
+      },
+
+      "sample-travel": {
+        eyebrow: "Sample Design",
+        title: "可可旅行水桶",
+        subtitle: "植鞣皮底座、皮拉片、可调节肩带，为旅行和周末出行设计。",
+        heroImg: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "样板配置",
+        asideDesc: "为旅行和周末出行设计的实用样板，植鞣皮会随使用时间变得更加温润。",
+        specs: { "包型": "Capri Bucket", "颜色": "可可棕", "五金": "手缝皮拉片", "皮料": "植鞣马鞍皮", "价格": "¥38,600" },
+        body: "<p>可可旅行水桶是 Aurelia Atelier 为旅行爱好者设计的样板。可可棕的大地色调搭配植鞣马鞍皮，呈现出复古而实用的风格。</p><p>这个样板采用 Capri Bucket 包型，抽绳收口设计让容量可以自由调节。手缝皮拉片替代传统金属拉链头，让包包更加手工质朴。</p><h2>设计亮点</h2><p>植鞣马鞍皮会随着时间的推移自然变深，每只包都会形成独一无二的色泽，成为旅行故事的一部分。</p><ul><li>可可棕，复古耐看</li><li>植鞣马鞍皮，会随时间变深</li><li>手缝皮拉片，手工质朴</li><li>抽绳收口，容量自由调节</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=sample-studio", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "粉色通勤托特", desc: "全粒面小牛皮" },
+          { href: "bag-detail.html?topic=sample-evening", img: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "酒红晚宴包", desc: "钯银扣具" },
+          { href: "luxury-bags.html?style=bucket&color=cacao&zipper=leather&leather=veg#builder", img: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=900&q=84", tag: "DIY", title: "开始定制", desc: "以此为基础定制" }
+        ]
+      },
+
+      "sample-gift": {
+        eyebrow: "Sample Design",
+        title: "珍珠米粉礼赠款",
+        subtitle: "姓名缩写烫印、礼盒包装、手写卡片，为特别的人准备。",
+        heroImg: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "样板配置",
+        asideDesc: "专为礼赠设计的样板，支持姓名缩写烫印和定制礼盒包装。",
+        specs: { "包型": "Milano Baguette", "颜色": "珍珠米粉", "五金": "香槟金黄铜", "皮料": "全粒面小牛皮", "价格": "¥35,600" },
+        body: "<p>珍珠米粉礼赠款是 Aurelia Atelier 为特别时刻准备的样板。珍珠米粉的柔和色调搭配香槟金五金，营造出温暖而精致的礼物氛围。</p><p>这个样板采用 Milano Baguette 包型，小巧轻盈，适合日常使用。支持姓名缩写烫印服务，让礼物更加个性化。</p><h2>设计亮点</h2><p>礼赠款附带定制礼盒和手写卡片，让收礼者感受到满满的心意。</p><ul><li>珍珠米粉，温暖柔和</li><li>香槟金五金，精致点缀</li><li>支持姓名缩写烫印</li><li>附带定制礼盒和手写卡片</li></ul>",
+        gallery: [
+          "https://images.unsplash.com/photo-1594223274512-ad4803739b7c?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=sample-studio", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "粉色通勤托特", desc: "全粒面小牛皮" },
+          { href: "bag-detail.html?topic=sample-travel", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=84", tag: "Sample", title: "可可旅行水桶", desc: "植鞣皮底座" },
+          { href: "luxury-bags.html?style=baguette&color=pearl&zipper=champagne&leather=fullgrain#builder", img: "https://images.unsplash.com/photo-1605733513597-a8f8341084e6?auto=format&fit=crop&w=900&q=84", tag: "DIY", title: "开始定制", desc: "以此为基础定制" }
+        ]
+      },
+
+      /* ── 服务说明 ── */
+      "service-bespoke": {
+        eyebrow: "Bespoke Service",
+        title: "Aurelia 定制服务",
+        subtitle: "从线上 DIY 设计到佛罗伦萨工坊手作，全程专属定制体验。",
+        heroImg: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=2200&q=88",
+        asideImg: "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=1200&q=84",
+        asideTitle: "定制流程",
+        asideDesc: "我们的定制服务分为四个阶段，每个阶段都有专人跟进。",
+        specs: { "阶段": "4 个", "工期": "21-35 天", "沟通": "1 对 1 顾问", "定金": "50%", "修改": "免费 2 次" },
+        body: "<p>Aurelia Atelier 的定制服务是一种全新的奢侈品体验。我们相信，真正的奢华不是被动接受，而是主动创造。</p><p>通过我们的线上 DIY 设计台，您可以自由选择包型、颜色、五金和皮料，实时预览设计效果。确认后，您的设计方案会进入佛罗伦萨工坊，由经验丰富的工匠手工制作。</p><h2>定制流程</h2><p>我们的定制服务分为四个阶段，每个阶段都有专人跟进，确保您的设计被完美呈现。</p><ul><li><strong>第一阶段：DIY 设计</strong> — 在线上选择包型、颜色、五金和皮料</li><li><strong>第二阶段：方案确认</strong> — 顾问确认尺寸、背法和特殊需求</li><li><strong>第三阶段：工坊制作</strong> — 佛罗伦萨工匠手工制作，21-35 天</li><li><strong>第四阶段：发运交付</strong> — 质检、包装、发运，送达全国</li></ul><p>在整个过程中，您可以随时与顾问沟通，了解制作进度。我们还提供免费 2 次修改机会，确保最终成品完全符合您的期望。</p>",
+        gallery: [
+          "https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=800&q=84",
+          "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=84"
+        ],
+        related: [
+          { href: "bag-detail.html?topic=process-video", img: "https://images.unsplash.com/photo-1517487881594-2787fef5ebf7?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "工坊视频", desc: "观看手作过程" },
+          { href: "bag-detail.html?topic=process-shipping", img: "https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?auto=format&fit=crop&w=900&q=84", tag: "Process", title: "发运流程", desc: "从佛罗伦萨到全国" },
+          { href: "luxury-bags.html#builder", img: "https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=900&q=84", tag: "DIY", title: "开始定制", desc: "进入 DIY 设计台" }
+        ]
+      }
+    };
+
+    /* ── 渲染逻辑 ── */
+    function render() {
+      const params = new URLSearchParams(window.location.search);
+      const topic = params.get("topic") || "service-bespoke";
+      const data = TOPICS[topic];
+
+      if (!data) {
+        document.getElementById("mainContent").innerHTML = `
+          <div style="text-align:center;padding:200px 24px;">
+            <h1 style="font-family:var(--serif);font-size:3rem;margin-bottom:18px;">页面未找到</h1>
+            <p style="color:var(--muted);margin-bottom:28px;">请从首页选择要查看的内容。</p>
+            <a class="btn primary" href="luxury-bags.html">返回首页</a>
+          </div>`;
+        return;
+      }
+
+      document.title = `Aurelia Atelier | ${data.title}`;
+
+      const heroStyle = `background: linear-gradient(135deg, rgba(59, 27, 38, 0.72), rgba(59, 27, 38, 0.28) 56%, rgba(59, 27, 38, 0.48)), url("${data.heroImg}") center / cover;`;
+
+      const specsHtml = data.specs ? Object.entries(data.specs).map(([k, v]) =>
+        `<div class="spec-row"><span>${k}</span><span>${v}</span></div>`
+      ).join("") : "";
+
+      const galleryHtml = data.gallery ? data.gallery.map(img =>
+        `<div class="gallery-item"><img src="${img}" alt="${data.title}" loading="lazy"></div>`
+      ).join("") : "";
+
+      const relatedHtml = data.related ? data.related.map(r =>
+        `<a class="related-card" href="${r.href}">
+          <img src="${r.img}" alt="${r.title}" loading="lazy">
+          <div class="related-copy">
+            <span>${r.tag}</span>
+            <h3>${r.title}</h3>
+            <p>${r.desc}</p>
+          </div>
+        </a>`
+      ).join("") : "";
+
+      document.getElementById("mainContent").innerHTML = `
+        <section class="detail-hero" style="${heroStyle}">
+          <div class="hero-inner reveal">
+            <div class="eyebrow">${data.eyebrow}</div>
+            <h1>${data.title}</h1>
+            <p class="hero-subtitle">${data.subtitle}</p>
+          </div>
+        </section>
+
+        <div class="detail-content">
+          <div class="content-grid">
+            <div class="content-main reveal">${data.body}</div>
+            <aside class="content-aside reveal">
+              <div class="aside-image">
+                <img src="${data.asideImg}" alt="${data.title}" loading="lazy">
+              </div>
+              <div class="aside-body">
+                <h3>${data.asideTitle}</h3>
+                <p>${data.asideDesc}</p>
+                <div class="aside-specs">${specsHtml}</div>
+              </div>
+            </aside>
+          </div>
+          ${data.gallery ? `<div class="detail-gallery reveal">${galleryHtml}</div>` : ""}
+        </div>
+
+        ${data.related ? `
+        <section class="related-section">
+          <h2 class="reveal">相关内容</h2>
+          <div class="related-grid">${relatedHtml}</div>
+        </section>` : ""}
+
+        <div class="detail-cta reveal">
+          <h2>开始你的定制之旅</h2>
+          <p>选择你喜欢的包型、颜色、五金和皮料，创造属于你的独一无二的手工定制包。</p>
+          <div class="cta-actions">
+            <a class="btn primary" href="luxury-bags.html#builder">进入 DIY 设计台</a>
+            <a class="btn" href="luxury-bags.html#samples">查看所有样板</a>
+          </div>
+        </div>
+      `;
+
+      // 触发 reveal 动画
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    }
+
+    render();
+  </script>
+</body>
+</html>
