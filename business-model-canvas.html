@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DTC功能男包品牌 — 商业画布</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface-2: #1a1a26;
+    --border: #2a2a3a;
+    --text: #e8e6e3;
+    --text-secondary: #8a8a9a;
+    --accent: #c9a96e;
+    --accent-glow: rgba(201, 169, 110, 0.15);
+    --partner: #3b82f6;
+    --activity: #8b5cf6;
+    --resource: #06b6d4;
+    --value: #f59e0b;
+    --relationship: #ec4899;
+    --channel: #10b981;
+    --customer: #ef4444;
+    --cost: #6366f1;
+    --revenue: #22c55e;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    text-align: center;
+    padding: 48px 24px 32px;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .header .badge {
+    display: inline-block;
+    padding: 6px 16px;
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .header h1 {
+    font-size: clamp(24px, 4vw, 40px);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .header .subtitle {
+    font-size: clamp(14px, 2vw, 16px);
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  /* ===== CANVAS GRID ===== */
+  .canvas-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 16px 48px;
+  }
+
+  .canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 2px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  /* Grid placement */
+  .block-partners     { grid-column: 1; grid-row: 1 / 3; }
+  .block-activities   { grid-column: 2; grid-row: 1; }
+  .block-resources    { grid-column: 2; grid-row: 2; }
+  .block-value        { grid-column: 3; grid-row: 1 / 3; }
+  .block-relationship { grid-column: 4; grid-row: 1; }
+  .block-channels     { grid-column: 4; grid-row: 2; }
+  .block-customer     { grid-column: 5; grid-row: 1 / 3; }
+  .block-cost         { grid-column: 1 / 3; grid-row: 3; }
+  .block-revenue      { grid-column: 3 / 6; grid-row: 3; }
+
+  /* ===== BLOCK STYLES ===== */
+  .block {
+    background: var(--surface);
+    padding: 20px;
+    min-height: 200px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .block:hover { background: var(--surface-2); }
+
+  .block-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: #fff;
+  }
+
+  .block-title {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: #fff;
+  }
+
+  .block ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .block li {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    padding-left: 16px;
+    position: relative;
+  }
+  .block li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  /* Color themes per block */
+  .block-partners .block-label     { background: var(--partner); }
+  .block-activities .block-label   { background: var(--activity); }
+  .block-resources .block-label    { background: var(--resource); }
+  .block-value .block-label        { background: var(--value); }
+  .block-relationship .block-label { background: var(--relationship); }
+  .block-channels .block-label     { background: var(--channel); }
+  .block-customer .block-label     { background: var(--customer); }
+  .block-cost .block-label         { background: var(--cost); }
+  .block-revenue .block-label      { background: var(--revenue); }
+
+  .block-partners li::before     { background: var(--partner); }
+  .block-activities li::before   { background: var(--activity); }
+  .block-resources li::before    { background: var(--resource); }
+  .block-value li::before        { background: var(--value); }
+  .block-relationship li::before { background: var(--relationship); }
+  .block-channels li::before     { background: var(--channel); }
+  .block-customer li::before     { background: var(--customer); }
+  .block-cost li::before         { background: var(--cost); }
+  .block-revenue li::before      { background: var(--revenue); }
+
+  /* ===== VALUE PROPOSITION CENTER ===== */
+  .block-value {
+    background: linear-gradient(180deg, #1a1510 0%, var(--surface) 100%);
+    border-left: 2px solid var(--accent);
+    border-right: 2px solid var(--accent);
+  }
+  .block-value .block-title {
+    color: var(--accent);
+    font-size: clamp(18px, 2.5vw, 24px);
+  }
+  .vp-tagline {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .vp-highlight {
+    display: inline-block;
+    background: var(--accent-glow);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+  }
+  .vp-pain {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    margin-top: 12px;
+  }
+  .vp-pain-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ef4444;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .vp-pain li::before { background: #ef4444; }
+
+  /* ===== COST & REVENUE BOTTOM ===== */
+  .block-cost, .block-revenue {
+    min-height: 140px;
+  }
+  .cost-grid, .revenue-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cost-item, .revenue-item {
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+    border: 1px solid var(--border);
+  }
+  .cost-item .label, .revenue-item .label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+  .cost-item .value, .revenue-item .value {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .revenue-item .value { color: var(--revenue); }
+  .cost-item .value { color: var(--cost); }
+
+  /* ===== HIGHLIGHT CARDS ===== */
+  .highlight-strip {
+    max-width: 1200px;
+    margin: 0 auto 32px;
+    padding: 0 16px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .highlight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .highlight-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .highlight-card .number {
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 900;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .highlight-card .desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    text-align: center;
+    padding: 32px 24px 48px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    border-top: 1px solid var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer .brand {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .canvas {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+    }
+    .block-partners     { grid-column: 1; grid-row: auto; }
+    .block-activities   { grid-column: 2; grid-row: auto; }
+    .block-resources    { grid-column: 1; grid-row: auto; }
+    .block-value        { grid-column: 1 / 3; grid-row: auto; border-left: none; border-right: none; border-top: 2px solid var(--accent); border-bottom: 2px solid var(--accent); }
+    .block-relationship { grid-column: 1; grid-row: auto; }
+    .block-channels     { grid-column: 2; grid-row: auto; }
+    .block-customer     { grid-column: 1 / 3; grid-row: auto; }
+    .block-cost         { grid-column: 1; grid-row: auto; }
+    .block-revenue      { grid-column: 2; grid-row: auto; }
+    .highlight-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 520px) {
+    .canvas { grid-template-columns: 1fr; }
+    .block-value { grid-column: 1; }
+    .block-customer { grid-column: 1; }
+    .block-cost { grid-column: 1; }
+    .block-revenue { grid-column: 1; }
+    .highlight-strip { grid-template-columns: 1fr 1fr; }
+    .cost-grid, .revenue-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .block, .highlight-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .block:nth-child(1) { animation-delay: 0.05s; }
+  .block:nth-child(2) { animation-delay: 0.1s; }
+  .block:nth-child(3) { animation-delay: 0.15s; }
+  .block:nth-child(4) { animation-delay: 0.2s; }
+  .block:nth-child(5) { animation-delay: 0.25s; }
+  .block:nth-child(6) { animation-delay: 0.3s; }
+  .block:nth-child(7) { animation-delay: 0.35s; }
+  .block:nth-child(8) { animation-delay: 0.4s; }
+  .block:nth-child(9) { animation-delay: 0.45s; }
+  .highlight-card:nth-child(1) { animation-delay: 0.5s; }
+  .highlight-card:nth-child(2) { animation-delay: 0.55s; }
+  .highlight-card:nth-child(3) { animation-delay: 0.6s; }
+  .highlight-card:nth-child(4) { animation-delay: 0.65s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== PRINT ===== */
+  @media print {
+    body { background: #fff; color: #111; }
+    .block { background: #fafafa; border: 1px solid #ddd; }
+    .block-label { color: #fff !important; }
+    .highlight-card { border: 1px solid #ddd; }
+    .block-value { background: #fffdf5; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="badge">Business Model Canvas</div>
+  <h1>DTC 功能男包品牌</h1>
+  <p class="subtitle">"一个包搞定你的城市生活" — 填补中端男包市场空白</p>
+</div>
+
+<!-- HIGHLIGHT STRIP -->
+<div class="highlight-strip">
+  <div class="highlight-card">
+    <div class="number">600亿+</div>
+    <div class="desc">中国男包市场规模<br>年复合增长 8-12%</div>
+  </div>
+  <div class="highlight-card">
+    <div class="number">60-65%</div>
+    <div class="desc">目标毛利率<br>品牌箱包行业优势</div>
+  </div>
+  <div class="highlight-card">
+    <div class="number">500-1500元</div>
+    <div class="desc">核心价格带<br>中端市场真空区域</div>
+  </div>
+  <div class="highlight-card">
+    <div class="number">DTC</div>
+    <div class="desc">直面消费者模式<br>省去中间环节</div>
+  </div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas-wrapper">
+  <div class="canvas">
+
+    <!-- 1. 关键合作伙伴 -->
+    <div class="block block-partners">
+      <div class="block-label">KP</div>
+      <div class="block-title">关键合作伙伴</div>
+      <ul>
+        <li>广州花都 OEM/ODM 工厂（成熟箱包产业链）</li>
+        <li>再生尼龙/环保面料供应商</li>
+        <li>顺丰/京东物流（仓储配送）</li>
+        <li>小红书/抖音 MCN 机构</li>
+        <li>独立设计师（初期可外包）</li>
+        <li>质检/检测机构</li>
+      </ul>
+    </div>
+
+    <!-- 2. 关键活动 -->
+    <div class="block block-activities">
+      <div class="block-label">KA</div>
+      <div class="block-title">关键活动</div>
+      <ul>
+        <li>产品设计与研发（核心能力）</li>
+        <li>内容营销（小红书/抖音种草）</li>
+        <li>供应链管理与品控</li>
+        <li>社区运营（微信私域）</li>
+        <li>用户数据收集与分析</li>
+        <li>DTC 官网/小程序运营</li>
+      </ul>
+    </div>
+
+    <!-- 3. 关键资源 -->
+    <div class="block block-resources">
+      <div class="block-label">KR</div>
+      <div class="block-title">关键资源</div>
+      <ul>
+        <li>产品设计能力（功能+美学）</li>
+        <li>供应链关系与议价能力</li>
+        <li>品牌内容资产（视觉/文案）</li>
+        <li>种子用户社区</li>
+        <li>DTC 用户行为数据</li>
+      </ul>
+    </div>
+
+    <!-- 4. 价值主张（核心） -->
+    <div class="block block-value">
+      <div class="block-label">VP</div>
+      <div class="block-title">价值主张</div>
+      <div class="vp-tagline">
+        <span class="vp-highlight">功能主义</span> + <span class="vp-highlight">极简美学</span> + <span class="vp-highlight">合理定价</span>
+      </div>
+      <ul>
+        <li>通勤正装友好——西装+背包不违和</li>
+        <li>模块化内胆——同包壳切换通勤/健身/差旅模式</li>
+        <li>500-800 元主价格带，用内容获客而非广告</li>
+        <li>环保材料——再生尼龙、素皮可选</li>
+        <li>终身维修服务——建立长期信任</li>
+      </ul>
+      <div class="vp-pain">
+        <div class="vp-pain-title">解决的痛点</div>
+        <ul>
+          <li>背包+西装搭不起来，商务场景尴尬</li>
+          <li>大牌太贵（TUMI 3000+），白牌太丑</li>
+          <li>一个包无法通勤/健身/差旅多场景切换</li>
+          <li>中端价格带（500-1500）缺乏有品牌感的国产品牌</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5. 客户关系 -->
+    <div class="block block-relationship">
+      <div class="block-label">CR</div>
+      <div class="block-title">客户关系</div>
+      <ul>
+        <li>社区驱动——小红书/微信社群深度互动</li>
+        <li>DTC 直营——品牌与用户零距离</li>
+        <li>用户共创——新品内测+反馈迭代</li>
+        <li>售后终身维修——建立信任</li>
+        <li>会员体系——积分换配件/保养服务</li>
+      </ul>
+    </div>
+
+    <!-- 6. 渠道 -->
+    <div class="block block-channels">
+      <div class="block-label">CH</div>
+      <div class="block-title">渠道通路</div>
+      <ul>
+        <li><strong>第一阶段：</strong>小红书种草 + 微信小程序成交</li>
+        <li><strong>第二阶段：</strong>抖音短视频 + 直播带货</li>
+        <li><strong>第三阶段：</strong>天猫旗舰店（拿搜索流量）</li>
+        <li><strong>第四阶段：</strong>线下快闪店 / 精选零售</li>
+        <li>DTC 官网（海外市场预留）</li>
+      </ul>
+    </div>
+
+    <!-- 7. 目标客户 -->
+    <div class="block block-customer">
+      <div class="block-label">CS</div>
+      <div class="block-title">目标客户</div>
+      <ul>
+        <li><strong>核心人群：</strong>25-35 岁城市男性</li>
+        <li><strong>职业：</strong>互联网 / 金融 / 创意行业</li>
+        <li><strong>收入：</strong>月收入 1.5 万+</li>
+        <li><strong>场景：</strong>日常通勤 + 轻差旅 + 偶尔健身</li>
+        <li><strong>特征：</strong>有审美要求、不接受土味设计</li>
+        <li><strong>行为：</strong>小红书/朋友圈活跃、乐于分享</li>
+        <li><strong>决策：</strong>功能 > 品牌 > 价格</li>
+      </ul>
+    </div>
+
+    <!-- 8. 成本结构 -->
+    <div class="block block-cost">
+      <div class="block-label">C$</div>
+      <div class="block-title">成本结构</div>
+      <div class="cost-grid">
+        <div class="cost-item">
+          <div class="label">生产成本 (OEM)</div>
+          <div class="value">30-40%</div>
+        </div>
+        <div class="cost-item">
+          <div class="label">内容营销/获客</div>
+          <div class="value">20-25%</div>
+        </div>
+        <div class="cost-item">
+          <div class="label">人员成本</div>
+          <div class="value">15-20%</div>
+        </div>
+        <div class="cost-item">
+          <div class="label">物流仓储</div>
+          <div class="value">5-8%</div>
+        </div>
+        <div class="cost-item">
+          <div class="label">平台佣金</div>
+          <div class="value">5-8%</div>
+        </div>
+        <div class="cost-item">
+          <div class="label">目标毛利率</div>
+          <div class="value" style="color: var(--accent);">60-65%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. 收入来源 -->
+    <div class="block block-revenue">
+      <div class="block-label">R$</div>
+      <div class="block-title">收入来源</div>
+      <div class="revenue-grid">
+        <div class="revenue-item">
+          <div class="label">核心收入：背包销售</div>
+          <div class="value">单价 500-1500 元</div>
+        </div>
+        <div class="revenue-item">
+          <div class="label">扩展收入：配件</div>
+          <div class="value">钱包 / 收纳袋 / 内胆包</div>
+        </div>
+        <div class="revenue-item">
+          <div class="label">复购周期</div>
+          <div class="value">6-12 个月</div>
+        </div>
+        <div class="revenue-item">
+          <div class="label">首年目标营收</div>
+          <div class="value" style="color: var(--accent);">500-800 万</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><span class="brand">DTC 功能男包品牌</span> — Business Model Canvas</p>
+  <p style="margin-top: 6px;">基于李善友第一性原理 × 高瓴投资框架分析 · 2026.05</p>
+</div>
+
+</body>
+</html>
