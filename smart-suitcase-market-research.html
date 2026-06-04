@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2024-2025 智能遥控行李箱市场调研报告</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --bg: #f8fafb;
+    --surface: #ffffff;
+    --surface-2: #f0f4f8;
+    --border: #d8e2ec;
+    --text: #1a2332;
+    --text-muted: #6b7a8d;
+    --accent: #2563eb;
+    --accent-2: #1d4ed8;
+    --tech: #0ea5e9;
+    --innovation: #8b5cf6;
+    --market: #10b981;
+    --challenge: #f59e0b;
+    --card-radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(180deg, #f8fafb 0%, #e8f0fe 50%, #f8fafb 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-label {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .hero-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .toc {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(248,250,251,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    justify-content: center;
+  }
+
+  .toc a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  .toc a:hover { color: var(--accent); }
+
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 2rem 0;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.8rem;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.1);
+  }
+
+  .card-brand {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+  }
+
+  .card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .card-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+    font-weight: 700;
+    margin-top: 1rem;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .tag-tech { background: #eff6ff; color: #2563eb; }
+  .tag-market { background: #ecfdf5; color: #10b981; }
+  .tag-challenge { background: #fef3c7; color: #d97706; }
+  .tag-innovation { background: #f3e8ff; color: #8b5cf6; }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-top: 2rem;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+  }
+
+  thead {
+    background: var(--surface-2);
+  }
+
+  th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+  }
+
+  td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover { background: rgba(37,99,235,0.02); }
+
+  .brand-cell {
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* Metric cards */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  .metric-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .metric-label {
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .metric-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  /* SWOT */
+  .swot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .swot-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.8rem;
+  }
+
+  .swot-title {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .swot-s .swot-title { color: #10b981; }
+  .swot-w .swot-title { color: #f59e0b; }
+  .swot-o .swot-title { color: #2563eb; }
+  .swot-t .swot-title { color: #ef4444; }
+
+  .swot-list {
+    list-style: none;
+  }
+
+  .swot-list li {
+    padding: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .swot-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .swot-s li::before { background: #10b981; }
+  .swot-w li::before { background: #f59e0b; }
+  .swot-o li::before { background: #2563eb; }
+  .swot-t li::before { background: #ef4444; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .hero-stats { gap: 1.5rem; }
+    .swot-grid { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">市场调研报告 · 2024-2025</div>
+  <h1>智能遥控行李箱<br>市场洞察</h1>
+  <p class="hero-sub">探索智能出行新趋势，解析遥控行李箱的市场机会、竞争格局与用户需求</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">$8-10亿</div>
+      <div class="hero-stat-label">全球智能行李箱市场规模</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">15-20%</div>
+      <div class="hero-stat-label">年复合增长率 (CAGR)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">¥2000-8000</div>
+      <div class="hero-stat-label">主流产品价格区间</div>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="toc">
+  <a href="#market">市场规模</a>
+  <a href="#competitors">竞品分析</a>
+  <a href="#users">用户画像</a>
+  <a href="#tech">技术方案</a>
+  <a href="#regulations">法规政策</a>
+  <a href="#swot">SWOT分析</a>
+  <a href="#opportunities">市场机会</a>
+</nav>
+
+<!-- 市场规模 -->
+<section id="market">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <h2 class="section-title">市场规模与趋势</h2>
+    <p class="section-desc">全球智能行李箱市场正在快速增长，遥控跟随型产品成为高端细分赛道</p>
+  </div>
+
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="metric-value">$8-10亿</div>
+      <div class="metric-label">全球市场规模 (2024)</div>
+      <div class="metric-note">智能行李箱整体市场</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">15-20%</div>
+      <div class="metric-label">CAGR</div>
+      <div class="metric-note">预计2024-2030年</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">$1-2亿</div>
+      <div class="metric-label">跟随型细分市场</div>
+      <div class="metric-note">占整体市场约15-20%</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">35%</div>
+      <div class="metric-label">亚太市场占比</div>
+      <div class="metric-note">中国为核心增长极</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">市场增长驱动力</h3>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-brand">技术成熟</div>
+      <h3>AI视觉跟随技术</h3>
+      <p>UWB超宽带、计算机视觉、LiDAR等技术的成熟，使精准跟随和避障成为可能</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">需求增长</div>
+      <h3>旅游业强劲复苏</h3>
+      <p>后疫情时代旅游业反弹，人们对便捷出行的需求显著增长</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">技术进步</div>
+      <h3>电池技术突破</h3>
+      <p>锂电池容量增大、重量减轻，续航能力持续提升</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">场景驱动</div>
+      <h3>机场/高铁场景需求</h3>
+      <p>大型交通枢纽对解放双手、便捷出行的需求最为旺盛</p>
+    </div>
+  </div>
+</section>
+
+<!-- 竞品分析 -->
+<section id="competitors" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <h2 class="section-title">竞品格局分析</h2>
+    <p class="section-desc">全球主要玩家及其产品特性对比</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-brand">中国 · 深圳</div>
+      <h3>COWAROBOT 酷哇机器人</h3>
+      <p>国内智能行李箱先驱，采用LiDAR+视觉融合方案，跟随精度高，避障能力强</p>
+      <div class="card-price">¥3,000 - 5,000</div>
+      <div class="card-tags">
+        <span class="tag tag-tech">LiDAR</span>
+        <span class="tag tag-tech">UWB定位</span>
+        <span class="tag tag-market">国内市场</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">中国 · 北京</div>
+      <h3>Ovis (ForwardX 灵动科技)</h3>
+      <p>计算机视觉方案，170°广角摄像头，侧边跟随模式，登机尺寸设计</p>
+      <div class="card-price">$399 - 699</div>
+      <div class="card-tags">
+        <span class="tag tag-tech">视觉AI</span>
+        <span class="tag tag-market">海外市场</span>
+        <span class="tag tag-innovation">登机尺寸</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">中国 · 北京</div>
+      <h3>九号机器人 Segway-Ninebot</h3>
+      <p>依托平衡车技术积累，推出电动骑行行李箱，兼具代步和收纳功能</p>
+      <div class="card-price">¥2,000 - 4,000</div>
+      <div class="card-tags">
+        <span class="tag tag-tech">电动骑行</span>
+        <span class="tag tag-market">自平衡技术</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">美国</div>
+      <h3>Travelmate Robotics</h3>
+      <p>通过智能手机GPS实现自主跟随，支持手势控制，面向北美市场</p>
+      <div class="card-price">$800 - 1,200</div>
+      <div class="card-tags">
+        <span class="tag tag-tech">GPS跟随</span>
+        <span class="tag tag-market">北美市场</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">中国 · 常州</div>
+      <h3>Airwheel</h3>
+      <p>电动骑行+自动跟随双模式，SE3SminiT系列支持多种使用场景</p>
+      <div class="card-price">¥1,500 - 3,500</div>
+      <div class="card-tags">
+        <span class="tag tag-tech">双模式</span>
+        <span class="tag tag-innovation">性价比</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">中国 · 小米生态链</div>
+      <h3>90Fun Puppy1</h3>
+      <p>小米生态链企业，自平衡技术，跟随主人行走，性价比路线</p>
+      <div class="card-price">¥1,500 - 2,500</div>
+      <div class="card-tags">
+        <span class="tag tag-tech">自平衡</span>
+        <span class="tag tag-market">小米生态</span>
+        <span class="tag tag-innovation">性价比</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper" style="margin-top: 3rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>品牌</th>
+          <th>跟随技术</th>
+          <th>避障方案</th>
+          <th>续航</th>
+          <th>重量</th>
+          <th>价格</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="brand-cell">COWAROBOT</td>
+          <td>LiDAR + 视觉</td>
+          <td>多传感器融合</td>
+          <td>~10km</td>
+          <td>~5kg</td>
+          <td>¥3,000-5,000</td>
+        </tr>
+        <tr>
+          <td class="brand-cell">Ovis</td>
+          <td>计算机视觉</td>
+          <td>170°广角摄像头</td>
+          <td>~8-10km</td>
+          <td>~4.5kg</td>
+          <td>$399-699</td>
+        </tr>
+        <tr>
+          <td class="brand-cell">九号机器人</td>
+          <td>自平衡+遥控</td>
+          <td>超声波</td>
+          <td>~15km</td>
+          <td>~7kg</td>
+          <td>¥2,000-4,000</td>
+        </tr>
+        <tr>
+          <td class="brand-cell">Travelmate</td>
+          <td>GPS + 蓝牙</td>
+          <td>红外+超声波</td>
+          <td>~6km</td>
+          <td>~4kg</td>
+          <td>$800-1,200</td>
+        </tr>
+        <tr>
+          <td class="brand-cell">Airwheel</td>
+          <td>双模式</td>
+          <td>超声波</td>
+          <td>~12km</td>
+          <td>~6kg</td>
+          <td>¥1,500-3,500</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 用户画像 -->
+<section id="users">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <h2 class="section-title">目标用户画像</h2>
+    <p class="section-desc">理解不同用户群体的核心需求与痛点</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-brand">核心用户</div>
+      <h3>商务差旅人士</h3>
+      <p>频繁出差，携带笔记本电脑、文件等重物，需要在机场快速移动，解放双手便于处理工作</p>
+      <div class="card-tags">
+        <span class="tag tag-market">高频使用</span>
+        <span class="tag tag-tech">效率优先</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">高价值用户</div>
+      <h3>长途旅行者</h3>
+      <p>携带大件行李，体力有限或行李过重，需要减轻负重，提升出行体验</p>
+      <div class="card-tags">
+        <span class="tag tag-market">重载场景</span>
+        <span class="tag tag-innovation">体验升级</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">潜力用户</div>
+      <h3>科技爱好者</h3>
+      <p>追求新奇科技产品，愿意为创新体验买单，是早期采用者和口碑传播者</p>
+      <div class="card-tags">
+        <span class="tag tag-innovation">尝鲜意愿</span>
+        <span class="tag tag-market">社交传播</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">特殊需求</div>
+      <h3>老年/行动不便人群</h3>
+      <p>体力有限，需要辅助搬运重物，对便捷性有强烈需求</p>
+      <div class="card-tags">
+        <span class="tag tag-market">刚需场景</span>
+        <span class="tag tag-challenge">安全敏感</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">用户核心痛点</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>痛点</th>
+          <th>描述</th>
+          <th>优先级</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 600;">行李过重</td>
+          <td>长时间拖拽重行李导致手臂酸痛、体力消耗大</td>
+          <td><span class="tag tag-challenge">高</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">双手被占用</td>
+          <td>拖行李时无法使用手机、拿咖啡、处理工作</td>
+          <td><span class="tag tag-challenge">高</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">机场赶时间</td>
+          <td>拖着行李跑不快，容易误机</td>
+          <td><span class="tag tag-market">中</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">多件行李难管理</td>
+          <td>同时携带多个包时难以移动</td>
+          <td><span class="tag tag-market">中</span></td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">体力差异</td>
+          <td>老人、儿童、伤病者难以搬运重物</td>
+          <td><span class="tag tag-innovation">特定人群</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 技术方案 -->
+<section id="tech" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <h2 class="section-title">技术方案对比</h2>
+    <p class="section-desc">不同跟随与控制技术的优劣势分析</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-brand">方案 A</div>
+      <h3>遥控器方案</h3>
+      <p>专用遥控器控制方向和速度，类似遥控车操作方式，技术成熟，成本低</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">成本低</span>
+        <span class="tag tag-tech">技术成熟</span>
+        <span class="tag tag-challenge">需手动操作</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">方案 B</div>
+      <h3>手机App遥控</h3>
+      <p>通过蓝牙/WiFi连接手机App，虚拟摇杆或重力感应控制，无需额外设备</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">无需额外设备</span>
+        <span class="tag tag-innovation">交互丰富</span>
+        <span class="tag tag-challenge">依赖手机</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">方案 C</div>
+      <h3>视觉跟随</h3>
+      <p>摄像头识别主人特征（衣物、体型），自动跟随行走，解放双手</p>
+      <div class="card-tags">
+        <span class="tag tag-innovation">全自动</span>
+        <span class="tag tag-tech">AI视觉</span>
+        <span class="tag tag-challenge">成本高</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-brand">方案 D</div>
+      <h3>UWB超宽带定位</h3>
+      <p>佩戴UWB标签，行李箱自动保持设定距离跟随，精度高</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">高精度</span>
+        <span class="tag tag-tech">低延迟</span>
+        <span class="tag tag-challenge">需佩戴标签</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper" style="margin-top: 3rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>技术方案</th>
+          <th>成本</th>
+          <th>精度</th>
+          <th>用户体验</th>
+          <th>适用场景</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 600;">遥控器</td>
+          <td>¥50-200</td>
+          <td>手动控制</td>
+          <td>★★★☆☆</td>
+          <td>简单场景、成本敏感</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">手机App</td>
+          <td>¥100-300</td>
+          <td>手动控制</td>
+          <td>★★★★☆</td>
+          <td>日常使用、轻度需求</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">视觉跟随</td>
+          <td>¥500-1500</td>
+          <td>±0.5m</td>
+          <td>★★★★★</td>
+          <td>高端市场、全自动需求</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">UWB定位</td>
+          <td>¥300-800</td>
+          <td>±0.1m</td>
+          <td>★★★★☆</td>
+          <td>精准跟随、专业场景</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 法规政策 -->
+<section id="regulations">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <h2 class="section-title">法规与政策限制</h2>
+    <p class="section-desc">航空锂电池法规是智能行李箱市场的重要约束条件</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-brand">FAA / 国际航空</div>
+      <h3>锂电池容量限制</h3>
+      <p><strong>≤100Wh</strong>：可随身携带<br><strong>100-160Wh</strong>：需航空公司批准<br><strong>>160Wh</strong>：禁止携带上飞机</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">关键要求</div>
+      <h3>电池可拆卸设计</h3>
+      <p>多数航空公司要求智能行李箱的电池必须可拆卸，以便在必要时单独携带或移除</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">中国民航</div>
+      <h3>国内规定</h3>
+      <p>锂电池设备随身携带，禁止托运；电动骑行行李箱部分航空公司已明确禁止</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">合规设计建议</h3>
+  <div class="card-grid">
+    <div class="card">
+      <h3>✅ 推荐做法</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 0.3rem 0;">• 电池容量控制在 100Wh 以内</li>
+        <li style="padding: 0.3rem 0;">• 采用可拆卸电池设计</li>
+        <li style="padding: 0.3rem 0;">• 提供电池容量标识</li>
+        <li style="padding: 0.3rem 0;">• 支持电池单独携带模式</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>❌ 避免做法</h3>
+      <ul style="list-style: none; padding: 0;">
+        <li style="padding: 0.3rem 0;">• 电池容量超过 160Wh</li>
+        <li style="padding: 0.3rem 0;">• 电池不可拆卸</li>
+        <li style="padding: 0.3rem 0;">• 缺少安全认证</li>
+        <li style="padding: 0.3rem 0;">• 忽视各国法规差异</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SWOT分析 -->
+<section id="swot" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <h2 class="section-title">SWOT 分析</h2>
+    <p class="section-desc">智能遥控行李箱市场的优势、劣势、机会与威胁</p>
+  </div>
+
+  <div class="swot-grid">
+    <div class="swot-card swot-s">
+      <div class="swot-title">优势 Strengths</div>
+      <ul class="swot-list">
+        <li>解决真实用户痛点（重物搬运）</li>
+        <li>技术方案成熟，供应链完善</li>
+        <li>产品差异化明显，溢价空间大</li>
+        <li>中国制造业优势，成本可控</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-w">
+      <div class="swot-title">劣势 Weaknesses</div>
+      <ul class="swot-list">
+        <li>价格较高，市场教育成本大</li>
+        <li>重量比传统行李箱重2-3kg</li>
+        <li>电池续航有限（通常6-15km）</li>
+        <li>维修成本高，技术门槛高</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-o">
+      <div class="swot-title">机会 Opportunities</div>
+      <ul class="swot-list">
+        <li>旅游业持续增长，消费升级趋势</li>
+        <li>老龄化社会对便捷出行的需求</li>
+        <li>商务差旅市场潜力巨大</li>
+        <li>技术迭代带来的成本下降</li>
+      </ul>
+    </div>
+    <div class="swot-card swot-t">
+      <div class="swot-title">威胁 Threats</div>
+      <ul class="swot-list">
+        <li>航空法规日趋严格</li>
+        <li>传统行李箱品牌可能进入</li>
+        <li>低价竞争者扰乱市场</li>
+        <li>安全事故可能影响行业声誉</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 市场机会 -->
+<section id="opportunities">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <h2 class="section-title">市场机会与建议</h2>
+    <p class="section-desc">针对遥控方案的差异化定位建议</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-brand">定位策略</div>
+      <h3>遥控方案的差异化优势</h3>
+      <p>相比全自动跟随方案，遥控方案具有<strong>成本低、技术简单、可靠性高</strong>的优势，适合大众市场切入</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">产品策略</div>
+      <h3>建议的产品组合</h3>
+      <p><strong>入门款</strong>：遥控器方案（¥1000-2000）<br><strong>进阶款</strong>：手机App遥控（¥1500-2500）<br><strong>旗舰款</strong>：遥控+视觉跟随（¥3000-5000）</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">渠道策略</div>
+      <h3>目标销售渠道</h3>
+      <p>• 机场/高铁站零售店<br>• 电商平台（京东、天猫）<br>• 商务礼品渠道<br>• 旅行社/酒店合作</p>
+    </div>
+    <div class="card">
+      <div class="card-brand">营销策略</div>
+      <h3>核心卖点提炼</h3>
+      <p>• "解放双手，轻松出行"<br>• "遥控随行，重物无忧"<br>• "科技改变出行体验"<br>• 突出解决"行李太重"的核心痛点</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">目标市场规模预估</h3>
+  <div class="metric-grid">
+    <div class="metric-card">
+      <div class="metric-value">500万</div>
+      <div class="metric-label">潜在用户数（中国）</div>
+      <div class="metric-note">高频商务差旅人士</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">¥1500</div>
+      <div class="metric-label">平均客单价</div>
+      <div class="metric-note">遥控方案定位</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">1%</div>
+      <div class="metric-label">初期渗透率</div>
+      <div class="metric-note">市场教育初期</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">¥7.5亿</div>
+      <div class="metric-label">初期市场规模</div>
+      <div class="metric-note">中国市场潜力</div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-brand">Smart Suitcase Market Research</div>
+  <p>智能遥控行李箱市场调研报告 · 2024-2025</p>
+  <p style="margin-top: 0.5rem;">数据来源：公开市场报告、行业分析、竞品调研</p>
+</div>
+
+</body>
+</html>

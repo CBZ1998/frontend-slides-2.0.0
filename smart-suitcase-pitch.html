@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能遥控行李箱 - 产品概念演示</title>
+
+<!-- Fonts from Fontshare -->
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap">
+
+<style>
+  /* ===========================================
+     CSS CUSTOM PROPERTIES (THEME)
+     =========================================== */
+  :root {
+    /* Colors — Tech Blue Theme */
+    --bg-primary: #0a0f1c;
+    --bg-secondary: #111827;
+    --bg-card: rgba(17, 24, 39, 0.8);
+    --text-primary: #ffffff;
+    --text-secondary: #9ca3af;
+    --accent: #00d4ff;
+    --accent-glow: rgba(0, 212, 255, 0.3);
+    --accent-2: #7c3aed;
+    --accent-2-glow: rgba(124, 58, 237, 0.3);
+    --success: #10b981;
+    --warning: #f59e0b;
+
+    /* Typography */
+    --font-display: 'Clash Display', sans-serif;
+    --font-body: 'Satoshi', sans-serif;
+    --title-size: clamp(2rem, 6vw, 5rem);
+    --subtitle-size: clamp(0.875rem, 2vw, 1.25rem);
+    --body-size: clamp(0.75rem, 1.2vw, 1rem);
+
+    /* Spacing */
+    --slide-padding: clamp(1.5rem, 4vw, 4rem);
+    --content-gap: clamp(1rem, 2vw, 2rem);
+
+    /* Animation */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --duration-normal: 0.6s;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ===========================================
+     VIEWPORT FITTING: MANDATORY BASE STYLES
+     =========================================== */
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  html {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  .slide {
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .slide-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-height: 100%;
+    overflow: hidden;
+    padding: var(--slide-padding);
+  }
+
+  /* Typography using clamp() */
+  h1, h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  h1 { font-size: var(--title-size); }
+  h2 { font-size: clamp(1.5rem, 4vw, 3rem); }
+
+  p, li {
+    font-family: var(--font-body);
+    font-size: var(--body-size);
+    line-height: 1.6;
+  }
+
+  /* ===========================================
+     ANIMATIONS
+     =========================================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--duration-normal) var(--ease-out-expo),
+                transform var(--duration-normal) var(--ease-out-expo);
+  }
+
+  .slide.visible .reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal:nth-child(1) { transition-delay: 0.1s; }
+  .reveal:nth-child(2) { transition-delay: 0.2s; }
+  .reveal:nth-child(3) { transition-delay: 0.3s; }
+  .reveal:nth-child(4) { transition-delay: 0.4s; }
+  .reveal:nth-child(5) { transition-delay: 0.5s; }
+
+  /* ===========================================
+     SLIDE SPECIFIC STYLES
+     =========================================== */
+
+  /* Title Slide */
+  .title-slide {
+    background: var(--bg-primary);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .title-slide::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+  }
+
+  .title-slide .icon {
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .title-slide h1 {
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+
+  .title-slide .subtitle {
+    color: var(--text-secondary);
+    font-size: var(--subtitle-size);
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+  }
+
+  .title-slide .tagline {
+    color: var(--accent);
+    font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+    margin-top: 2rem;
+  }
+
+  /* Content Slides */
+  .content-slide {
+    background: var(--bg-primary);
+  }
+
+  .content-slide .slide-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .content-slide h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--content-gap);
+  }
+
+  .content-slide p {
+    color: var(--text-secondary);
+    max-width: 800px;
+  }
+
+  /* Feature Grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+    margin-top: var(--content-gap);
+  }
+
+  .feature-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px var(--accent-glow);
+  }
+
+  .feature-card .icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-card h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-card p {
+    font-size: clamp(0.7rem, 1vw, 0.85rem);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  /* Stats Row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    margin-top: var(--content-gap);
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* Comparison Table */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--content-gap);
+    font-size: clamp(0.7rem, 1vw, 0.85rem);
+  }
+
+  .comparison-table th {
+    background: var(--bg-card);
+    color: var(--accent);
+    padding: clamp(0.5rem, 1vw, 0.75rem);
+    text-align: left;
+    font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .comparison-table td {
+    padding: clamp(0.5rem, 1vw, 0.75rem);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    color: var(--text-secondary);
+  }
+
+  .comparison-table tr:hover td {
+    background: rgba(0, 212, 255, 0.05);
+  }
+
+  .highlight {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* List Styles */
+  .feature-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.4rem, 1vh, 0.75rem);
+  }
+
+  .feature-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--text-secondary);
+  }
+
+  .feature-list li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* Quote Slide */
+  .quote-slide {
+    background: var(--bg-primary);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .quote-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    color: var(--text-primary);
+    max-width: 900px;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+  }
+
+  .quote-author {
+    color: var(--accent);
+    font-size: var(--subtitle-size);
+  }
+
+  /* CTA Slide */
+  .cta-slide {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1033 100%);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cta-slide h2 {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+  }
+
+  .cta-slide .subtitle {
+    color: var(--text-secondary);
+    font-size: var(--subtitle-size);
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .cta-btn {
+    padding: clamp(0.6rem, 1.2vw, 0.85rem) clamp(1.5rem, 3vw, 2.5rem);
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px var(--accent-glow);
+  }
+
+  .cta-btn-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+
+  .cta-btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 2px solid var(--accent);
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    z-index: 1000;
+    transition: width 0.3s ease;
+  }
+
+  /* Navigation Dots */
+  .nav-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 100;
+  }
+
+  .nav-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .nav-dot.active {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+
+  /* Keyboard Hint */
+  .keyboard-hint {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+    letter-spacing: 2px;
+    opacity: 0.5;
+    z-index: 100;
+  }
+
+  /* Two Column Layout */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--content-gap);
+    align-items: center;
+  }
+
+  /* Image placeholder */
+  .image-placeholder {
+    background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 212, 255, 0.1) 100%);
+    border-radius: 16px;
+    aspect-ratio: 4/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 100px;
+    font-size: clamp(0.6rem, 0.8vw, 0.7rem);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  .tag-blue { background: rgba(0, 212, 255, 0.15); color: var(--accent); }
+  .tag-purple { background: rgba(124, 58, 237, 0.15); color: var(--accent-2); }
+  .tag-green { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+
+  /* Reduced Motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.2s !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+
+  /* Responsive */
+  @media (max-height: 700px) {
+    :root {
+      --slide-padding: clamp(0.75rem, 3vw, 2rem);
+      --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+    }
+  }
+
+  @media (max-height: 600px) {
+    :root {
+      --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+      --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+    }
+    .nav-dots, .keyboard-hint { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .two-col { grid-template-columns: 1fr; }
+    .nav-dots { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar" id="progressBar"></div>
+
+<!-- Navigation Dots -->
+<nav class="nav-dots" id="navDots"></nav>
+
+<!-- Keyboard Hint -->
+<div class="keyboard-hint">↑ ↓ 或 滚轮切换幻灯片</div>
+
+<!-- ===========================================
+     SLIDE 1: Title
+     =========================================== -->
+<section class="slide title-slide">
+  <div class="icon reveal">🧳</div>
+  <h1 class="reveal">智能遥控行李箱</h1>
+  <p class="subtitle reveal">解放双手，让出行更轻松</p>
+  <div class="tagline reveal">产品概念演示 · 2024</div>
+</section>
+
+<!-- ===========================================
+     SLIDE 2: Problem
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">你是否也有这样的困扰？</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="icon">😫</div>
+        <h3>行李太重</h3>
+        <p>长时间拖拽重行李，手臂酸痛，体力消耗大</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📱</div>
+        <h3>双手被占用</h3>
+        <p>拖行李时无法使用手机、拿咖啡、处理工作</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🏃</div>
+        <h3>机场赶时间</h3>
+        <p>拖着行李跑不快，担心误机</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">👴</div>
+        <h3>体力有限</h3>
+        <p>老人、儿童、伤病者难以搬运重物</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 3: Solution
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">我们的解决方案</h2>
+    <p class="reveal" style="margin-bottom: var(--content-gap);">一款可以通过遥控器或手机App控制的智能行李箱，让你解放双手，轻松出行</p>
+    <div class="two-col">
+      <div>
+        <ul class="feature-list reveal">
+          <li>遥控器/手机App远程控制</li>
+          <li>智能避障系统</li>
+          <li>多种跟随模式可选</li>
+          <li>航空合规设计</li>
+          <li>轻量化材料</li>
+          <li>长续航电池</li>
+        </ul>
+      </div>
+      <div class="image-placeholder reveal">🧳✨</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 4: Product Line
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">产品线规划</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="icon">🎮</div>
+        <h3>入门款 · 遥控版</h3>
+        <p>专用遥控器控制，操作简单，成本可控</p>
+        <div style="margin-top: 0.75rem;">
+          <span class="tag tag-green">¥1,299</span>
+        </div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📱</div>
+        <h3>进阶款 · App版</h3>
+        <p>手机App遥控，虚拟摇杆+重力感应</p>
+        <div style="margin-top: 0.75rem;">
+          <span class="tag tag-blue">¥1,999</span>
+        </div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🤖</div>
+        <h3>旗舰款 · 智能跟随版</h3>
+        <p>AI视觉跟随，全自动避障，解放双手</p>
+        <div style="margin-top: 0.75rem;">
+          <span class="tag tag-purple">¥3,999</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 5: Features
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">核心功能特性</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="icon">🎯</div>
+        <h3>精准遥控</h3>
+        <p>2.4G无线遥控，50米有效距离，响应延迟<50ms</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🛡️</div>
+        <h3>智能避障</h3>
+        <p>超声波+红外多传感器融合，360°障碍物检测</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔋</div>
+        <h3>长续航</h3>
+        <p>100Wh可拆卸电池，续航15km，符合航空规定</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">⚡</div>
+        <h3>快速充电</h3>
+        <p>USB-C快充，2小时充满，支持充电宝供电</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔒</div>
+        <h3>安全锁定</h3>
+        <p>TSA海关锁+App远程锁定，保障行李安全</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📍</div>
+        <h3>GPS追踪</h3>
+        <p>内置GPS模块，实时定位，防丢失提醒</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 6: Market
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">市场机会</h2>
+    <div class="stats-row">
+      <div class="stat-card reveal">
+        <div class="stat-value">$8-10亿</div>
+        <div class="stat-label">全球市场规模</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value">15-20%</div>
+        <div class="stat-label">年增长率</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value">500万+</div>
+        <div class="stat-label">潜在用户</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-value">¥7.5亿</div>
+        <div class="stat-label">中国市场潜力</div>
+      </div>
+    </div>
+    <p class="reveal" style="margin-top: var(--content-gap); text-align: center;">
+      <span class="tag tag-blue">商务差旅</span>
+      <span class="tag tag-purple" style="margin-left: 0.5rem;">科技爱好者</span>
+      <span class="tag tag-green" style="margin-left: 0.5rem;">长途旅行</span>
+    </p>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 7: Competition
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">竞争优势</h2>
+    <table class="comparison-table reveal">
+      <thead>
+        <tr>
+          <th>对比维度</th>
+          <th>我们</th>
+          <th>竞品A</th>
+          <th>竞品B</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>价格</td>
+          <td class="highlight">¥1,299起</td>
+          <td>¥3,000+</td>
+          <td>$600+</td>
+        </tr>
+        <tr>
+          <td>控制方式</td>
+          <td class="highlight">遥控+App+跟随</td>
+          <td>仅跟随</td>
+          <td>仅App</td>
+        </tr>
+        <tr>
+          <td>电池可拆卸</td>
+          <td class="highlight">✓</td>
+          <td>✓</td>
+          <td>✗</td>
+        </tr>
+        <tr>
+          <td>重量</td>
+          <td class="highlight">3.8kg</td>
+          <td>5kg</td>
+          <td>4.5kg</td>
+        </tr>
+        <tr>
+          <td>续航</td>
+          <td class="highlight">15km</td>
+          <td>10km</td>
+          <td>8km</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 8: Business Model
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">商业模式</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="icon">💰</div>
+        <h3>硬件销售</h3>
+        <p>三款产品覆盖不同价格带，满足多层次需求</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🔄</div>
+        <h3>配件生态</h3>
+        <p>电池扩展包、个性化外壳、智能标签等配件</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📊</div>
+        <h3>增值服务</h3>
+        <p>App会员、行程管理、行李保险等增值服务</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🏢</div>
+        <h3>B2B合作</h3>
+        <p>酒店、旅行社、企业差旅定制解决方案</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 9: Go-to-Market
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">市场推广策略</h2>
+    <div class="two-col">
+      <div>
+        <ul class="feature-list reveal">
+          <li>线上：京东、天猫、抖音电商</li>
+          <li>线下：机场/高铁站体验店</li>
+          <li>KOL合作：科技博主、旅行达人</li>
+          <li>企业客户：商务差旅解决方案</li>
+          <li>众筹首发：制造话题热度</li>
+        </ul>
+      </div>
+      <div class="image-placeholder reveal">📈</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 10: Timeline
+     =========================================== -->
+<section class="slide content-slide">
+  <div class="slide-content">
+    <h2 class="reveal">发展路线图</h2>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="icon">📋</div>
+        <h3>Q1 2025</h3>
+        <p>完成产品设计，启动供应链，准备众筹</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🚀</div>
+        <h3>Q2 2025</h3>
+        <p>众筹首发，收集用户反馈，优化产品</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">📦</div>
+        <h3>Q3 2025</h3>
+        <p>量产上市，线上线下渠道铺设</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="icon">🌍</div>
+        <h3>Q4 2025</h3>
+        <p>拓展海外市场，推出旗舰智能跟随版</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 11: Quote
+     =========================================== -->
+<section class="slide quote-slide">
+  <div class="slide-content">
+    <div class="quote-text reveal">
+      "科技的意义，不是让人更忙碌，而是让人更自由"
+    </div>
+    <div class="quote-author reveal">— 产品愿景</div>
+  </div>
+</section>
+
+<!-- ===========================================
+     SLIDE 12: CTA
+     =========================================== -->
+<section class="slide cta-slide">
+  <div class="slide-content">
+    <h2 class="reveal">让我们一起改变出行方式</h2>
+    <p class="subtitle reveal">智能遥控行李箱，让每一次旅行都轻松愉快</p>
+    <div class="cta-buttons reveal">
+      <a class="cta-btn cta-btn-primary">了解更多</a>
+      <a class="cta-btn cta-btn-secondary">联系我们</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===========================================
+     JAVASCRIPT: Slide Presentation Controller
+     =========================================== -->
+<script>
+class SlidePresentation {
+  constructor() {
+    this.slides = document.querySelectorAll('.slide');
+    this.currentSlide = 0;
+    this.isAnimating = false;
+
+    this.setupIntersectionObserver();
+    this.setupKeyboardNav();
+    this.setupTouchNav();
+    this.setupProgressBar();
+    this.setupNavDots();
+  }
+
+  setupIntersectionObserver() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          const index = Array.from(this.slides).indexOf(entry.target);
+          this.currentSlide = index;
+          this.updateProgressBar();
+          this.updateNavDots();
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+
+    this.slides.forEach(slide => observer.observe(slide));
+  }
+
+  setupKeyboardNav() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        this.nextSlide();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.prevSlide();
+      }
+    });
+  }
+
+  setupTouchNav() {
+    let startY = 0;
+    let startX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      const endY = e.changedTouches[0].clientY;
+      const endX = e.changedTouches[0].clientX;
+      const diffY = startY - endY;
+      const diffX = startX - endX;
+
+      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
+        if (diffY > 0) {
+          this.nextSlide();
+        } else {
+          this.prevSlide();
+        }
+      }
+    });
+  }
+
+  setupProgressBar() {
+    this.progressBar = document.getElementById('progressBar');
+    this.updateProgressBar();
+  }
+
+  updateProgressBar() {
+    const progress = ((this.currentSlide + 1) / this.slides.length) * 100;
+    this.progressBar.style.width = `${progress}%`;
+  }
+
+  setupNavDots() {
+    const navDots = document.getElementById('navDots');
+    this.slides.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('nav-dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => this.goToSlide(index));
+      navDots.appendChild(dot);
+    });
+    this.dots = navDots.querySelectorAll('.nav-dot');
+  }
+
+  updateNavDots() {
+    this.dots.forEach((dot, index) => {
+      dot.classList.toggle('active', index === this.currentSlide);
+    });
+  }
+
+  nextSlide() {
+    if (this.currentSlide < this.slides.length - 1) {
+      this.goToSlide(this.currentSlide + 1);
+    }
+  }
+
+  prevSlide() {
+    if (this.currentSlide > 0) {
+      this.goToSlide(this.currentSlide - 1);
+    }
+  }
+
+  goToSlide(index) {
+    this.slides[index].scrollIntoView({ behavior: 'smooth' });
+    this.currentSlide = index;
+    this.updateProgressBar();
+    this.updateNavDots();
+  }
+}
+
+// Initialize presentation
+new SlidePresentation();
+</script>
+
+</body>
+</html>

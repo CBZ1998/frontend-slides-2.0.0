@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>省力行李箱 · 10种可行方案设计</title>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --surface-2: #1a1a25;
+    --border: #2a2a3a;
+    --text: #f0f0f5;
+    --text-muted: #8888aa;
+    --accent: #ff6b35;
+    --accent-2: #ff8f65;
+    --blue: #4a9eff;
+    --green: #34d399;
+    --purple: #a78bfa;
+    --pink: #f472b6;
+    --yellow: #fbbf24;
+    --card-radius: 20px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Satoshi', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+  }
+
+  .hero-tag {
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    font-weight: 600;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 50%, var(--yellow) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-desc {
+    font-size: clamp(0.9rem, 1.5vw, 1.15rem);
+    color: var(--text-muted);
+    max-width: 650px;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-stat-num {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .hero-stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* Nav */
+  .toc {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex;
+    gap: 1.2rem;
+    overflow-x: auto;
+    justify-content: center;
+  }
+
+  .toc a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: color 0.3s;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+  }
+
+  .toc a:hover { color: var(--accent); background: rgba(255,107,53,0.1); }
+
+  /* Sections */
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-num {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 2rem 0;
+  }
+
+  /* Solution Cards */
+  .solution-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    transition: transform 0.3s, border-color 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .solution-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+
+  .solution-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    opacity: 0.05;
+  }
+
+  .solution-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .solution-icon {
+    font-size: 3rem;
+    flex-shrink: 0;
+  }
+
+  .solution-title {
+    font-family: 'Clash Display', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  .solution-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .solution-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .solution-features {
+    list-style: none;
+  }
+
+  .solution-features li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .solution-features li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .solution-specs {
+    background: var(--surface-2);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  .spec-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
+  .spec-row:last-child { border-bottom: none; }
+  .spec-label { color: var(--text-muted); }
+  .spec-value { font-weight: 600; color: var(--accent-2); }
+
+  .solution-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+
+  .tag-pro { background: rgba(52,211,153,0.15); color: var(--green); }
+  .tag-con { background: rgba(251,191,36,0.15); color: var(--yellow); }
+  .tag-tech { background: rgba(74,158,255,0.15); color: var(--blue); }
+  .tag-price { background: rgba(255,107,53,0.15); color: var(--accent); }
+  .tag-star { background: rgba(244,114,182,0.15); color: var(--pink); }
+
+  /* Summary Table */
+  .table-wrapper {
+    overflow-x: auto;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--border);
+    margin-top: 2rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+  }
+
+  thead { background: var(--surface-2); }
+
+  th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+  }
+
+  td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.85rem;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover { background: rgba(255,107,53,0.03); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 768px) {
+    .solution-body { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+    .toc { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-tag">产品设计方案 · 2024</div>
+  <h1>省力行李箱<br><span>10种可行方案</span></h1>
+  <p class="hero-desc">针对中国女性用户，从物理原理出发，设计真正省力的行李箱方案。美学优先，大空间，让瘦弱女士也能轻松驾驭。</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">10</div>
+      <div class="hero-stat-label">设计方案</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">核心技术方向</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">¥699</div>
+      <div class="hero-stat-label">起步价</div>
+    </div>
+  </div>
+</div>
+
+<!-- Nav -->
+<nav class="toc">
+  <a href="#s1">方案1</a>
+  <a href="#s2">方案2</a>
+  <a href="#s3">方案3</a>
+  <a href="#s4">方案4</a>
+  <a href="#s5">方案5</a>
+  <a href="#s6">方案6</a>
+  <a href="#s7">方案7</a>
+  <a href="#s8">方案8</a>
+  <a href="#s9">方案9</a>
+  <a href="#s10">方案10</a>
+  <a href="#compare">对比总结</a>
+</nav>
+
+<!-- 设计原则 -->
+<section>
+  <div class="section-header">
+    <div class="section-num">设计原则</div>
+    <h2 class="section-title">为什么行李箱会"重"？</h2>
+    <p class="section-desc">要解决省力问题，先理解物理原理</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+    <div class="solution-card" style="margin-bottom: 0;">
+      <div style="font-size: 2rem; margin-bottom: 1rem;">⚖️</div>
+      <h3 style="margin-bottom: 0.5rem;">箱子自重</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">普通行李箱空箱就有4-6kg，装满后20-30kg，自重占比大</p>
+    </div>
+    <div class="solution-card" style="margin-bottom: 0;">
+      <div style="font-size: 2rem; margin-bottom: 1rem;">🔄</div>
+      <h3 style="margin-bottom: 0.5rem;">滚动阻力</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">劣质轮子+轴承，滚动摩擦力大，拉起来费劲</p>
+    </div>
+    <div class="solution-card" style="margin-bottom: 0;">
+      <div style="font-size: 2rem; margin-bottom: 1rem;">📐</div>
+      <h3 style="margin-bottom: 0.5rem;">力臂设计</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">拉杆角度不对，手腕承受过大力矩，容易疲劳</p>
+    </div>
+    <div class="solution-card" style="margin-bottom: 0;">
+      <div style="font-size: 2rem; margin-bottom: 1rem;">⛰️</div>
+      <h3 style="margin-bottom: 0.5rem;">地形障碍</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">台阶、坡道、不平路面，小轮子难以通过</p>
+    </div>
+  </div>
+</section>
+
+<!-- 方案1 -->
+<section id="s1">
+  <div class="section-header">
+    <div class="section-num">方案 01</div>
+    <h2 class="section-title">极致机械省力</h2>
+    <p class="section-desc">纯物理方案，不依赖电力，通过工程优化实现省力</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">⚙️</div>
+      <div>
+        <div class="solution-title">机械省力基础版</div>
+        <div class="solution-subtitle">零电力 · 纯物理省力 · 最可靠</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>大直径静音轮（80mm）</strong>：过坎能力提升200%，滚动阻力降低40%</li>
+        <li><strong>陶瓷轴承</strong>：摩擦系数仅为钢轴承的1/3，顺滑如丝</li>
+        <li><strong>重心优化</strong>：箱体底部加重设计，减少翻转力矩</li>
+        <li><strong>人体工学拉杆</strong>：15°倾斜角，符合手腕自然角度</li>
+        <li><strong>四轮万向</strong>：360°灵活转向，推拉都轻松</li>
+        <li><strong>轻量化箱体</strong>：PC材质，空箱仅2.8kg</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约40-50%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">2.8kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">轮子直径</span>
+          <span class="spec-value">80mm</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">轴承类型</span>
+          <span class="spec-value">陶瓷轴承</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥699</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">无限制</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">无需充电</span>
+      <span class="tag tag-pro">最可靠</span>
+      <span class="tag tag-price">¥699</span>
+      <span class="tag tag-tech">零维护</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案2 -->
+<section id="s2" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">方案 02</div>
+    <h2 class="section-title">轮毂电机助力</h2>
+    <p class="section-desc">电机直接内置轮子，结构紧凑，效率最高</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🔧</div>
+      <div>
+        <div class="solution-title">轮毂电机助力版</div>
+        <div class="solution-subtitle">电机内置于轮子 · 可拆卸电池 · 航空合规</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>轮毂电机</strong>：电机直接装在轮子内部，无传动损耗</li>
+        <li><strong>拉力感应</strong>：检测拉杆力度，自动匹配助力</li>
+        <li><strong>可拆卸电池</strong>：100Wh锂电池，登机前拆下随身携带</li>
+        <li><strong>三档助力</strong>：轻/中/强三档，适应不同场景</li>
+        <li><strong>无电可用</strong>：电池拆下后仍是普通行李箱</li>
+        <li><strong>静音设计</strong>：运行噪音 < 45dB</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约70-80%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">4.2kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">电池容量</span>
+          <span class="spec-value">100Wh (可拆)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">续航里程</span>
+          <span class="spec-value">12-15km</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">电机功率</span>
+          <span class="spec-value">50W × 2</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥1,299</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">效率最高</span>
+      <span class="tag tag-pro">航空合规</span>
+      <span class="tag tag-price">¥1,299</span>
+      <span class="tag tag-tech">推荐方案</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案3 -->
+<section id="s3">
+  <div class="section-header">
+    <div class="section-num">方案 03</div>
+    <h2 class="section-title">后置皮带传动</h2>
+    <p class="section-desc">电机后置，皮带驱动轮子，维修方便</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🔗</div>
+      <div>
+        <div class="solution-title">皮带传动助力版</div>
+        <div class="solution-subtitle">电机后置 · 皮带传动 · 易于维修</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>后置电机</strong>：电机安装在箱体底部后方，重心稳定</li>
+        <li><strong>同步带传动</strong>：高扭矩同步带，效率95%以上</li>
+        <li><strong>模块化设计</strong>：电机模块可整块更换</li>
+        <li><strong>智能感应</strong>：拉力传感器自动调节助力大小</li>
+        <li><strong>折叠踏板</strong>：可踩踏滑行（短距离）</li>
+        <li><strong>防夹保护</strong>：皮带外有保护罩，防止夹伤</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约65-75%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">4.5kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">传动效率</span>
+          <span class="spec-value">95%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">最大扭矩</span>
+          <span class="spec-value">8 N·m</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥1,199</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">电池可拆卸</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">维修方便</span>
+      <span class="tag tag-pro">扭矩大</span>
+      <span class="tag tag-price">¥1,199</span>
+      <span class="tag tag-con">略有噪音</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案4 -->
+<section id="s4" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">方案 04</div>
+    <h2 class="section-title">智能感应助力</h2>
+    <p class="section-desc">AI算法自动感知用户意图，助力更智能</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🧠</div>
+      <div>
+        <div class="solution-title">AI智能感应版</div>
+        <div class="solution-subtitle">拉力传感器 + AI算法 · 自动匹配助力</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>高精度拉力传感器</strong>：检测拉杆力度，精度0.1N</li>
+        <li><strong>AI学习算法</strong>：学习用户习惯，助力更贴合</li>
+        <li><strong>坡度检测</strong>：内置陀螺仪，上坡自动加力</li>
+        <li><strong>速度自适应</strong>：走得快助力大，走得慢助力小</li>
+        <li><strong>防抖动</strong>：智能滤波，助力平稳无顿挫</li>
+        <li><strong>App调节</strong>：手机App微调助力曲线</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约75-85%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">4.8kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">传感器精度</span>
+          <span class="spec-value">0.1N</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">响应时间</span>
+          <span class="spec-value">< 50ms</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥1,699</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">电池可拆卸</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-star">最智能</span>
+      <span class="tag tag-pro">自动适应</span>
+      <span class="tag tag-price">¥1,699</span>
+      <span class="tag tag-tech">AI算法</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案5 -->
+<section id="s5">
+  <div class="section-header">
+    <div class="section-num">方案 05</div>
+    <h2 class="section-title">碳纤维超轻 + 助力</h2>
+    <p class="section-desc">极致轻量化箱体 + 小功率电机，轻上加轻</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🪶</div>
+      <div>
+        <div class="solution-title">碳纤维超轻版</div>
+        <div class="solution-subtitle">碳纤维箱体 · 空箱仅2.2kg · 轻若无物</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>碳纤维箱体</strong>：强度是钢的5倍，重量仅1/5</li>
+        <li><strong>超轻电机</strong>：微型无刷电机，单个仅180g</li>
+        <li><strong>小容量电池</strong>：50Wh即可满足日常需求</li>
+        <li><strong>整体重量</strong>：空箱+电池仅2.2kg，比普通箱轻一半</li>
+        <li><strong>抗冲击</strong>：碳纤维韧性好，不怕摔</li>
+        <li><strong>高端质感</strong>：碳纤维纹理，科技感十足</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约60-70%（含减重）</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">2.2kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">箱体材质</span>
+          <span class="spec-value">T700碳纤维</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">电池容量</span>
+          <span class="spec-value">50Wh (可拆)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥2,999</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">无限制</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-star">最轻</span>
+      <span class="tag tag-pro">高端质感</span>
+      <span class="tag tag-price">¥2,999</span>
+      <span class="tag tag-tech">碳纤维</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案6 -->
+<section id="s6" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">方案 06</div>
+    <h2 class="section-title">双电机四驱版</h2>
+    <p class="section-desc">前后双电机，全地形适应，重载无忧</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🏎️</div>
+      <div>
+        <div class="solution-title">双电机四驱版</div>
+        <div class="solution-subtitle">前后双电机 · 全地形 · 重载30kg+</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>双电机配置</strong>：前后各一个电机，动力强劲</li>
+        <li><strong>全地形轮</strong>：大直径+深纹路，草地/石子路/坡道都能走</li>
+        <li><strong>智能分配</strong>：根据路况自动分配前后电机功率</li>
+        <li><strong>重载模式</strong>：30kg+重物轻松拉动</li>
+        <li><strong>爬坡能力</strong>：最大20°坡道</li>
+        <li><strong>独立悬挂</strong>：四轮独立减震，平稳舒适</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约85-90%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">5.8kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">电机功率</span>
+          <span class="spec-value">80W × 2</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">最大载重</span>
+          <span class="spec-value">35kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥1,999</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">电池可拆卸</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">动力最强</span>
+      <span class="tag tag-pro">全地形</span>
+      <span class="tag tag-price">¥1,999</span>
+      <span class="tag tag-con">较重</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案7 -->
+<section id="s7">
+  <div class="section-header">
+    <div class="section-num">方案 07</div>
+    <h2 class="section-title">可拆卸助力模块</h2>
+    <p class="section-desc">助力模块完全独立，行李箱和助力系统分开</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🔌</div>
+      <div>
+        <div class="solution-title">模块化助力版</div>
+        <div class="solution-subtitle">助力模块可拆卸 · 一箱两用 · 航空无忧</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>独立助力模块</strong>：电机+电池+控制器，一个模块搞定</li>
+        <li><strong>快拆设计</strong>：按一下按钮，3秒拆卸</li>
+        <li><strong>一箱两用</strong>：装上=电动箱，拆下=普通箱</li>
+        <li><strong>模块通用</strong>：同一模块适配不同尺寸箱体</li>
+        <li><strong>单独充电</strong>：模块可单独充电，不需整箱</li>
+        <li><strong>航空友好</strong>：登机前拆下，模块随身带</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约70-80%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">箱体重量</span>
+          <span class="spec-value">3.2kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">模块重量</span>
+          <span class="spec-value">1.2kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">拆卸时间</span>
+          <span class="spec-value">3秒</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥1,499</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">无限制</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">航空无忧</span>
+      <span class="tag tag-pro">灵活多用</span>
+      <span class="tag tag-price">¥1,499</span>
+      <span class="tag tag-tech">模块化</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案8 -->
+<section id="s8" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">方案 08</div>
+    <h2 class="section-title">人体工学拉杆系统</h2>
+    <p class="section-desc">不加电，纯靠拉杆设计革命性省力</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🤚</div>
+      <div>
+        <div class="solution-title">人体工学拉杆版</div>
+        <div class="solution-subtitle">革命性拉杆设计 · 无需电力 · 省力50%</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>杠杆原理拉杆</strong>：特殊角度设计，力臂放大1.5倍</li>
+        <li><strong>弹簧助力</strong>：内置弹簧，释放时自动回弹助力</li>
+        <li><strong>双握把设计</strong>：上下两个握把，双手分担力量</li>
+        <li><strong>360°旋转握把</strong>：手腕无需扭转，减少疲劳</li>
+        <li><strong>高度可调</strong>：5档高度，适配不同身高</li>
+        <li><strong>防滑硅胶</strong>：握把材质亲肤防滑</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约45-55%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">3.5kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">力臂放大</span>
+          <span class="spec-value">1.5倍</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">握把档位</span>
+          <span class="spec-value">5档可调</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥899</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">无限制</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">无需充电</span>
+      <span class="tag tag-pro">最轻便</span>
+      <span class="tag tag-price">¥899</span>
+      <span class="tag tag-tech">人体工学</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案9 -->
+<section id="s9">
+  <div class="section-header">
+    <div class="section-num">方案 09</div>
+    <h2 class="section-title">登机箱助力版</h2>
+    <p class="section-desc">专为20寸登机箱设计，轻便出行首选</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">✈️</div>
+      <div>
+        <div class="solution-title">登机箱助力版</div>
+        <div class="solution-subtitle">20寸 · 3.5kg · 随身携带 · 随时助力</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>20寸登机尺寸</strong>：符合所有航空公司登机标准</li>
+        <li><strong>内置电池</strong>：74Wh电池，无需拆卸即可登机</li>
+        <li><strong>轻量化设计</strong>：整体仅3.5kg，女生单手可提</li>
+        <li><strong>静音电机</strong>：图书馆级静音，不打扰他人</li>
+        <li><strong>USB-C充电</strong>：支持手机反向充电</li>
+        <li><strong>前开盖设计</strong>：笔记本电脑快速取放</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约65-75%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">整体重量</span>
+          <span class="spec-value">3.5kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">尺寸</span>
+          <span class="spec-value">20寸 (登机)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">电池容量</span>
+          <span class="spec-value">74Wh (内置)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥1,399</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">无限制</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-star">登机首选</span>
+      <span class="tag tag-pro">最便携</span>
+      <span class="tag tag-price">¥1,399</span>
+      <span class="tag tag-tech">内置电池</span>
+    </div>
+  </div>
+</section>
+
+<!-- 方案10 -->
+<section id="s10" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">方案 10</div>
+    <h2 class="section-title">大容量托运助力版</h2>
+    <p class="section-desc">28寸大空间 + 强力助力，长途旅行首选</p>
+  </div>
+
+  <div class="solution-card">
+    <div class="solution-header">
+      <div class="solution-icon">🧳</div>
+      <div>
+        <div class="solution-title">大容量托运版</div>
+        <div class="solution-subtitle">28寸 · 90L大空间 · 双电机强力助力</div>
+      </div>
+    </div>
+    <div class="solution-body">
+      <ul class="solution-features">
+        <li><strong>28寸大容量</strong>：90L超大空间，长途旅行无忧</li>
+        <li><strong>双电机驱动</strong>：100W×2电机，重载轻松</li>
+        <li><strong>大容量电池</strong>：150Wh可拆卸电池，续航20km</li>
+        <li><strong>扩展层设计</strong>：拉链扩展，容量增加20%</li>
+        <li><strong>分区收纳</strong>：衣物/鞋子/洗漱科学分区</li>
+        <li><strong>TSA密码锁</strong>：国际通用海关锁</li>
+      </ul>
+      <div class="solution-specs">
+        <div class="spec-row">
+          <span class="spec-label">省力效果</span>
+          <span class="spec-value">约85-90%</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">空箱重量</span>
+          <span class="spec-value">6.2kg</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">容量</span>
+          <span class="spec-value">90L (扩展108L)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">电池容量</span>
+          <span class="spec-value">150Wh (可拆)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">参考价格</span>
+          <span class="spec-value">¥2,299</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">航空限制</span>
+          <span class="spec-value">电池需拆卸托运</span>
+        </div>
+      </div>
+    </div>
+    <div class="solution-tags">
+      <span class="tag tag-pro">最大空间</span>
+      <span class="tag tag-pro">最强动力</span>
+      <span class="tag tag-price">¥2,299</span>
+      <span class="tag tag-con">较重</span>
+    </div>
+  </div>
+</section>
+
+<!-- 对比总结 -->
+<section id="compare">
+  <div class="section-header">
+    <div class="section-num">对比总结</div>
+    <h2 class="section-title">10种方案对比</h2>
+    <p class="section-desc">根据你的需求选择最合适的方案</p>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>方案</th>
+          <th>省力效果</th>
+          <th>空箱重量</th>
+          <th>需要充电</th>
+          <th>航空限制</th>
+          <th>价格</th>
+          <th>推荐人群</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 600;">01 机械省力</td>
+          <td>40-50%</td>
+          <td>2.8kg</td>
+          <td>否</td>
+          <td>无</td>
+          <td>¥699</td>
+          <td>预算有限、不想充电</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">02 轮毂电机</td>
+          <td>70-80%</td>
+          <td>4.2kg</td>
+          <td>是</td>
+          <td>无（可拆）</td>
+          <td>¥1,299</td>
+          <td>⭐ 综合推荐</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">03 皮带传动</td>
+          <td>65-75%</td>
+          <td>4.5kg</td>
+          <td>是</td>
+          <td>无（可拆）</td>
+          <td>¥1,199</td>
+          <td>重载场景</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">04 AI智能</td>
+          <td>75-85%</td>
+          <td>4.8kg</td>
+          <td>是</td>
+          <td>无（可拆）</td>
+          <td>¥1,699</td>
+          <td>科技爱好者</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">05 碳纤维</td>
+          <td>60-70%</td>
+          <td>2.2kg</td>
+          <td>是</td>
+          <td>无</td>
+          <td>¥2,999</td>
+          <td>追求极致轻量</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">06 双电机四驱</td>
+          <td>85-90%</td>
+          <td>5.8kg</td>
+          <td>是</td>
+          <td>无（可拆）</td>
+          <td>¥1,999</td>
+          <td>全地形需求</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">07 模块化</td>
+          <td>70-80%</td>
+          <td>3.2+1.2kg</td>
+          <td>是</td>
+          <td>无（可拆）</td>
+          <td>¥1,499</td>
+          <td>⭐ 航空首选</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">08 人体工学</td>
+          <td>45-55%</td>
+          <td>3.5kg</td>
+          <td>否</td>
+          <td>无</td>
+          <td>¥899</td>
+          <td>不想充电、追求轻便</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">09 登机箱</td>
+          <td>65-75%</td>
+          <td>3.5kg</td>
+          <td>是</td>
+          <td>无（内置）</td>
+          <td>¥1,399</td>
+          <td>⭐ 短途首选</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">10 大容量</td>
+          <td>85-90%</td>
+          <td>6.2kg</td>
+          <td>是</td>
+          <td>需拆卸</td>
+          <td>¥2,299</td>
+          <td>长途旅行</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <h3 style="font-size: 1.3rem; margin-bottom: 1.5rem;">💡 推荐组合</h3>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+    <div class="solution-card" style="margin-bottom: 0; border-color: var(--green);">
+      <h3 style="color: var(--green); margin-bottom: 0.5rem;">日常通勤</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">方案09 登机箱 + 方案01 机械省力</p>
+      <p style="color: var(--accent); font-weight: 700; margin-top: 0.5rem;">¥1,399</p>
+    </div>
+    <div class="solution-card" style="margin-bottom: 0; border-color: var(--blue);">
+      <h3 style="color: var(--blue); margin-bottom: 0.5rem;">商务出差</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">方案02 轮毂电机 + 方案07 模块化</p>
+      <p style="color: var(--accent); font-weight: 700; margin-top: 0.5rem;">¥1,499</p>
+    </div>
+    <div class="solution-card" style="margin-bottom: 0; border-color: var(--purple);">
+      <h3 style="color: var(--purple); margin-bottom: 0.5rem;">长途旅行</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">方案10 大容量 + 方案04 AI智能</p>
+      <p style="color: var(--accent); font-weight: 700; margin-top: 0.5rem;">¥2,299</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="footer">
+  <p>省力行李箱 · 10种可行方案设计 · 2024</p>
+  <p style="margin-top: 0.5rem; color: var(--accent);">让每一位女性都能轻松出行</p>
+</div>
+
+</body>
+</html>

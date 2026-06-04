@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能遥控行李箱 - 产品特性清单</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --bg: #f8fafb;
+    --surface: #ffffff;
+    --surface-2: #f0f4f8;
+    --border: #d8e2ec;
+    --text: #1a2332;
+    --text-muted: #6b7a8d;
+    --accent: #2563eb;
+    --accent-2: #1d4ed8;
+    --tech: #0ea5e9;
+    --innovation: #8b5cf6;
+    --market: #10b981;
+    --challenge: #f59e0b;
+    --card-radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(180deg, #f8fafb 0%, #e8f0fe 50%, #f8fafb 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-label {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-stat {
+    text-align: center;
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .hero-stat-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .toc {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(248,250,251,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    justify-content: center;
+  }
+
+  .toc a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  .toc a:hover { color: var(--accent); }
+
+  section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-header {
+    margin-bottom: 3rem;
+  }
+
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    color: var(--text-muted);
+    max-width: 700px;
+    font-size: 0.95rem;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin: 2rem 0;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.8rem;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.1);
+  }
+
+  .card-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .card p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .tag {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+  }
+
+  .tag-tech { background: #eff6ff; color: #2563eb; }
+  .tag-market { background: #ecfdf5; color: #10b981; }
+  .tag-challenge { background: #fef3c7; color: #d97706; }
+  .tag-innovation { background: #f3e8ff; color: #8b5cf6; }
+  .tag-priority { background: #fee2e2; color: #ef4444; }
+
+  /* Tables */
+  .table-wrapper {
+    overflow-x: auto;
+    margin-top: 2rem;
+    border-radius: var(--card-radius);
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+  }
+
+  thead {
+    background: var(--surface-2);
+  }
+
+  th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 2px solid var(--border);
+  }
+
+  td {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover { background: rgba(37,99,235,0.02); }
+
+  /* Product Comparison */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .product-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 2rem;
+    text-align: center;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .product-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .product-card.featured {
+    border-color: var(--accent);
+    position: relative;
+  }
+
+  .product-card.featured::before {
+    content: '推荐';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .product-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .product-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 1.5rem;
+  }
+
+  .product-features li {
+    padding: 0.3rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  .product-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--market);
+    font-weight: 700;
+  }
+
+  .product-features li.disabled {
+    color: #d1d5db;
+  }
+
+  .product-features li.disabled::before {
+    content: '✗';
+    color: #d1d5db;
+  }
+
+  /* Spec List */
+  .spec-list {
+    list-style: none;
+  }
+
+  .spec-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+
+  .spec-list li:last-child {
+    border-bottom: none;
+  }
+
+  .spec-label {
+    color: var(--text-muted);
+  }
+
+  .spec-value {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .card-grid { grid-template-columns: 1fr; }
+    .product-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">产品特性清单 · Product Features</div>
+  <h1>智能遥控行李箱</h1>
+  <p class="hero-sub">完整的产品功能规划、技术规格与产品线设计</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">3</div>
+      <div class="hero-stat-label">产品线</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">15+</div>
+      <div class="hero-stat-label">核心功能</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">50+</div>
+      <div class="hero-stat-label">技术参数</div>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="toc">
+  <a href="#products">产品线</a>
+  <a href="#core">核心功能</a>
+  <a href="#tech">技术规格</a>
+  <a href="#remote">遥控方案</a>
+  <a href="#battery">电池系统</a>
+  <a href="#safety">安全特性</a>
+  <a href="#app">App功能</a>
+  <a href="#accessories">配件生态</a>
+</nav>
+
+<!-- 产品线规划 -->
+<section id="products">
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <h2 class="section-title">产品线规划</h2>
+    <p class="section-desc">三款产品覆盖不同价格带，满足多层次用户需求</p>
+  </div>
+
+  <div class="product-grid">
+    <!-- 入门款 -->
+    <div class="product-card">
+      <div class="product-name">遥控版 · Lite</div>
+      <div class="product-price">¥1,299</div>
+      <ul class="product-features">
+        <li>2.4G无线遥控器</li>
+        <li>前进/后退/左转/右转</li>
+        <li>三档速度调节</li>
+        <li>超声波避障</li>
+        <li>LED状态指示灯</li>
+        <li>USB-C充电</li>
+        <li class="disabled">手机App控制</li>
+        <li class="disabled">GPS定位</li>
+        <li class="disabled">AI视觉跟随</li>
+      </ul>
+      <div class="card-tags">
+        <span class="tag tag-market">入门首选</span>
+        <span class="tag tag-tech">成本可控</span>
+      </div>
+    </div>
+
+    <!-- 进阶款 -->
+    <div class="product-card featured">
+      <div class="product-name">App版 · Pro</div>
+      <div class="product-price">¥1,999</div>
+      <ul class="product-features">
+        <li>手机App遥控（蓝牙5.0）</li>
+        <li>虚拟摇杆 + 重力感应</li>
+        <li>三档速度调节</li>
+        <li>超声波+红外避障</li>
+        <li>GPS实时定位</li>
+        <li>行程记录与统计</li>
+        <li>远程锁定功能</li>
+        <li class="disabled">AI视觉跟随</li>
+      </ul>
+      <div class="card-tags">
+        <span class="tag tag-priority">推荐</span>
+        <span class="tag tag-innovation">功能丰富</span>
+      </div>
+    </div>
+
+    <!-- 旗舰款 -->
+    <div class="product-card">
+      <div class="product-name">智能跟随版 · Max</div>
+      <div class="product-price">¥3,999</div>
+      <ul class="product-features">
+        <li>AI视觉自动跟随</li>
+        <li>手机App + 遥控器双模</li>
+        <li>170°广角摄像头</li>
+        <li>深度学习避障算法</li>
+        <li>GPS + UWB精准定位</li>
+        <li>手势控制</li>
+        <li>自动返回充电</li>
+        <li>OTA固件升级</li>
+      </ul>
+      <div class="card-tags">
+        <span class="tag tag-innovation">旗舰体验</span>
+        <span class="tag tag-tech">全自动</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 核心功能 -->
+<section id="core" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <h2 class="section-title">核心功能特性</h2>
+    <p class="section-desc">解决用户"行李太重不好拿"的核心痛点</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🎮</div>
+      <h3>遥控控制</h3>
+      <p>专用遥控器或手机App控制行李箱移动，操作简单直观，支持前进、后退、转向等基本动作</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">2.4G无线</span>
+        <span class="tag tag-market">50米距离</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>智能避障</h3>
+      <p>多传感器融合方案，实时检测周围障碍物，自动减速或停止，避免碰撞</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">超声波</span>
+        <span class="tag tag-tech">红外</span>
+        <span class="tag tag-innovation">360°检测</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚡</div>
+      <h3>多档调速</h3>
+      <p>支持慢速、中速、快速三档速度调节，适应不同场景需求（室内慢行、机场快走）</p>
+      <div class="card-tags">
+        <span class="tag tag-market">1m/s</span>
+        <span class="tag tag-market">2m/s</span>
+        <span class="tag tag-market">3m/s</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <h3>长续航电池</h3>
+      <p>100Wh可拆卸锂电池，续航15km，支持USB-C快充，2小时充满</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">100Wh</span>
+        <span class="tag tag-market">15km续航</span>
+        <span class="tag tag-challenge">航空合规</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📍</div>
+      <h3>GPS追踪</h3>
+      <p>内置GPS模块，实时定位行李箱位置，支持历史轨迹查看，防丢失提醒</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">GPS+北斗</span>
+        <span class="tag tag-innovation">实时追踪</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>安全锁定</h3>
+      <p>TSA海关锁+App远程锁定双重保护，保障行李安全</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">TSA认证</span>
+        <span class="tag tag-market">远程控制</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 技术规格 -->
+<section id="tech">
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <h2 class="section-title">技术规格参数</h2>
+    <p class="section-desc">详细的产品技术参数</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>📦 箱体规格</h3>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">尺寸（20寸）</span>
+          <span class="spec-value">55 × 35 × 20 cm</span>
+        </li>
+        <li>
+          <span class="spec-label">尺寸（24寸）</span>
+          <span class="spec-value">65 × 42 × 25 cm</span>
+        </li>
+        <li>
+          <span class="spec-label">净重</span>
+          <span class="spec-value">3.8kg（含电池）</span>
+        </li>
+        <li>
+          <span class="spec-label">容量</span>
+          <span class="spec-value">38L / 55L</span>
+        </li>
+        <li>
+          <span class="spec-label">材质</span>
+          <span class="spec-value">PC+ABS / 铝合金框架</span>
+        </li>
+        <li>
+          <span class="spec-label">防水等级</span>
+          <span class="spec-value">IPX4</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>⚙️ 驱动系统</h3>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">电机类型</span>
+          <span class="spec-value">无刷直流电机 × 2</span>
+        </li>
+        <li>
+          <span class="spec-label">电机功率</span>
+          <span class="spec-value">50W × 2</span>
+        </li>
+        <li>
+          <span class="spec-label">最大速度</span>
+          <span class="spec-value">3 m/s（10.8 km/h）</span>
+        </li>
+        <li>
+          <span class="spec-label">最大载重</span>
+          <span class="spec-value">30kg</span>
+        </li>
+        <li>
+          <span class="spec-label">爬坡角度</span>
+          <span class="spec-value">≤15°</span>
+        </li>
+        <li>
+          <span class="spec-label">轮子直径</span>
+          <span class="spec-value">75mm（静音万向轮）</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📡 通信系统</h3>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">遥控频率</span>
+          <span class="spec-value">2.4GHz</span>
+        </li>
+        <li>
+          <span class="spec-label">遥控距离</span>
+          <span class="spec-value">50米（开阔环境）</span>
+        </li>
+        <li>
+          <span class="spec-label">蓝牙版本</span>
+          <span class="spec-value">Bluetooth 5.0</span>
+        </li>
+        <li>
+          <span class="spec-label">蓝牙距离</span>
+          <span class="spec-value">30米</span>
+        </li>
+        <li>
+          <span class="spec-label">GPS模块</span>
+          <span class="spec-value">GPS + 北斗 + GLONASS</span>
+        </li>
+        <li>
+          <span class="spec-label">定位精度</span>
+          <span class="spec-value">±2.5米</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 遥控方案详解 -->
+<section id="remote" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <h2 class="section-title">遥控方案详解</h2>
+    <p class="section-desc">三种遥控方式，满足不同用户偏好</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🎮</div>
+      <h3>方案A：专用遥控器</h3>
+      <p>类似游戏手柄的操作方式，直观易学，适合所有年龄段用户</p>
+      <div class="divider"></div>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">操作方式</span>
+          <span class="spec-value">摇杆 + 按键</span>
+        </li>
+        <li>
+          <span class="spec-label">电源</span>
+          <span class="spec-value">AAA电池 × 2</span>
+        </li>
+        <li>
+          <span class="spec-label">续航</span>
+          <span class="spec-value">约100小时</span>
+        </li>
+        <li>
+          <span class="spec-label">响应延迟</span>
+          <span class="spec-value">< 50ms</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-icon">📱</div>
+      <h3>方案B：手机App</h3>
+      <p>无需额外设备，手机即遥控器，支持虚拟摇杆和重力感应两种模式</p>
+      <div class="divider"></div>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">连接方式</span>
+          <span class="spec-value">蓝牙5.0</span>
+        </li>
+        <li>
+          <span class="spec-label">控制模式</span>
+          <span class="spec-value">摇杆 / 重力感应</span>
+        </li>
+        <li>
+          <span class="spec-label">系统要求</span>
+          <span class="spec-value">iOS 14+ / Android 10+</span>
+        </li>
+        <li>
+          <span class="spec-label">额外功能</span>
+          <span class="spec-value">GPS追踪、行程记录</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-icon">🤖</div>
+      <h3>方案C：AI视觉跟随</h3>
+      <p>全自动跟随主人行走，真正解放双手，旗舰版专属功能</p>
+      <div class="divider"></div>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">识别技术</span>
+          <span class="spec-value">深度学习视觉识别</span>
+        </li>
+        <li>
+          <span class="spec-label">摄像头</span>
+          <span class="spec-value">170°广角 × 2</span>
+        </li>
+        <li>
+          <span class="spec-label">跟随距离</span>
+          <span class="spec-value">1-3米可调</span>
+        </li>
+        <li>
+          <span class="spec-label">跟随精度</span>
+          <span class="spec-value">±0.5米</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 电池系统 -->
+<section id="battery">
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <h2 class="section-title">电池与续航系统</h2>
+    <p class="section-desc">航空合规设计，安全可靠的电力系统</p>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>参数</th>
+          <th>Lite</th>
+          <th>Pro</th>
+          <th>Max</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 600;">电池容量</td>
+          <td>100Wh (27,000mAh)</td>
+          <td>100Wh (27,000mAh)</td>
+          <td>100Wh (27,000mAh)</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">电池类型</td>
+          <td>锂离子电池</td>
+          <td>锂离子电池</td>
+          <td>锂聚合物电池</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">可拆卸</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">续航里程</td>
+          <td>10km</td>
+          <td>15km</td>
+          <td>12km</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">充电时间</td>
+          <td>3小时</td>
+          <td>2小时（快充）</td>
+          <td>2.5小时（快充）</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">充电接口</td>
+          <td>USB-C</td>
+          <td>USB-C PD</td>
+          <td>USB-C PD</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">支持充电宝</td>
+          <td>✗</td>
+          <td>✓</td>
+          <td>✓</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">航空认证</td>
+          <td>✓ (<100Wh)</td>
+          <td>✓ (<100Wh)</td>
+          <td>✓ (<100Wh)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>✈️ 航空合规要点</h3>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">电池容量</span>
+          <span class="spec-value">≤100Wh（符合IATA规定）</span>
+        </li>
+        <li>
+          <span class="spec-label">可拆卸设计</span>
+          <span class="spec-value">支持单独携带</span>
+        </li>
+        <li>
+          <span class="spec-label">安全认证</span>
+          <span class="spec-value">UN38.3、MSDS</span>
+        </li>
+        <li>
+          <span class="spec-label">保护机制</span>
+          <span class="spec-value">过充/过放/过流/短路保护</span>
+        </li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>🔌 充电方案</h3>
+      <ul class="spec-list">
+        <li>
+          <span class="spec-label">标配充电器</span>
+          <span class="spec-value">65W USB-C PD</span>
+        </li>
+        <li>
+          <span class="spec-label">快充支持</span>
+          <span class="spec-value">PD3.0 / QC4.0</span>
+        </li>
+        <li>
+          <span class="spec-label">充电宝供电</span>
+          <span class="spec-value">支持（Pro/Max）</span>
+        </li>
+        <li>
+          <span class="spec-label">无线充电</span>
+          <span class="spec-value">暂不支持</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 安全特性 -->
+<section id="safety" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <h2 class="section-title">安全特性设计</h2>
+    <p class="section-desc">多重安全保障，让用户放心使用</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🛡️</div>
+      <h3>障碍物检测</h3>
+      <p>超声波+红外多传感器融合，360°全方位障碍物检测，自动减速或停止</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">超声波×4</span>
+        <span class="tag tag-tech">红外×2</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <h3>电池安全</h3>
+      <p>多重电池保护机制，防止过充、过放、过流、短路，温度异常自动断电</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">BMS管理</span>
+        <span class="tag tag-challenge">UN38.3认证</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>防盗设计</h3>
+      <p>TSA海关锁+App远程锁定+异常移动报警，三重防盗保护</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">TSA认证</span>
+        <span class="tag tag-innovation">远程锁定</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚠️</div>
+      <h3>紧急停止</h3>
+      <p>遥控器急停按钮+App紧急停止+物理急停开关，三重紧急停止机制</p>
+      <div class="card-tags">
+        <span class="tag tag-priority">三重保护</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">📍</div>
+      <h3>丢失找回</h3>
+      <p>GPS实时定位+历史轨迹记录+离开安全区域报警，有效防止行李丢失</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">GPS追踪</span>
+        <span class="tag tag-innovation">电子围栏</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-icon">🌡️</div>
+      <h3>温度保护</h3>
+      <p>内置温度传感器，高温/低温环境下自动限制功率或停止运行</p>
+      <div class="card-tags">
+        <span class="tag tag-tech">-10°C~50°C</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- App功能 -->
+<section id="app">
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <h2 class="section-title">手机App功能</h2>
+    <p class="section-desc">智能管理，一触即达</p>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-icon">🎮</div>
+      <h3>遥控控制</h3>
+      <p>虚拟摇杆和重力感应两种控制模式，支持速度调节、方向控制</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📍</div>
+      <h3>实时定位</h3>
+      <p>GPS实时定位，显示行李箱位置，支持历史轨迹查看</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">📊</div>
+      <h3>行程统计</h3>
+      <p>记录每次出行的距离、时间、速度等数据，生成出行报告</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔋</div>
+      <h3>电量管理</h3>
+      <p>实时显示电量，低电量提醒，充电状态监控</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">🔒</div>
+      <h3>安全设置</h3>
+      <p>远程锁定/解锁，安全区域设置，异常报警通知</p>
+    </div>
+    <div class="card">
+      <div class="card-icon">⚙️</div>
+      <h3>设备管理</h3>
+      <p>固件OTA升级，参数设置，故障诊断，使用教程</p>
+    </div>
+  </div>
+</section>
+
+<!-- 配件生态 -->
+<section id="accessories" style="background: var(--surface-2); margin: 0; max-width: 100%; padding: 5rem calc((100% - 1200px) / 2);">
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <h2 class="section-title">配件生态系统</h2>
+    <p class="section-desc">丰富配件，扩展使用场景</p>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>配件名称</th>
+          <th>功能描述</th>
+          <th>参考价格</th>
+          <th>适用产品</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight: 600;">扩展电池包</td>
+          <td>额外100Wh电池，可拆卸设计，延长续航</td>
+          <td>¥399</td>
+          <td>全系列</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">备用遥控器</td>
+          <td>2.4G无线遥控器，支持即插即用</td>
+          <td>¥99</td>
+          <td>Lite</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">个性化外壳</td>
+          <td>可更换箱体外壳，多种颜色/材质可选</td>
+          <td>¥199-399</td>
+          <td>全系列</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">收纳内胆</td>
+          <td>分层收纳设计，衣物/数码/洗漱分区</td>
+          <td>¥129</td>
+          <td>全系列</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">防尘罩</td>
+          <td>收纳保护，防尘防刮，带品牌Logo</td>
+          <td>¥69</td>
+          <td>全系列</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">行李绑带</td>
+          <td>TSA认证密码锁绑带，固定额外物品</td>
+          <td>¥59</td>
+          <td>全系列</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 600;">充电底座</td>
+          <td>自动对位充电，支持快充</td>
+          <td>¥299</td>
+          <td>Pro / Max</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-brand">Smart Suitcase Product Features</div>
+  <p>智能遥控行李箱产品特性清单 · 2024</p>
+</div>
+
+</body>
+</html>

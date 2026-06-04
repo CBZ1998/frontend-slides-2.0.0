@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能遥控行李箱 - 商业模式画布</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --bg: #f8fafb;
+    --surface: #ffffff;
+    --surface-2: #f0f4f8;
+    --border: #d8e2ec;
+    --text: #1a2332;
+    --text-muted: #6b7a8d;
+    --accent: #2563eb;
+    --accent-2: #1d4ed8;
+    --tech: #0ea5e9;
+    --innovation: #8b5cf6;
+    --market: #10b981;
+    --challenge: #f59e0b;
+    --revenue: #ec4899;
+    --card-radius: 16px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans SC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(180deg, #f8fafb 0%, #e8f0fe 50%, #f8fafb 100%);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(37,99,235,0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-label {
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+
+  /* BMC Grid */
+  .bmc-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .bmc-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 1.5rem;
+  }
+
+  .bmc-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--card-radius);
+    padding: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .bmc-block:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.1);
+  }
+
+  .bmc-block-title {
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .bmc-block-title .icon {
+    font-size: 1.2rem;
+  }
+
+  .bmc-list {
+    list-style: none;
+  }
+
+  .bmc-list li {
+    padding: 0.4rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .bmc-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.7rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  /* Grid Layout */
+  .bmc-kp { grid-column: 1; grid-row: 1 / 3; }
+  .bmc-ka { grid-column: 2; grid-row: 1; }
+  .bmc-kr { grid-column: 2; grid-row: 2; }
+  .bmc-vp { grid-column: 3; grid-row: 1 / 3; }
+  .bmc-cr { grid-column: 4; grid-row: 1; }
+  .bmc-ch { grid-column: 4; grid-row: 2; }
+  .bmc-cs { grid-column: 5; grid-row: 1 / 3; }
+  .bmc-cost { grid-column: 1 / 3; grid-row: 3; }
+  .bmc-revenue { grid-column: 3 / 6; grid-row: 3; }
+
+  /* Colors for each block */
+  .bmc-kp .bmc-block-title { color: var(--accent); }
+  .bmc-kp .bmc-list li::before { background: var(--accent); }
+
+  .bmc-ka .bmc-block-title { color: var(--tech); }
+  .bmc-ka .bmc-list li::before { background: var(--tech); }
+
+  .bmc-kr .bmc-block-title { color: var(--innovation); }
+  .bmc-kr .bmc-list li::before { background: var(--innovation); }
+
+  .bmc-vp .bmc-block-title { color: var(--market); }
+  .bmc-vp .bmc-list li::before { background: var(--market); }
+
+  .bmc-cr .bmc-block-title { color: var(--challenge); }
+  .bmc-cr .bmc-list li::before { background: var(--challenge); }
+
+  .bmc-ch .bmc-block-title { color: var(--revenue); }
+  .bmc-ch .bmc-list li::before { background: var(--revenue); }
+
+  .bmc-cs .bmc-block-title { color: #f97316; }
+  .bmc-cs .bmc-list li::before { background: #f97316; }
+
+  .bmc-cost .bmc-block-title { color: #ef4444; }
+  .bmc-cost .bmc-list li::before { background: #ef4444; }
+
+  .bmc-revenue .bmc-block-title { color: var(--market); }
+  .bmc-revenue .bmc-list li::before { background: var(--market); }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .bmc-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+    }
+    .bmc-kp { grid-column: 1; grid-row: auto; }
+    .bmc-ka { grid-column: 2; grid-row: auto; }
+    .bmc-kr { grid-column: 1; grid-row: auto; }
+    .bmc-vp { grid-column: 2; grid-row: auto; }
+    .bmc-cr { grid-column: 1; grid-row: auto; }
+    .bmc-ch { grid-column: 2; grid-row: auto; }
+    .bmc-cs { grid-column: 1; grid-row: auto; }
+    .bmc-cost { grid-column: 1 / 3; grid-row: auto; }
+    .bmc-revenue { grid-column: 1 / 3; grid-row: auto; }
+  }
+
+  @media (max-width: 768px) {
+    .bmc-grid {
+      grid-template-columns: 1fr;
+    }
+    .bmc-kp, .bmc-ka, .bmc-kr, .bmc-vp, .bmc-cr, .bmc-ch, .bmc-cs,
+    .bmc-cost, .bmc-revenue {
+      grid-column: 1;
+      grid-row: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">商业模式画布 · Business Model Canvas</div>
+  <h1>智能遥控行李箱</h1>
+  <p class="hero-sub">基于遥控方案的智能行李箱产品商业模式设计</p>
+</div>
+
+<!-- BMC Grid -->
+<div class="bmc-container">
+  <div class="bmc-grid">
+
+    <!-- Key Partners -->
+    <div class="bmc-block bmc-kp">
+      <div class="bmc-block-title">
+        <span class="icon">🤝</span>
+        关键合作伙伴
+      </div>
+      <ul class="bmc-list">
+        <li>电机/驱动系统供应商</li>
+        <li>锂电池制造商</li>
+        <li>遥控器芯片供应商</li>
+        <li>箱体代工厂（新秀丽供应链）</li>
+        <li>电商平台（京东、天猫）</li>
+        <li>机场/高铁站零售商</li>
+        <li>物流公司（顺丰、京东物流）</li>
+        <li>售后服务网络</li>
+      </ul>
+    </div>
+
+    <!-- Key Activities -->
+    <div class="bmc-block bmc-ka">
+      <div class="bmc-block-title">
+        <span class="icon">⚡</span>
+        关键活动
+      </div>
+      <ul class="bmc-list">
+        <li>产品研发与设计</li>
+        <li>供应链管理</li>
+        <li>质量控制与测试</li>
+        <li>品牌营销与推广</li>
+        <li>渠道建设与管理</li>
+        <li>售后服务体系</li>
+      </ul>
+    </div>
+
+    <!-- Key Resources -->
+    <div class="bmc-block bmc-kr">
+      <div class="bmc-block-title">
+        <span class="icon">🔧</span>
+        关键资源
+      </div>
+      <ul class="bmc-list">
+        <li>核心技术专利</li>
+        <li>研发团队</li>
+        <li>供应链关系</li>
+        <li>品牌资产</li>
+        <li>销售渠道</li>
+        <li>用户数据</li>
+      </ul>
+    </div>
+
+    <!-- Value Propositions -->
+    <div class="bmc-block bmc-vp">
+      <div class="bmc-block-title">
+        <span class="icon">💎</span>
+        价值主张
+      </div>
+      <ul class="bmc-list">
+        <li><strong>解放双手</strong>：遥控控制，无需拖拽</li>
+        <li><strong>轻松出行</strong>：减轻体力负担</li>
+        <li><strong>智能避障</strong>：安全可靠的跟随体验</li>
+        <li><strong>航空合规</strong>：可拆卸电池设计</li>
+        <li><strong>高性价比</strong>：比全自动方案更实惠</li>
+        <li><strong>多模式选择</strong>：遥控/App/跟随三种模式</li>
+        <li><strong>时尚外观</strong>：科技感与实用性兼具</li>
+      </ul>
+    </div>
+
+    <!-- Customer Relationships -->
+    <div class="bmc-block bmc-cr">
+      <div class="bmc-block-title">
+        <span class="icon">💬</span>
+        客户关系
+      </div>
+      <ul class="bmc-list">
+        <li>App社区互动</li>
+        <li>在线客服支持</li>
+        <li>线下体验店</li>
+        <li>用户反馈机制</li>
+        <li>会员积分体系</li>
+        <li>定期固件更新</li>
+      </ul>
+    </div>
+
+    <!-- Channels -->
+    <div class="bmc-block bmc-ch">
+      <div class="bmc-block-title">
+        <span class="icon">📦</span>
+        渠道通路
+      </div>
+      <ul class="bmc-list">
+        <li>官方商城（小程序/官网）</li>
+        <li>天猫/京东旗舰店</li>
+        <li>抖音/小红书电商</li>
+        <li>机场/高铁站零售</li>
+        <li>数码产品专卖店</li>
+        <li>企业客户直销</li>
+      </ul>
+    </div>
+
+    <!-- Customer Segments -->
+    <div class="bmc-block bmc-cs">
+      <div class="bmc-block-title">
+        <span class="icon">👥</span>
+        客户细分
+      </div>
+      <ul class="bmc-list">
+        <li><strong>核心用户</strong>：商务差旅人士（高频出行）</li>
+        <li><strong>高价值</strong>：长途旅行者（重载场景）</li>
+        <li><strong>潜力用户</strong>：科技爱好者（尝鲜意愿）</li>
+        <li><strong>特殊需求</strong>：老年/行动不便人群</li>
+        <li><strong>B2B</strong>：企业差旅采购</li>
+        <li><strong>礼品市场</strong>：商务礼品需求</li>
+      </ul>
+    </div>
+
+    <!-- Cost Structure -->
+    <div class="bmc-block bmc-cost">
+      <div class="bmc-block-title">
+        <span class="icon">💸</span>
+        成本结构
+      </div>
+      <ul class="bmc-list">
+        <li><strong>研发成本</strong>：产品设计、技术开发、专利申请（占比15%）</li>
+        <li><strong>生产成本</strong>：原材料、代工费、质量检测（占比40%）</li>
+        <li><strong>营销成本</strong>：品牌推广、KOL合作、广告投放（占比20%）</li>
+        <li><strong>渠道成本</strong>：平台佣金、线下租金、物流费用（占比15%）</li>
+        <li><strong>运营成本</strong>：团队薪资、办公场地、售后服务（占比10%）</li>
+      </ul>
+    </div>
+
+    <!-- Revenue Streams -->
+    <div class="bmc-block bmc-revenue">
+      <div class="bmc-block-title">
+        <span class="icon">💰</span>
+        收入来源
+      </div>
+      <ul class="bmc-list">
+        <li><strong>硬件销售</strong>：遥控版¥1,299 / App版¥1,999 / 旗舰版¥3,999（占比70%）</li>
+        <li><strong>配件销售</strong>：扩展电池、个性化外壳、收纳配件（占比15%）</li>
+        <li><strong>增值服务</strong>：App会员、行程管理、行李保险（占比10%）</li>
+        <li><strong>B2B定制</strong>：企业Logo定制、批量采购折扣（占比5%）</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-brand">Smart Suitcase Business Model Canvas</div>
+  <p>智能遥控行李箱商业模式画布 · 2024</p>
+</div>
+
+</body>
+</html>
